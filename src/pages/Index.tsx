@@ -47,15 +47,16 @@ const Index = () => {
         <Header />
         
         {/* Hero Section */}
-        <section className="pt-28 pb-16 md:pt-36 md:pb-24 px-6 md:px-10">
-          <div className="max-w-7xl mx-auto text-center">
+        <section className="pt-24 md:pt-32 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10" />
+          <div className="max-w-7xl mx-auto text-center relative">
             <div className="inline-block animate-fadeIn">
-              <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary inline-block mb-6">
+              <span className="px-4 py-1.5 text-xs font-semibold rounded-full bg-primary/10 text-primary inline-block mb-6">
                 Documentation Made Beautiful
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade leading-tight">
               Create Beautiful Docs <br className="hidden md:block" />
               <span className="text-gradient">with Automated Validation</span>
             </h1>
@@ -66,20 +67,27 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slideUpAndFade" style={{ animationDelay: '200ms' }}>
-              <Button size="lg" className="rounded-md px-8">
+              <Button size="lg" className="rounded-md px-8 w-full sm:w-auto shadow-sm hover:shadow-md transition-all">
                 Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="outline" size="lg" className="rounded-md px-8">
+              <Button variant="outline" size="lg" className="rounded-md px-8 w-full sm:w-auto">
                 View on GitHub
                 <Github className="ml-2 h-4 w-4" />
               </Button>
+            </div>
+            
+            {/* Visual indicator to scroll down */}
+            <div className="hidden md:flex absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+              <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center">
+                <ArrowRight className="h-4 w-4 text-primary rotate-90" />
+              </div>
             </div>
           </div>
         </section>
         
         {/* Features Section */}
-        <section className="py-16 md:py-24 px-6 md:px-10 bg-secondary">
+        <section className="py-16 md:py-24 px-6 md:px-10 bg-secondary relative">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
@@ -92,9 +100,9 @@ const Index = () => {
               {features.map((feature, index) => (
                 <div 
                   key={index} 
-                  className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-subtle hover:shadow-md transition-shadow duration-300 border"
+                  className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group"
                 >
-                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
@@ -106,17 +114,21 @@ const Index = () => {
         </section>
         
         {/* CTA Section */}
-        <section className="py-16 md:py-24 px-6 md:px-10">
+        <section className="py-24 md:py-32 px-6 md:px-10">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-primary text-primary-foreground rounded-2xl p-8 md:p-12 lg:p-16 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between">
-              <div className="md:max-w-xl">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get started?</h2>
-                <p className="text-lg mb-6 md:mb-0 text-primary-foreground/90">
+            <div className="bg-primary rounded-2xl p-8 md:p-12 lg:p-16 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between relative overflow-hidden shadow-lg">
+              {/* Background pattern */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl -ml-32 -mb-32" />
+              
+              <div className="md:max-w-xl relative z-10">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary-foreground">Ready to get started?</h2>
+                <p className="text-lg mb-8 md:mb-0 text-primary-foreground/90">
                   Start creating beautiful documentation with automated validation in minutes.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" variant="secondary" className="rounded-md px-8">
+              <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                <Button size="lg" variant="secondary" className="rounded-md px-8 shadow-sm">
                   View Documentation
                 </Button>
                 <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
