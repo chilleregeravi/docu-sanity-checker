@@ -14,5 +14,26 @@ export default defineConfig({
   assetsInclude: ['**/*.md'],
   server: {
     port: 8080
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    // Ensure markdown files are properly handled during build
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui': [
+            '@radix-ui/react-dialog', 
+            '@radix-ui/react-slot',
+            '@radix-ui/react-toast',
+            // Add other UI libraries as needed
+          ],
+        }
+      }
+    }
   }
 });
