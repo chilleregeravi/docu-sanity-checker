@@ -95,8 +95,8 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: dist/
+          name: build
+          path: ./dist
           if-no-files-found: error
 
   summary:
@@ -111,4 +111,3 @@ jobs:
           echo "✅ Documentation checks and build completed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "See individual job logs for detailed results." >> $GITHUB_STEP_SUMMARY
-
