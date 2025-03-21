@@ -126,18 +126,35 @@ const NavLinks = ({ isMobile, isActive }: NavLinksProps) => {
 
   return (
     <>
-      {links.map((link) => (
-        <Link
-          key={link.path}
-          to={link.path}
-          className={cn(
-            linkClass,
-            isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
-          )}
-        >
-          {link.label}
-        </Link>
-      ))}
+      {isMobile ? (
+        // Mobile: Display links vertically as before
+        links.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={cn(
+              linkClass,
+              isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
+            )}
+          >
+            {link.label}
+          </Link>
+        ))
+      ) : (
+        // Desktop: Display links horizontally in a row
+        links.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={cn(
+              linkClass,
+              isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
+            )}
+          >
+            {link.label}
+          </Link>
+        ))
+      )}
     </>
   );
 };
