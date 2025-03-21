@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Check, Github, Zap, Shield, SquareTerminal } from 'lucide-react';
@@ -41,6 +41,12 @@ const features = [
 ];
 
 const Index = () => {
+  const featuresRef = useRef<HTMLDivElement>(null);
+  
+  const scrollToFeatures = () => {
+    featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <PageTransition>
       <div className="min-h-screen flex flex-col">
@@ -77,17 +83,28 @@ const Index = () => {
               </Button>
             </div>
             
-            {/* Visual indicator to scroll down */}
-            <div className="hidden md:flex absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
-              <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center">
+            {/* Visual indicator to scroll down - now clickable */}
+            <div 
+              className="hidden md:flex absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
+              onClick={scrollToFeatures}
+              aria-label="Scroll to features"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  scrollToFeatures();
+                }
+              }}
+            >
+              <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center hover:bg-primary/5 transition-colors">
                 <ArrowRight className="h-4 w-4 text-primary rotate-90" />
               </div>
             </div>
           </div>
         </section>
         
-        {/* Features Section */}
-        <section className="py-16 md:py-24 px-6 md:px-10 bg-secondary relative">
+        {/* Features Section - Added ref for scroll target */}
+        <section ref={featuresRef} className="py-16 md:py-24 px-6 md:px-10 bg-secondary relative">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
