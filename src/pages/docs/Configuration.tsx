@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft, Copy, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Markdown from 'react-markdown';
+import DocMetadata from '@/components/DocMetadata';
 import configContent from '@/docs/configuration.md?raw';
 
 const Configuration = () => {
@@ -74,6 +75,9 @@ const Configuration = () => {
           </p>
         </div>
       </div>
+
+      {/* Add DocMetadata component */}
+      <DocMetadata publishDate="August 15, 2023" githubPath="configuration.md" />
 
       {/* Main Content */}
       <div className="prose prose-blue max-w-none dark:prose-invert">

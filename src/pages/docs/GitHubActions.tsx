@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Copy, AlertTriangle, CheckCircle2, Github, Info } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Copy, AlertTriangle, CheckCircle2, Github, Info, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import DocMetadata from '@/components/DocMetadata';
 
 const GitHubActions = () => {
   const { toast } = useToast();
@@ -131,6 +131,8 @@ module.exports = {
           Automate documentation validation with GitHub Actions.
         </p>
       </div>
+
+      <DocMetadata publishDate="September 5, 2023" githubPath="github-actions.md" />
 
       <div className="space-y-6">
         <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Overview</h2>
