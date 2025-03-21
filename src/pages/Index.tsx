@@ -85,9 +85,9 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Moved the scroll indicator to fixed position at bottom of viewport */}
+        {/* Moved the scroll indicator to fixed position at bottom center of viewport */}
         <div 
-          className="hidden md:flex fixed bottom-8 right-10 z-10 animate-bounce cursor-pointer"
+          className="hidden md:flex fixed bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce cursor-pointer"
           onClick={scrollToFeatures}
           aria-label="Scroll to features"
           role="button"
