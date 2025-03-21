@@ -82,26 +82,26 @@ const Index = () => {
                 <Github className="ml-2 h-4 w-4" />
               </Button>
             </div>
-            
-            {/* Visual indicator to scroll down - moved to right side */}
-            <div 
-              className="hidden md:flex absolute bottom-4 right-10 animate-bounce cursor-pointer"
-              onClick={scrollToFeatures}
-              aria-label="Scroll to features"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  scrollToFeatures();
-                }
-              }}
-            >
-              <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center hover:bg-primary/5 transition-colors">
-                <ArrowRight className="h-4 w-4 text-primary rotate-90" />
-              </div>
-            </div>
           </div>
         </section>
+        
+        {/* Moved the scroll indicator to fixed position at bottom of viewport */}
+        <div 
+          className="hidden md:flex fixed bottom-8 right-10 z-10 animate-bounce cursor-pointer"
+          onClick={scrollToFeatures}
+          aria-label="Scroll to features"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              scrollToFeatures();
+            }
+          }}
+        >
+          <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center hover:bg-primary/5 transition-colors bg-background/80 backdrop-blur-sm shadow-sm">
+            <ArrowRight className="h-4 w-4 text-primary rotate-90" />
+          </div>
+        </div>
         
         {/* Features Section - Added ref for scroll target */}
         <section ref={featuresRef} className="py-16 md:py-24 px-6 md:px-10 bg-secondary relative">
