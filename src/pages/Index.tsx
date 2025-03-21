@@ -46,8 +46,8 @@ const Index = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         
-        {/* Hero Section */}
-        <section className="pt-24 md:pt-32 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
+        {/* Hero Section - Updated top padding to prevent overlap with header */}
+        <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10" />
           <div className="max-w-7xl mx-auto text-center relative">
             <div className="inline-block animate-fadeIn">
