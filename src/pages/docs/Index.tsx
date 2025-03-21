@@ -1,30 +1,33 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink, FileText, Code, Shield, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 const DocsIndex = () => {
   return (
-    <div className="space-y-8 animate-fadeIn">
+    <div className="square-docs-container animate-fadeIn space-y-8">
       <div>
-        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight mb-4">Introduction</h1>
+        <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">Introduction</h1>
         <p className="text-xl text-muted-foreground mb-6">
           Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.
         </p>
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Getting Started</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Getting Started</h2>
         <p>
           DocuSanity helps you create beautiful documentation websites with built-in validation tools. It automatically checks for broken links, validates against custom dictionaries, and ensures your style guide is followed.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <Card>
+          <Card className="square-docs-card">
             <CardHeader>
-              <CardTitle>Installation</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                Installation
+              </CardTitle>
               <CardDescription>
                 Set up a new DocuSanity project in minutes
               </CardDescription>
@@ -36,7 +39,7 @@ const DocsIndex = () => {
             </CardContent>
             <CardFooter>
               <Link to="/docs/installation">
-                <Button variant="ghost" className="gap-1">
+                <Button variant="outline" className="gap-1">
                   Installation Guide
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -44,9 +47,12 @@ const DocsIndex = () => {
             </CardFooter>
           </Card>
           
-          <Card>
+          <Card className="square-docs-card">
             <CardHeader>
-              <CardTitle>Configuration</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Code className="h-5 w-5 text-primary" />
+                Configuration
+              </CardTitle>
               <CardDescription>
                 Configure your project to match your needs
               </CardDescription>
@@ -58,7 +64,7 @@ const DocsIndex = () => {
             </CardContent>
             <CardFooter>
               <Link to="/docs/configuration">
-                <Button variant="ghost" className="gap-1">
+                <Button variant="outline" className="gap-1">
                   Configuration Guide
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -69,57 +75,55 @@ const DocsIndex = () => {
       </div>
 
       <div className="space-y-4 mt-10">
-        <h2 className="text-2xl font-semibold">Validation Features</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Validation Features</h2>
         <p>
           DocuSanity comes with powerful validation tools to ensure your documentation is accurate, consistent, and follows best practices.
         </p>
 
         <ul className="mt-6 space-y-4">
-          <li className="flex gap-3">
-            <div className="flex-shrink-0 h-6 w-6 rounded bg-primary/10 flex items-center justify-center text-primary">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+          <li className="flex gap-4 p-4 rounded-lg border border-border/50 bg-card hover:shadow-sm transition-shadow">
+            <div className="flex-shrink-0 h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+              <svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
                 <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
               </svg>
             </div>
             <div>
-              <h3 className="font-medium">Link Validation</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-medium">Link Validation</h3>
+              <p className="text-muted-foreground mt-1">
                 Automatically detect and report broken links in your documentation. 
-                <Link to="/docs/link-validation" className="text-primary ml-1 inline-flex items-center hover:underline">
+                <Link to="/docs/link-validation" className="text-primary ml-1 inline-flex items-center hover:underline text-sm">
                   Learn more<ArrowRight className="h-3 w-3 ml-1" />
                 </Link>
               </p>
             </div>
           </li>
           
-          <li className="flex gap-3">
-            <div className="flex-shrink-0 h-6 w-6 rounded bg-primary/10 flex items-center justify-center text-primary">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
-                <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-              </svg>
+          <li className="flex gap-4 p-4 rounded-lg border border-border/50 bg-card hover:shadow-sm transition-shadow">
+            <div className="flex-shrink-0 h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+              <Shield className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-medium">Dictionary Validation</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-medium">Dictionary Validation</h3>
+              <p className="text-muted-foreground mt-1">
                 Ensure consistent terminology using custom dictionaries.
-                <Link to="/docs/dictionary-validation" className="text-primary ml-1 inline-flex items-center hover:underline">
+                <Link to="/docs/dictionary-validation" className="text-primary ml-1 inline-flex items-center hover:underline text-sm">
                   Learn more<ArrowRight className="h-3 w-3 ml-1" />
                 </Link>
               </p>
             </div>
           </li>
           
-          <li className="flex gap-3">
-            <div className="flex-shrink-0 h-6 w-6 rounded bg-primary/10 flex items-center justify-center text-primary">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4">
+          <li className="flex gap-4 p-4 rounded-lg border border-border/50 bg-card hover:shadow-sm transition-shadow">
+            <div className="flex-shrink-0 h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+              <svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
                 <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
               </svg>
             </div>
             <div>
-              <h3 className="font-medium">Style Guide Enforcement</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-medium">Style Guide Enforcement</h3>
+              <p className="text-muted-foreground mt-1">
                 Enforce consistent writing style across your documentation.
-                <Link to="/docs/style-guide" className="text-primary ml-1 inline-flex items-center hover:underline">
+                <Link to="/docs/style-guide" className="text-primary ml-1 inline-flex items-center hover:underline text-sm">
                   Learn more<ArrowRight className="h-3 w-3 ml-1" />
                 </Link>
               </p>
@@ -129,14 +133,15 @@ const DocsIndex = () => {
       </div>
 
       <div className="mt-10 pt-6 border-t">
-        <h2 className="text-2xl font-semibold mb-4">GitHub Actions Integration</h2>
+        <h2 className="text-2xl font-heading font-semibold mb-4">GitHub Actions Integration</h2>
         <p className="mb-4">
           DocuSanity seamlessly integrates with GitHub Actions to automate validation checks as part of your CI/CD pipeline.
         </p>
         <Link to="/docs/github-actions">
-          <Button>
+          <Button className="gap-2">
+            <Github className="h-4 w-4" />
             GitHub Actions Setup
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
       </div>

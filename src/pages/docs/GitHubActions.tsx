@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Copy, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Copy, AlertTriangle, CheckCircle2, Github, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
@@ -66,7 +66,6 @@ module.exports = {
   maxConcurrency: 5,
 };`;
 
-  // Fix the escape sequence issues by using a raw string
   const dictionaryConfig = `// .docusanity/dictionary.config.js
 module.exports = {
   customDictionaries: [
@@ -79,7 +78,6 @@ module.exports = {
   ],
 };`;
 
-  // Fix the escape sequence issues by using a raw string
   const styleConfig = `// .docusanity/style.config.js
 module.exports = {
   rules: [
@@ -118,7 +116,7 @@ module.exports = {
     path: validation-report.json`;
 
   return (
-    <div className="space-y-8 animate-fadeIn">
+    <div className="square-docs-container animate-fadeIn space-y-8">
       <div>
         <div className="flex items-center text-sm text-muted-foreground mb-4">
           <Link to="/docs" className="hover:text-foreground transition-colors">
@@ -128,81 +126,90 @@ module.exports = {
           <span>GitHub Actions</span>
         </div>
         
-        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight mb-4">GitHub Actions</h1>
+        <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">GitHub Actions</h1>
         <p className="text-xl text-muted-foreground mb-8">
           Automate documentation validation with GitHub Actions.
         </p>
       </div>
 
       <div className="space-y-6">
-        <h2 className="text-2xl font-semibold">Overview</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Overview</h2>
         <p>
           DocuSanity integrates with GitHub Actions to automatically validate your documentation on every pull request and push. 
           This ensures your documentation always meets quality standards before it gets published.
         </p>
 
-        <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
-          <h3 className="font-medium text-primary flex items-center">
-            <CheckCircle2 className="h-5 w-5 mr-2" />
-            Benefits of GitHub Actions Integration
-          </h3>
-          <ul className="mt-2 space-y-1">
-            <li className="text-sm flex items-start">
-              <span className="text-primary mr-2">•</span>
-              <span>Automated validation on every pull request</span>
-            </li>
-            <li className="text-sm flex items-start">
-              <span className="text-primary mr-2">•</span>
-              <span>Catch documentation issues before they reach production</span>
-            </li>
-            <li className="text-sm flex items-start">
-              <span className="text-primary mr-2">•</span>
-              <span>Enforce style guide and terminology consistency</span>
-            </li>
-            <li className="text-sm flex items-start">
-              <span className="text-primary mr-2">•</span>
-              <span>Detailed reports for any issues found</span>
-            </li>
-          </ul>
+        <div className="square-docs-info-block bg-primary/10 border-primary/20">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-primary">Benefits of GitHub Actions Integration</h3>
+              <ul className="mt-2 space-y-1">
+                <li className="text-sm flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  <span>Automated validation on every pull request</span>
+                </li>
+                <li className="text-sm flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  <span>Catch documentation issues before they reach production</span>
+                </li>
+                <li className="text-sm flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  <span>Enforce style guide and terminology consistency</span>
+                </li>
+                <li className="text-sm flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  <span>Detailed reports for any issues found</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="space-y-6 mt-10">
-        <h2 className="text-2xl font-semibold">Setting Up GitHub Actions</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Setting Up GitHub Actions</h2>
         <p>
           To set up GitHub Actions for your DocuSanity project, you need to create a workflow file in the{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.github/workflows</code> directory of your repository.
         </p>
 
-        <h3 className="text-xl font-medium mt-6">1. Create the workflow file</h3>
+        <h3 className="text-xl font-heading font-medium mt-6">1. Create the workflow file</h3>
         <p>
           Create a file named <code className="bg-muted px-1.5 py-0.5 rounded text-sm">docusanity.yml</code> in the{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.github/workflows</code> directory:
         </p>
 
-        <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative mt-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-            onClick={() => copyToClipboard(workflowYaml)}
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
-          <pre className="text-xs">{workflowYaml}</pre>
+        <div className="square-docs-code-block">
+          <div className="square-docs-code-header">
+            <span className="font-mono">yaml</span>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-6 w-6"
+              onClick={() => copyToClipboard(workflowYaml)}
+            >
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+            <pre className="text-xs">{workflowYaml}</pre>
+          </div>
         </div>
 
-        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg dark:bg-yellow-950 dark:border-yellow-900 mt-6">
-          <h3 className="font-medium text-yellow-800 dark:text-yellow-400 flex items-center">
-            <AlertTriangle className="h-5 w-5 mr-2" />
-            Important Note
-          </h3>
-          <p className="text-yellow-800 dark:text-yellow-400 mt-1 text-sm">
-            This workflow will run all validation checks. If you only want to run specific checks, you can remove the relevant steps from the workflow file.
-          </p>
+        <div className="square-docs-info-block bg-yellow-50 border-yellow-200 dark:bg-yellow-950/30 dark:border-yellow-900/50">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-400">Important Note</h3>
+              <p className="text-sm text-yellow-700 dark:text-yellow-500 mt-1">
+                This workflow will run all validation checks. If you only want to run specific checks, you can remove the relevant steps from the workflow file.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <h3 className="text-xl font-medium mt-8">2. Configure validation rules</h3>
+        <h3 className="text-xl font-heading font-medium mt-8">2. Configure validation rules</h3>
         <p>
           You can customize the validation rules by creating a{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.docusanity</code> directory in the root of your project 
@@ -212,53 +219,68 @@ module.exports = {
         <div className="mt-4 space-y-4">
           <div>
             <h4 className="font-medium mb-2">Link Validation Configuration</h4>
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(linksConfig)}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <pre className="text-xs">{linksConfig}</pre>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">javascript</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard(linksConfig)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <pre className="text-xs">{linksConfig}</pre>
+              </div>
             </div>
           </div>
 
           <div>
             <h4 className="font-medium mb-2">Dictionary Validation Configuration</h4>
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(dictionaryConfig)}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <pre className="text-xs">{dictionaryConfig}</pre>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">javascript</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard(dictionaryConfig)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <pre className="text-xs">{dictionaryConfig}</pre>
+              </div>
             </div>
           </div>
 
           <div>
             <h4 className="font-medium mb-2">Style Guide Configuration</h4>
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(styleConfig)}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <pre className="text-xs">{styleConfig}</pre>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">javascript</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard(styleConfig)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <pre className="text-xs">{styleConfig}</pre>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="space-y-6 mt-10">
-        <h2 className="text-2xl font-semibold">Viewing Validation Results</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Viewing Validation Results</h2>
         <p>
           After the GitHub Actions workflow runs, you can view the validation results in several ways:
         </p>
@@ -275,30 +297,35 @@ module.exports = {
           </li>
         </ul>
 
-        <h3 className="text-xl font-medium mt-8">Generating and Uploading Reports</h3>
+        <h3 className="text-xl font-heading font-medium mt-8">Generating and Uploading Reports</h3>
         <p>
           To generate and upload detailed reports, add the following steps to your workflow:
         </p>
 
-        <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative mt-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-            onClick={() => copyToClipboard(reportSteps)}
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
-          <pre className="text-xs">{reportSteps}</pre>
+        <div className="square-docs-code-block">
+          <div className="square-docs-code-header">
+            <span className="font-mono">yaml</span>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-6 w-6"
+              onClick={() => copyToClipboard(reportSteps)}
+            >
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+            <pre className="text-xs">{reportSteps}</pre>
+          </div>
         </div>
       </div>
 
       <div className="flex items-center justify-between mt-10 pt-6 border-t text-sm">
-        <Link to="/docs/dictionary-validation/integration" className="text-primary inline-flex items-center hover:underline">
-          <ArrowLeft className="h-3 w-3 mr-1" /> Dictionary Integration
+        <Link to="/docs/dictionary-validation/integration" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors border border-border/30 rounded-lg px-4 py-2 hover:bg-muted/50">
+          <ArrowLeft className="h-4 w-4" /> Dictionary Integration
         </Link>
-        <Link to="/docs/github-actions/workflows" className="text-primary inline-flex items-center hover:underline">
-          Setting Up Workflows <ArrowRight className="h-3 w-3 ml-1" />
+        <Link to="/docs/github-actions/workflows" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors border border-border/30 rounded-lg px-4 py-2 hover:bg-muted/50">
+          Setting Up Workflows <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>

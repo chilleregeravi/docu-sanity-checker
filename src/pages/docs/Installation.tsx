@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Copy, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Copy, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
@@ -19,7 +19,7 @@ const Installation = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fadeIn">
+    <div className="square-docs-container animate-fadeIn space-y-8">
       <div>
         <div className="flex items-center text-sm text-muted-foreground mb-4">
           <Link to="/docs" className="hover:text-foreground transition-colors">
@@ -29,14 +29,14 @@ const Installation = () => {
           <span>Installation</span>
         </div>
         
-        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight mb-4">Installation</h1>
+        <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">Installation</h1>
         <p className="text-xl text-muted-foreground mb-8">
           Get started with DocuSanity in just a few minutes.
         </p>
       </div>
 
       <div className="space-y-6">
-        <h2 className="text-2xl font-semibold">Prerequisites</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Prerequisites</h2>
         <p>
           Before you begin, make sure you have the following installed:
         </p>
@@ -47,89 +47,108 @@ const Installation = () => {
           <li>Git (optional, but recommended)</li>
         </ul>
 
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-950 dark:border-amber-900">
-          <h3 className="font-medium text-amber-800 dark:text-amber-400 flex items-center">
-            <CheckCircle2 className="h-5 w-5 mr-2" />
-            Note
-          </h3>
-          <p className="text-amber-800 dark:text-amber-400 mt-1 text-sm">
-            DocuSanity works best with Node.js 16 or later. While it may work with older versions, we recommend using the latest LTS version.
-          </p>
+        <div className="square-docs-info-block bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50">
+          <div className="flex items-start gap-3">
+            <Info className="h-5 w-5 text-amber-500 dark:text-amber-400 mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-amber-800 dark:text-amber-400">Note</h3>
+              <p className="text-sm text-amber-700 dark:text-amber-500 mt-1">
+                DocuSanity works best with Node.js 16 or later. While it may work with older versions, we recommend using the latest LTS version.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="space-y-6 mt-10">
-        <h2 className="text-2xl font-semibold">Installation Methods</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Installation Methods</h2>
         <p>
           You can install DocuSanity using npm, yarn, or use our CLI tool to create a new project.
         </p>
 
         <Tabs defaultValue="npm" className="mt-6">
-          <TabsList>
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="npm">npm</TabsTrigger>
             <TabsTrigger value="yarn">yarn</TabsTrigger>
             <TabsTrigger value="cli">CLI Tool</TabsTrigger>
           </TabsList>
           
           <TabsContent value="npm" className="mt-4">
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard('npm install @docusanity/core')}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <code>npm install @docusanity/core</code>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">bash</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard('npm install @docusanity/core')}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <code>npm install @docusanity/core</code>
+              </div>
             </div>
           </TabsContent>
           
           <TabsContent value="yarn" className="mt-4">
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard('yarn add @docusanity/core')}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <code>yarn add @docusanity/core</code>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">bash</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard('yarn add @docusanity/core')}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <code>yarn add @docusanity/core</code>
+              </div>
             </div>
           </TabsContent>
           
           <TabsContent value="cli" className="mt-4">
-            <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard('npx create-docusanity-app my-docs')}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-              <code>npx create-docusanity-app my-docs</code>
+            <div className="square-docs-code-block">
+              <div className="square-docs-code-header">
+                <span className="font-mono">bash</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6"
+                  onClick={() => copyToClipboard('npx create-docusanity-app my-docs')}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+                <code>npx create-docusanity-app my-docs</code>
+              </div>
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              This will create a new directory called <code>my-docs</code> with a basic DocuSanity setup.
+              This will create a new directory called <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">my-docs</code> with a basic DocuSanity setup.
             </p>
           </TabsContent>
         </Tabs>
       </div>
 
       <div className="space-y-6 mt-10">
-        <h2 className="text-2xl font-semibold">Basic Configuration</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Basic Configuration</h2>
         <p>
-          After installation, you'll need to create a configuration file. Create a file called <code>docusanity.config.js</code> in the root of your project:
+          After installation, you'll need to create a configuration file. Create a file called <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">docusanity.config.js</code> in the root of your project:
         </p>
 
-        <div className="bg-zinc-950 text-zinc-50 rounded-lg p-4 font-mono text-sm overflow-x-auto relative">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-            onClick={() => copyToClipboard(`module.exports = {
+        <div className="square-docs-code-block">
+          <div className="square-docs-code-header">
+            <span className="font-mono">javascript</span>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-6 w-6"
+              onClick={() => copyToClipboard(`module.exports = {
   title: 'My Documentation',
   description: 'Documentation for my awesome project',
   basePath: '/docs',
@@ -143,10 +162,12 @@ const Installation = () => {
     branch: 'main',
   },
 };`)}
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
-          <pre className="text-xs">
+            >
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="square-docs-code-content bg-muted/50 dark:bg-muted">
+            <pre className="text-xs">
 {`module.exports = {
   title: 'My Documentation',
   description: 'Documentation for my awesome project',
@@ -161,7 +182,8 @@ const Installation = () => {
     branch: 'main',
   },
 };`}
-          </pre>
+            </pre>
+          </div>
         </div>
 
         <p className="mt-6">
@@ -170,7 +192,7 @@ const Installation = () => {
       </div>
 
       <div className="space-y-6 mt-10">
-        <h2 className="text-2xl font-semibold">Next Steps</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Next Steps</h2>
         <p>
           Now that you've installed DocuSanity, you can:
         </p>
@@ -195,11 +217,11 @@ const Installation = () => {
       </div>
 
       <div className="flex items-center justify-between mt-10 pt-6 border-t text-sm">
-        <Link to="/docs" className="text-primary inline-flex items-center hover:underline">
-          <ArrowLeft className="h-3 w-3 mr-1" /> Introduction
+        <Link to="/docs" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors border border-border/30 rounded-lg px-4 py-2 hover:bg-muted/50">
+          <ArrowLeft className="h-4 w-4" /> Introduction
         </Link>
-        <Link to="/docs/configuration" className="text-primary inline-flex items-center hover:underline">
-          Configuration <ArrowRight className="h-3 w-3 ml-1" />
+        <Link to="/docs/configuration" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors border border-border/30 rounded-lg px-4 py-2 hover:bg-muted/50">
+          Configuration <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>
