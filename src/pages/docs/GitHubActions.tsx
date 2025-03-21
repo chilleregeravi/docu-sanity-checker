@@ -17,6 +17,104 @@ const GitHubActions = () => {
     });
   };
 
+  const workflowYaml = `name: DocuSanity Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run DocuSanity validation
+        run: npx @docusanity/cli validate
+        
+      - name: Check for broken links
+        run: npx @docusanity/cli check-links
+        
+      - name: Validate against dictionary
+        run: npx @docusanity/cli check-dictionary
+        
+      - name: Enforce style guide
+        run: npx @docusanity/cli check-style`;
+
+  const linksConfig = `// .docusanity/links.config.js
+module.exports = {
+  excludePaths: [
+    '**/node_modules/**',
+    '**/build/**',
+  ],
+  checkExternal: true,
+  ignorePatterns: [
+    'mailto:*',
+    'tel:*',
+  ],
+  maxConcurrency: 5,
+};`;
+
+  const dictionaryConfig = `// .docusanity/dictionary.config.js
+module.exports = {
+  customDictionaries: [
+    '.docusanity/dictionaries/technical-terms.json',
+    '.docusanity/dictionaries/product-names.json',
+  ],
+  caseSensitive: true,
+  ignorePatterns: [
+    '\\`\\`\\`[\\\\s\\\\S]*?\\`\\`\\`', // Ignore code blocks
+  ],
+};`;
+
+  const styleConfig = `// .docusanity/style.config.js
+module.exports = {
+  rules: [
+    {
+      name: 'avoid-passive-voice',
+      severity: 'warning',
+    },
+    {
+      name: 'sentence-length',
+      severity: 'error',
+      options: {
+        max: 100,
+      },
+    },
+    {
+      name: 'no-jargon',
+      severity: 'warning',
+      options: {
+        terms: ['leverage', 'utilize', 'paradigm'],
+      },
+    },
+  ],
+  ignorePatterns: [
+    '\\`\\`\\`[\\\\s\\\\S]*?\\`\\`\\`', // Ignore code blocks
+  ],
+};`;
+
+  const reportSteps = `# Add these steps to your workflow
+- name: Generate validation report
+  run: npx @docusanity/cli validate --report-file=validation-report.json
+  
+- name: Upload validation report
+  uses: actions/upload-artifact@v3
+  with:
+    name: validation-reports
+    path: validation-report.json`;
+
   return (
     <div className="space-y-8 animate-fadeIn">
       <div>
@@ -70,13 +168,13 @@ const GitHubActions = () => {
       <div className="space-y-6 mt-10">
         <h2 className="text-2xl font-semibold">Setting Up GitHub Actions</h2>
         <p>
-          To set up GitHub Actions for your DocuSanity project, you need to create a workflow file in the 
+          To set up GitHub Actions for your DocuSanity project, you need to create a workflow file in the{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.github/workflows</code> directory of your repository.
         </p>
 
         <h3 className="text-xl font-medium mt-6">1. Create the workflow file</h3>
         <p>
-          Create a file named <code className="bg-muted px-1.5 py-0.5 rounded text-sm">docusanity.yml</code> in the 
+          Create a file named <code className="bg-muted px-1.5 py-0.5 rounded text-sm">docusanity.yml</code> in the{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.github/workflows</code> directory:
         </p>
 
@@ -85,79 +183,11 @@ const GitHubActions = () => {
             variant="ghost" 
             size="icon" 
             className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-            onClick={() => copyToClipboard(`name: DocuSanity Validation
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run DocuSanity validation
-        run: npx @docusanity/cli validate
-        
-      - name: Check for broken links
-        run: npx @docusanity/cli check-links
-        
-      - name: Validate against dictionary
-        run: npx @docusanity/cli check-dictionary
-        
-      - name: Enforce style guide
-        run: npx @docusanity/cli check-style`)}
+            onClick={() => copyToClipboard(workflowYaml)}
           >
             <Copy className="h-4 w-4" />
           </Button>
-          <pre className="text-xs">
-{`name: DocuSanity Validation
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run DocuSanity validation
-        run: npx @docusanity/cli validate
-        
-      - name: Check for broken links
-        run: npx @docusanity/cli check-links
-        
-      - name: Validate against dictionary
-        run: npx @docusanity/cli check-dictionary
-        
-      - name: Enforce style guide
-        run: npx @docusanity/cli check-style`}
-          </pre>
+          <pre className="text-xs">{workflowYaml}</pre>
         </div>
 
         <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg dark:bg-yellow-950 dark:border-yellow-900 mt-6">
@@ -172,7 +202,7 @@ jobs:
 
         <h3 className="text-xl font-medium mt-8">2. Configure validation rules</h3>
         <p>
-          You can customize the validation rules by creating a 
+          You can customize the validation rules by creating a{' '}
           <code className="bg-muted px-1.5 py-0.5 rounded text-sm">.docusanity</code> directory in the root of your project 
           with the following configuration files:
         </p>
@@ -185,37 +215,11 @@ jobs:
                 variant="ghost" 
                 size="icon" 
                 className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(`// .docusanity/links.config.js
-module.exports = {
-  excludePaths: [
-    '**/node_modules/**',
-    '**/build/**',
-  ],
-  checkExternal: true,
-  ignorePatterns: [
-    'mailto:*',
-    'tel:*',
-  ],
-  maxConcurrency: 5,
-};`)}
+                onClick={() => copyToClipboard(linksConfig)}
               >
                 <Copy className="h-4 w-4" />
               </Button>
-              <pre className="text-xs">
-{`// .docusanity/links.config.js
-module.exports = {
-  excludePaths: [
-    '**/node_modules/**',
-    '**/build/**',
-  ],
-  checkExternal: true,
-  ignorePatterns: [
-    'mailto:*',
-    'tel:*',
-  ],
-  maxConcurrency: 5,
-};`}
-              </pre>
+              <pre className="text-xs">{linksConfig}</pre>
             </div>
           </div>
 
@@ -226,33 +230,11 @@ module.exports = {
                 variant="ghost" 
                 size="icon" 
                 className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(`// .docusanity/dictionary.config.js
-module.exports = {
-  customDictionaries: [
-    '.docusanity/dictionaries/technical-terms.json',
-    '.docusanity/dictionaries/product-names.json',
-  ],
-  caseSensitive: true,
-  ignorePatterns: [
-    '```[\\s\\S]*?```', // Ignore code blocks
-  ],
-};`)}
+                onClick={() => copyToClipboard(dictionaryConfig)}
               >
                 <Copy className="h-4 w-4" />
               </Button>
-              <pre className="text-xs">
-{`// .docusanity/dictionary.config.js
-module.exports = {
-  customDictionaries: [
-    '.docusanity/dictionaries/technical-terms.json',
-    '.docusanity/dictionaries/product-names.json',
-  ],
-  caseSensitive: true,
-  ignorePatterns: [
-    '```[\\s\\S]*?```', // Ignore code blocks
-  ],
-};`}
-              </pre>
+              <pre className="text-xs">{dictionaryConfig}</pre>
             </div>
           </div>
 
@@ -263,63 +245,11 @@ module.exports = {
                 variant="ghost" 
                 size="icon" 
                 className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-                onClick={() => copyToClipboard(`// .docusanity/style.config.js
-module.exports = {
-  rules: [
-    {
-      name: 'avoid-passive-voice',
-      severity: 'warning',
-    },
-    {
-      name: 'sentence-length',
-      severity: 'error',
-      options: {
-        max: 100,
-      },
-    },
-    {
-      name: 'no-jargon',
-      severity: 'warning',
-      options: {
-        terms: ['leverage', 'utilize', 'paradigm'],
-      },
-    },
-  ],
-  ignorePatterns: [
-    '```[\\s\\S]*?```', // Ignore code blocks
-  ],
-};`)}
+                onClick={() => copyToClipboard(styleConfig)}
               >
                 <Copy className="h-4 w-4" />
               </Button>
-              <pre className="text-xs">
-{`// .docusanity/style.config.js
-module.exports = {
-  rules: [
-    {
-      name: 'avoid-passive-voice',
-      severity: 'warning',
-    },
-    {
-      name: 'sentence-length',
-      severity: 'error',
-      options: {
-        max: 100,
-      },
-    },
-    {
-      name: 'no-jargon',
-      severity: 'warning',
-      options: {
-        terms: ['leverage', 'utilize', 'paradigm'],
-      },
-    },
-  ],
-  ignorePatterns: [
-    '```[\\s\\S]*?```', // Ignore code blocks
-  ],
-};`}
-              </pre>
+              <pre className="text-xs">{styleConfig}</pre>
             </div>
           </div>
         </div>
@@ -353,29 +283,11 @@ module.exports = {
             variant="ghost" 
             size="icon" 
             className="absolute top-2 right-2 h-8 w-8 text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800"
-            onClick={() => copyToClipboard(`# Add these steps to your workflow
-- name: Generate validation report
-  run: npx @docusanity/cli validate --report-file=validation-report.json
-  
-- name: Upload validation report
-  uses: actions/upload-artifact@v3
-  with:
-    name: validation-reports
-    path: validation-report.json`)}
+            onClick={() => copyToClipboard(reportSteps)}
           >
             <Copy className="h-4 w-4" />
           </Button>
-          <pre className="text-xs">
-{`# Add these steps to your workflow
-- name: Generate validation report
-  run: npx @docusanity/cli validate --report-file=validation-report.json
-  
-- name: Upload validation report
-  uses: actions/upload-artifact@v3
-  with:
-    name: validation-reports
-    path: validation-report.json`}
-          </pre>
+          <pre className="text-xs">{reportSteps}</pre>
         </div>
       </div>
 
