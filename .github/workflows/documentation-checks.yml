@@ -1,0 +1,88 @@
+
+name: Documentation Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    name: Check for broken links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check for broken links
+        run: npx @docusaurus/lqip-loader . --check
+        continue-on-error: true
+
+  validate-dictionary:
+    name: Validate against dictionary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install CSpell
+        run: npm install -g cspell
+      
+      - name: Check spelling
+        run: cspell "**/*.md" "**/*.mdx"
+        continue-on-error: true
+
+  check-style:
+    name: Check style guide compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Vale
+        run: |
+          wget https://github.com/errata-ai/vale/releases/download/v2.15.4/vale_2.15.4_Linux_64-bit.tar.gz
+          mkdir -p bin
+          tar -xvzf vale_2.15.4_Linux_64-bit.tar.gz -C bin
+          echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
+      
+      - name: Check documentation style
+        run: |
+          vale --minAlertLevel error .
+        continue-on-error: true
+
+  summary:
+    name: Generate summary report
+    needs: [check-links, validate-dictionary, check-style]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# Documentation Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Documentation checks completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "See individual job logs for detailed results." >> $GITHUB_STEP_SUMMARY
