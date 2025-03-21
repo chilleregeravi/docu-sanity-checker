@@ -66,6 +66,7 @@ module.exports = {
   maxConcurrency: 5,
 };`;
 
+  // Fix the escape sequence issues by using a raw string
   const dictionaryConfig = `// .docusanity/dictionary.config.js
 module.exports = {
   customDictionaries: [
@@ -74,10 +75,11 @@ module.exports = {
   ],
   caseSensitive: true,
   ignorePatterns: [
-    '\\`\\`\\`[\\\\s\\\\S]*?\\`\\`\\`', // Ignore code blocks
+    '\`\`\`[\\s\\S]*?\`\`\`', // Ignore code blocks
   ],
 };`;
 
+  // Fix the escape sequence issues by using a raw string
   const styleConfig = `// .docusanity/style.config.js
 module.exports = {
   rules: [
@@ -101,7 +103,7 @@ module.exports = {
     },
   ],
   ignorePatterns: [
-    '\\`\\`\\`[\\\\s\\\\S]*?\\`\\`\\`', // Ignore code blocks
+    '\`\`\`[\\s\\S]*?\`\`\`', // Ignore code blocks
   ],
 };`;
 

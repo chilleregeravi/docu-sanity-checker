@@ -18,7 +18,7 @@ const PageTransition: React.FC<PageTransitionProps> = ({
     <div
       key={location.pathname}
       className={cn(
-        "animate-fadeIn",
+        "animate-in fade-in duration-300 ease-in-out",
         className
       )}
     >
