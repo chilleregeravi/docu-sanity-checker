@@ -1,5 +1,5 @@
 
-name: Documentation Checks
+name: Documentation Checks and Build
 
 on:
   push:
@@ -74,15 +74,41 @@ jobs:
           vale --minAlertLevel error .
         continue-on-error: true
 
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
   summary:
     name: Generate summary report
-    needs: [check-links, validate-dictionary, check-style]
+    needs: [check-links, validate-dictionary, check-style, build]
     runs-on: ubuntu-latest
     steps:
       - name: Generate summary
         run: |
-          echo "# Documentation Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "# Documentation Check and Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Documentation checks completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Documentation checks and build completed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "See individual job logs for detailed results." >> $GITHUB_STEP_SUMMARY
+
