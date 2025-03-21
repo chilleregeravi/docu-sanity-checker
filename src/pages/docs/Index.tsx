@@ -1,9 +1,10 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, FileText, Code, Shield, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Markdown from 'react-markdown';
+import introContent from '@/docs/introduction.md?raw';
 
 const DocsIndex = () => {
   return (
@@ -15,63 +16,62 @@ const DocsIndex = () => {
         </p>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Getting Started</h2>
-        <p>
-          DocuSanity helps you create beautiful documentation websites with built-in validation tools. It automatically checks for broken links, validates against custom dictionaries, and ensures your style guide is followed.
-        </p>
+      <div className="prose prose-blue max-w-none dark:prose-invert">
+        <Markdown>
+          {introContent}
+        </Markdown>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <Card className="square-docs-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
+              Installation
+            </CardTitle>
+            <CardDescription>
+              Set up a new DocuSanity project in minutes
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Learn how to create a new DocuSanity project with our CLI tool. We'll guide you through the process step by step.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Link to="/docs/installation">
+              <Button variant="outline" className="gap-1">
+                Installation Guide
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <Card className="square-docs-card">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                Installation
-              </CardTitle>
-              <CardDescription>
-                Set up a new DocuSanity project in minutes
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Learn how to create a new DocuSanity project with our CLI tool. We'll guide you through the process step by step.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link to="/docs/installation">
-                <Button variant="outline" className="gap-1">
-                  Installation Guide
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          
-          <Card className="square-docs-card">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Code className="h-5 w-5 text-primary" />
-                Configuration
-              </CardTitle>
-              <CardDescription>
-                Configure your project to match your needs
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Learn about the configuration options available to customize your documentation website and validation rules.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link to="/docs/configuration">
-                <Button variant="outline" className="gap-1">
-                  Configuration Guide
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        </div>
+        <Card className="square-docs-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Code className="h-5 w-5 text-primary" />
+              Configuration
+            </CardTitle>
+            <CardDescription>
+              Configure your project to match your needs
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Learn about the configuration options available to customize your documentation website and validation rules.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Link to="/docs/configuration">
+              <Button variant="outline" className="gap-1">
+                Configuration Guide
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
       </div>
 
       <div className="space-y-4 mt-10">
