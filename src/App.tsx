@@ -8,9 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DocsLayout from "./pages/DocsLayout";
 import DocsIndex from "./pages/docs/Index";
-import Installation from "./pages/docs/Installation";
-import Configuration from "./pages/docs/Configuration";
-import GitHubActions from "./pages/docs/GitHubActions";
+import DocPage from "./pages/docs/DocPage";
 
 const queryClient = new QueryClient();
 
@@ -26,9 +24,8 @@ const App = () => (
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocsIndex />} />
-            <Route path="installation" element={<Installation />} />
-            <Route path="configuration" element={<Configuration />} />
-            <Route path="github-actions" element={<GitHubActions />} />
+            {/* Dynamic route that will match any path after /docs/ */}
+            <Route path=":*" element={<DocPage />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

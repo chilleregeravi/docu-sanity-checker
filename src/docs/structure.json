@@ -1,0 +1,66 @@
+
+{
+  "sections": [
+    {
+      "title": "Getting Started",
+      "path": "/docs",
+      "icon": "folder",
+      "isExpanded": true,
+      "items": [
+        { "title": "Introduction", "path": "/docs" },
+        { "title": "Installation", "path": "/docs/installation" },
+        { "title": "Configuration", "path": "/docs/configuration" }
+      ]
+    },
+    {
+      "title": "Style Guide",
+      "path": "/docs/style-guide",
+      "icon": "folder",
+      "items": [
+        { "title": "Overview", "path": "/docs/style-guide" },
+        { "title": "Writing Rules", "path": "/docs/style-guide/writing-rules" },
+        { "title": "Formatting", "path": "/docs/style-guide/formatting" }
+      ]
+    },
+    {
+      "title": "Link Validation",
+      "path": "/docs/link-validation",
+      "icon": "folder",
+      "items": [
+        { "title": "Overview", "path": "/docs/link-validation" },
+        { "title": "Setting Up Checks", "path": "/docs/link-validation/setup" },
+        { "title": "Fixing Broken Links", "path": "/docs/link-validation/fixing" }
+      ]
+    },
+    {
+      "title": "Dictionary Validation",
+      "path": "/docs/dictionary-validation",
+      "icon": "folder",
+      "items": [
+        { "title": "Overview", "path": "/docs/dictionary-validation" },
+        { "title": "Custom Dictionaries", "path": "/docs/dictionary-validation/custom" },
+        { "title": "Integration", "path": "/docs/dictionary-validation/integration" }
+      ]
+    },
+    {
+      "title": "GitHub Actions",
+      "path": "/docs/github-actions",
+      "icon": "folder",
+      "items": [
+        { "title": "Overview", "path": "/docs/github-actions" },
+        { "title": "Setting Up Workflows", "path": "/docs/github-actions/workflows" },
+        { "title": "CI/CD Pipeline", "path": "/docs/github-actions/ci-cd" }
+      ]
+    },
+    {
+      "title": "Contributing",
+      "path": "/docs/contributing",
+      "icon": "file"
+    },
+    {
+      "title": "FAQ",
+      "path": "/docs/faq",
+      "icon": "file"
+    }
+  ]
+}

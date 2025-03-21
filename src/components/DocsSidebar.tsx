@@ -5,81 +5,25 @@ import { cn } from '@/lib/utils';
 import { ChevronDown, ChevronUp, File, Folder } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import sidebarStructure from '@/docs/structure.json';
 
-type DocItem = {
+type SidebarItem = {
   title: string;
   path: string;
   icon?: 'file' | 'folder';
-  children?: DocItem[];
+};
+
+type SectionItem = SidebarItem & {
+  items?: SidebarItem[];
   isExpanded?: boolean;
 };
 
-const initialDocs: DocItem[] = [
-  {
-    title: 'Getting Started',
-    path: '/docs',
-    icon: 'folder',
-    isExpanded: true,
-    children: [
-      { title: 'Introduction', path: '/docs' },
-      { title: 'Installation', path: '/docs/installation' },
-      { title: 'Configuration', path: '/docs/configuration' },
-    ],
-  },
-  {
-    title: 'Style Guide',
-    path: '/docs/style-guide',
-    icon: 'folder',
-    children: [
-      { title: 'Overview', path: '/docs/style-guide' },
-      { title: 'Writing Rules', path: '/docs/style-guide/writing-rules' },
-      { title: 'Formatting', path: '/docs/style-guide/formatting' },
-    ],
-  },
-  {
-    title: 'Link Validation',
-    path: '/docs/link-validation',
-    icon: 'folder',
-    children: [
-      { title: 'Overview', path: '/docs/link-validation' },
-      { title: 'Setting Up Checks', path: '/docs/link-validation/setup' },
-      { title: 'Fixing Broken Links', path: '/docs/link-validation/fixing' },
-    ],
-  },
-  {
-    title: 'Dictionary Validation',
-    path: '/docs/dictionary-validation',
-    icon: 'folder',
-    children: [
-      { title: 'Overview', path: '/docs/dictionary-validation' },
-      { title: 'Custom Dictionaries', path: '/docs/dictionary-validation/custom' },
-      { title: 'Integration', path: '/docs/dictionary-validation/integration' },
-    ],
-  },
-  {
-    title: 'GitHub Actions',
-    path: '/docs/github-actions',
-    icon: 'folder',
-    children: [
-      { title: 'Overview', path: '/docs/github-actions' },
-      { title: 'Setting Up Workflows', path: '/docs/github-actions/workflows' },
-      { title: 'CI/CD Pipeline', path: '/docs/github-actions/ci-cd' },
-    ],
-  },
-  {
-    title: 'Contributing',
-    path: '/docs/contributing',
-    icon: 'file',
-  },
-  {
-    title: 'FAQ',
-    path: '/docs/faq',
-    icon: 'file',
-  },
-];
+interface SidebarStructure {
+  sections: SectionItem[];
+}
 
 const DocsSidebar = () => {
-  const [docs, setDocs] = useState<DocItem[]>(initialDocs);
+  const [docs, setDocs] = useState<SectionItem[]>((sidebarStructure as SidebarStructure).sections);
   const location = useLocation();
 
   useEffect(() => {
@@ -87,15 +31,11 @@ const DocsSidebar = () => {
     const expandCurrentSection = () => {
       const newDocs = [...docs];
       
-      // Find if the current path is in any nested children
-      let foundInNestedChildren = false;
-      
       for (const doc of newDocs) {
-        if (doc.children) {
-          for (const child of doc.children) {
-            if (child.path === location.pathname) {
+        if (doc.items) {
+          for (const item of doc.items) {
+            if (item.path === location.pathname) {
               doc.isExpanded = true;
-              foundInNestedChildren = true;
               break;
             }
           }
@@ -129,7 +69,7 @@ const DocsSidebar = () => {
             <nav className="space-y-1">
               {docs.map((item, i) => (
                 <div key={item.title} className="space-y-1">
-                  {item.children ? (
+                  {item.items ? (
                     <div className="space-y-1">
                       <Button
                         variant="ghost"
@@ -153,9 +93,9 @@ const DocsSidebar = () => {
                           )}
                         </div>
                       </Button>
-                      {item.isExpanded && item.children && (
+                      {item.isExpanded && item.items && (
                         <div className="ml-5 border-l pl-3 space-y-1">
-                          {item.children.map((child) => (
+                          {item.items.map((child) => (
                             <Link
                               key={child.path}
                               to={child.path}
