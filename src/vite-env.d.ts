@@ -2,6 +2,7 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-svgr/client" />
 
+// Declare markdown modules
 declare module '*.md' {
   const content: string;
   export default content;

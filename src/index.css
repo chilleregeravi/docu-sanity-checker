@@ -1,89 +1,74 @@
+/* Import fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
+/* Then Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 222.2 84% 4.9%;
 
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 240 5.9% 10%;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 0 0% 98%;
-    --sidebar-primary-foreground: 240 5.9% 10%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 240 4.9% 83.9%;
+    --ring: 217.2 32.6% 17.5%;
   }
 }
 
@@ -91,99 +76,41 @@
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-heading font-medium tracking-tight;
-}
+@layer components {
+  /* SquareDocs specific styling */
+  .square-docs-container {
+    @apply max-w-4xl mx-auto px-4 py-8 w-full;
+  }
 
-h1 {
-  @apply text-4xl lg:text-5xl;
-}
+  .square-docs-section {
+    @apply mb-8;
+  }
 
-h2 {
-  @apply text-3xl lg:text-4xl;
-}
+  .square-docs-card {
+    @apply border-border/40 bg-card shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
 
-h3 {
-  @apply text-2xl lg:text-3xl;
-}
+  .square-docs-code-block {
+    @apply rounded-lg overflow-hidden border border-border/50 my-6;
+  }
 
-p {
-  @apply leading-relaxed text-base lg:text-lg;
-}
+  .square-docs-code-header {
+    @apply flex items-center justify-between bg-muted/70 dark:bg-muted/30 px-4 py-2 text-xs text-muted-foreground;
+  }
 
-.glass-card {
-  @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-glass;
-}
+  .square-docs-code-content {
+    @apply p-4 overflow-x-auto text-sm font-mono;
+  }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
-}
-
-.page-transition-enter {
-  @apply opacity-0;
-}
-
-.page-transition-enter-active {
-  @apply opacity-100 transition-opacity duration-300;
-}
-
-.page-transition-exit {
-  @apply opacity-100;
-}
-
-.page-transition-exit-active {
-  @apply opacity-0 transition-opacity duration-300;
-}
-
-/* SquareDocs specific styles */
-.square-docs-card {
-  @apply rounded-xl border border-border/50 bg-card shadow-sm hover:shadow-md transition-shadow duration-300;
-}
-
-.square-docs-container {
-  @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-.square-docs-section {
-  @apply py-8 sm:py-12;
-}
-
-.square-docs-code-block {
-  @apply rounded-lg overflow-hidden text-sm my-6;
-}
-
-.square-docs-code-header {
-  @apply flex items-center justify-between bg-muted/80 px-4 py-2 text-xs text-muted-foreground;
-}
-
-.square-docs-code-content {
-  @apply overflow-x-auto bg-card p-4 text-sm border-t border-border/50;
-}
-
-.square-docs-info-block {
-  @apply p-4 rounded-lg border border-border my-6;
-}
-
-.square-docs-nav-link {
-  @apply flex items-center gap-2 text-sm rounded-lg px-3 py-2 transition-colors hover:bg-muted;
-}
-
-.square-docs-nav-link.active {
-  @apply bg-muted text-foreground font-medium;
-}
-
-.square-docs-sidebar-section {
-  @apply py-2;
-}
-
-.square-docs-sidebar-heading {
-  @apply text-xs uppercase font-medium text-muted-foreground tracking-wider mb-2 px-3;
+  .square-docs-info-block {
+    @apply rounded-lg border p-4 my-6;
+  }
 }

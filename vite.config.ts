@@ -12,4 +12,7 @@ export default defineConfig({
     },
   },
   assetsInclude: ['**/*.md'],
+  server: {
+    port: 8080
+  }
 });
