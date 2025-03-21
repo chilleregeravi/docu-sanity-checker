@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Copy, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,14 +8,21 @@ import Markdown from 'react-markdown';
 
 const Configuration = () => {
   const { toast } = useToast();
+  const [copiedSection, setCopiedSection] = useState<string | null>(null);
   
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, section: string) => {
     navigator.clipboard.writeText(text);
+    setCopiedSection(section);
+    
     toast({
       title: "Copied to clipboard",
       description: "The content has been copied to your clipboard.",
       duration: 3000,
     });
+    
+    setTimeout(() => {
+      setCopiedSection(null);
+    }, 2000);
   };
 
   const markdownContent = `
@@ -179,10 +186,40 @@ module.exports = {
 \`\`\`
 `;
 
+  const CodeBlock = ({ className, children }: { className?: string, children: string }) => {
+    const match = /language-(\w+)/.exec(className || '');
+    const language = match ? match[1] : '';
+    
+    return (
+      <div className="relative my-6 overflow-hidden rounded-lg">
+        <div className="flex items-center justify-between bg-muted/80 px-4 py-2 text-xs text-muted-foreground">
+          <span className="font-mono">{language}</span>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6"
+            onClick={() => copyToClipboard(children, language)}
+          >
+            {copiedSection === language ? (
+              <CheckCircle2 className="h-3.5 w-3.5" />
+            ) : (
+              <Copy className="h-3.5 w-3.5" />
+            )}
+            <span className="sr-only">Copy code</span>
+          </Button>
+        </div>
+        <pre className="overflow-x-auto bg-muted/50 p-4 text-sm">
+          <code>{children}</code>
+        </pre>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-8 animate-fadeIn">
-      <div>
-        <div className="flex items-center text-sm text-muted-foreground mb-4">
+      {/* Breadcrumb and Title Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-sm text-muted-foreground">
           <Link to="/docs" className="hover:text-foreground transition-colors">
             Documentation
           </Link>
@@ -190,22 +227,85 @@ module.exports = {
           <span>Configuration</span>
         </div>
         
-        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight mb-4">Configuration</h1>
-        <p className="text-xl text-muted-foreground mb-8">
-          Configure DocuSanity to match your project's needs.
-        </p>
+        <div className="space-y-2">
+          <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">Configuration</h1>
+          <p className="text-xl text-muted-foreground">
+            Configure DocuSanity to match your project's needs.
+          </p>
+        </div>
       </div>
 
+      {/* Main Content */}
       <div className="prose prose-blue max-w-none dark:prose-invert">
-        <Markdown>{markdownContent}</Markdown>
+        <Markdown
+          components={{
+            code: ({ className, children }) => {
+              const match = /language-(\w+)/.exec(className || '');
+              return match ? (
+                <CodeBlock className={className}>{String(children)}</CodeBlock>
+              ) : (
+                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
+                  {String(children)}
+                </code>
+              );
+            },
+            h2: ({ children }) => (
+              <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight mt-10 first:mt-0">
+                {children}
+              </h2>
+            ),
+            h3: ({ children }) => (
+              <h3 className="scroll-m-20 text-xl font-semibold tracking-tight mt-8">
+                {children}
+              </h3>
+            ),
+            p: ({ children }) => (
+              <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
+            ),
+            ul: ({ children }) => (
+              <ul className="my-6 ml-6 list-disc [&>li]:mt-2">{children}</ul>
+            ),
+            ol: ({ children }) => (
+              <ol className="my-6 ml-6 list-decimal [&>li]:mt-2">{children}</ol>
+            ),
+            table: ({ children }) => (
+              <div className="my-6 w-full overflow-y-auto rounded-lg border">
+                <table className="w-full">{children}</table>
+              </div>
+            ),
+            thead: ({ children }) => (
+              <thead className="bg-muted/50">{children}</thead>
+            ),
+            tr: ({ children }) => (
+              <tr className="m-0 border-t p-0 even:bg-muted/20">{children}</tr>
+            ),
+            th: ({ children }) => (
+              <th className="border px-4 py-2 text-left font-semibold">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="border px-4 py-2 text-left">{children}</td>
+            ),
+          }}
+        >
+          {markdownContent}
+        </Markdown>
       </div>
 
-      <div className="flex items-center justify-between mt-10 pt-6 border-t text-sm">
-        <Link to="/docs/installation" className="text-primary inline-flex items-center hover:underline">
-          <ArrowLeft className="h-3 w-3 mr-1" /> Installation
+      {/* Navigation Links */}
+      <div className="flex items-center justify-between mt-12 pt-6 border-t">
+        <Link 
+          to="/docs/installation" 
+          className="flex items-center text-primary hover:text-primary/80 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4 mr-1" /> 
+          <span>Installation</span>
         </Link>
-        <Link to="/docs/style-guide" className="text-primary inline-flex items-center hover:underline">
-          Style Guide <ArrowRight className="h-3 w-3 ml-1" />
+        <Link 
+          to="/docs/github-actions" 
+          className="flex items-center text-primary hover:text-primary/80 transition-colors"
+        >
+          <span>GitHub Actions</span>
+          <ArrowRight className="h-4 w-4 ml-1" />
         </Link>
       </div>
     </div>
