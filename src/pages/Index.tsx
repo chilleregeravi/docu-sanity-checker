@@ -83,9 +83,9 @@ const Index = () => {
               </Button>
             </div>
             
-            {/* Visual indicator to scroll down - now clickable */}
+            {/* Visual indicator to scroll down - moved to right side */}
             <div 
-              className="hidden md:flex absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
+              className="hidden md:flex absolute bottom-4 right-10 animate-bounce cursor-pointer"
               onClick={scrollToFeatures}
               aria-label="Scroll to features"
               role="button"
