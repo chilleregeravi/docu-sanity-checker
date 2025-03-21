@@ -3,13 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X } from 'lucide-react';
-import { Dialog } from '@/components/ui/dialog';
+import { Search, Menu, X, Home, FileText, Book, Api, BookOpen } from 'lucide-react';
+import { 
+  Sheet, 
+  SheetContent, 
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose 
+} from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,11 +31,6 @@ const Header = () => {
   const isActive = (path: string) => {
     return location.pathname === path;
   };
-
-  // Close mobile menu when changing routes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
 
   return (
     <header
@@ -60,36 +63,31 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden"
-          onClick={() => setIsMobileMenuOpen(true)}
-        >
-          <Menu className="h-6 w-6" />
-        </Button>
-
-        {/* Mobile Menu */}
-        <Dialog open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <div className="fixed inset-0 bg-white dark:bg-gray-950 z-50 p-6 flex flex-col animate-fadeIn">
-            <div className="flex justify-between items-center">
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                  D
-                </div>
-                <span className="text-xl font-medium">DocuSanity</span>
-              </Link>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <X className="h-6 w-6" />
-              </Button>
-            </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden"
+            >
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[280px] sm:w-[350px]">
+            <SheetHeader className="mb-6">
+              <SheetTitle>
+                <Link to="/" className="flex items-center space-x-2">
+                  <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
+                    D
+                  </div>
+                  <span className="text-xl font-medium">DocuSanity</span>
+                </Link>
+              </SheetTitle>
+            </SheetHeader>
             
-            <nav className="flex flex-col mt-10 space-y-6">
-              <NavLinks isMobile isActive={isActive} />
+            <nav className="flex flex-col mt-6 space-y-5">
+              <MobileNavLinks isActive={isActive} />
             </nav>
             
             <div className="mt-10 space-y-4">
@@ -99,8 +97,8 @@ const Header = () => {
               </Button>
               <Button className="w-full">Get Started</Button>
             </div>
-          </div>
-        </Dialog>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
@@ -111,50 +109,64 @@ interface NavLinksProps {
   isActive: (path: string) => boolean;
 }
 
-const NavLinks = ({ isMobile, isActive }: NavLinksProps) => {
-  const linkClass = isMobile
-    ? "text-xl font-medium py-2"
-    : "text-sm font-medium transition-colors hover:text-primary";
+// Desktop navigation links component
+const NavLinks = ({ isActive }: NavLinksProps) => {
+  const linkClass = "text-sm font-medium transition-colors hover:text-primary flex items-center";
 
   const links = [
-    { path: "/", label: "Home" },
-    { path: "/docs", label: "Docs" },
-    { path: "/guides", label: "Guides" },
-    { path: "/api", label: "API" },
-    { path: "/blog", label: "Blog" },
+    { path: "/", label: "Home", icon: Home },
+    { path: "/docs", label: "Docs", icon: FileText },
+    { path: "/guides", label: "Guides", icon: Book },
+    { path: "/api", label: "API", icon: Api },
+    { path: "/blog", label: "Blog", icon: BookOpen },
   ];
 
   return (
     <>
-      {isMobile ? (
-        // Mobile: Display links vertically as before
-        links.map((link) => (
+      {links.map((link) => (
+        <Link
+          key={link.path}
+          to={link.path}
+          className={cn(
+            linkClass,
+            isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
+          )}
+        >
+          {link.label}
+        </Link>
+      ))}
+    </>
+  );
+};
+
+// Mobile navigation links component with icons
+const MobileNavLinks = ({ isActive }: NavLinksProps) => {
+  const links = [
+    { path: "/", label: "Home", icon: Home },
+    { path: "/docs", label: "Docs", icon: FileText },
+    { path: "/guides", label: "Guides", icon: Book },
+    { path: "/api", label: "API", icon: Api },
+    { path: "/blog", label: "Blog", icon: BookOpen },
+  ];
+
+  return (
+    <>
+      {links.map((link) => (
+        <SheetClose asChild key={link.path}>
           <Link
-            key={link.path}
             to={link.path}
             className={cn(
-              linkClass,
-              isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
+              "flex items-center space-x-3 text-base font-medium transition-colors",
+              isActive(link.path) 
+                ? "text-primary font-semibold" 
+                : "text-foreground hover:text-primary"
             )}
           >
-            {link.label}
+            <link.icon className="h-5 w-5" />
+            <span>{link.label}</span>
           </Link>
-        ))
-      ) : (
-        // Desktop: Display links horizontally in a row
-        links.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={cn(
-              linkClass,
-              isActive(link.path) ? "text-primary font-semibold" : "text-foreground"
-            )}
-          >
-            {link.label}
-          </Link>
-        ))
-      )}
+        </SheetClose>
+      ))}
     </>
   );
 };
