@@ -1,11 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { ChevronDown, ChevronUp, File, Folder } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useLocation } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import sidebarStructure from '@/docs/structure.json';
+import SidebarSection from './sidebar/SidebarSection';
 
 type SidebarItem = {
   title: string;
@@ -67,70 +65,14 @@ const DocsSidebar = () => {
               Documentation
             </h3>
             <nav className="space-y-1">
-              {docs.map((item, i) => (
-                <div key={item.title} className="space-y-1">
-                  {item.items ? (
-                    <div className="space-y-1">
-                      <Button
-                        variant="ghost"
-                        className={cn(
-                          "w-full justify-start p-2 text-sm font-medium",
-                          isActive(item.path) ? "bg-accent text-accent-foreground" : "hover:bg-accent hover:text-accent-foreground"
-                        )}
-                        onClick={() => toggleExpand(i)}
-                      >
-                        <div className="flex items-center w-full">
-                          {item.icon === 'folder' ? (
-                            <Folder className="h-4 w-4 mr-2 text-muted-foreground" />
-                          ) : (
-                            <File className="h-4 w-4 mr-2 text-muted-foreground" />
-                          )}
-                          <span className="flex-1 text-left">{item.title}</span>
-                          {item.isExpanded ? (
-                            <ChevronUp className="h-4 w-4 ml-auto" />
-                          ) : (
-                            <ChevronDown className="h-4 w-4 ml-auto" />
-                          )}
-                        </div>
-                      </Button>
-                      {item.isExpanded && item.items && (
-                        <div className="ml-5 border-l pl-3 space-y-1">
-                          {item.items.map((child) => (
-                            <Link
-                              key={child.path}
-                              to={child.path}
-                              className={cn(
-                                "block py-2 px-2 text-sm transition-colors rounded-md",
-                                isActive(child.path)
-                                  ? "font-medium text-primary bg-accent"
-                                  : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                              )}
-                            >
-                              {child.title}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      to={item.path}
-                      className={cn(
-                        "flex items-center py-2 px-2 text-sm font-medium transition-colors rounded-md",
-                        isActive(item.path)
-                          ? "text-primary bg-accent"
-                          : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                      )}
-                    >
-                      {item.icon === 'folder' ? (
-                        <Folder className="h-4 w-4 mr-2 text-muted-foreground" />
-                      ) : (
-                        <File className="h-4 w-4 mr-2 text-muted-foreground" />
-                      )}
-                      {item.title}
-                    </Link>
-                  )}
-                </div>
+              {docs.map((section, i) => (
+                <SidebarSection
+                  key={section.title}
+                  section={section}
+                  isActive={isActive}
+                  index={i}
+                  toggleExpand={toggleExpand}
+                />
               ))}
             </nav>
           </div>
