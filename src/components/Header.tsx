@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Search, Menu, X, Home, FileText, Book, Api, BookOpen } from 'lucide-react';
+import { Search, Menu, X, Home, FileText, Book, Code, BookOpen } from 'lucide-react';
 import { 
   Sheet, 
   SheetContent, 
@@ -117,7 +117,7 @@ const NavLinks = ({ isActive }: NavLinksProps) => {
     { path: "/", label: "Home", icon: Home },
     { path: "/docs", label: "Docs", icon: FileText },
     { path: "/guides", label: "Guides", icon: Book },
-    { path: "/api", label: "API", icon: Api },
+    { path: "/api", label: "API", icon: Code },
     { path: "/blog", label: "Blog", icon: BookOpen },
   ];
 
@@ -145,7 +145,7 @@ const MobileNavLinks = ({ isActive }: NavLinksProps) => {
     { path: "/", label: "Home", icon: Home },
     { path: "/docs", label: "Docs", icon: FileText },
     { path: "/guides", label: "Guides", icon: Book },
-    { path: "/api", label: "API", icon: Api },
+    { path: "/api", label: "API", icon: Code },
     { path: "/blog", label: "Blog", icon: BookOpen },
   ];
 
