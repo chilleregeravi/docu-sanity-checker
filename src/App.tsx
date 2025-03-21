@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import DocsLayout from "./pages/DocsLayout";
 import DocsIndex from "./pages/docs/Index";
 import Installation from "./pages/docs/Installation";
+import Configuration from "./pages/docs/Configuration";
 import GitHubActions from "./pages/docs/GitHubActions";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocsIndex />} />
             <Route path="installation" element={<Installation />} />
+            <Route path="configuration" element={<Configuration />} />
             <Route path="github-actions" element={<GitHubActions />} />
           </Route>
           
