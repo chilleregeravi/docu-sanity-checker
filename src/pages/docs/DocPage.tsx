@@ -31,8 +31,9 @@ const DocPage: React.FC = () => {
         const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
         const markdownContent = moduleImport.default;
         
-        // Extract title from the first heading
-        const titleMatch = markdownContent.match(/^# (.*)/m);
+        // Extract title from the first heading after frontmatter
+        const contentWithoutFrontmatter = markdownContent.replace(/^---[\s\S]+?---\s*/m, '');
+        const titleMatch = contentWithoutFrontmatter.match(/^# (.*)/m);
         setTitle(titleMatch ? titleMatch[1] : normalizedPath);
         
         // Extract publish date from frontmatter

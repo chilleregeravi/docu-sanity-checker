@@ -9,7 +9,8 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   // Strip out frontmatter before rendering
-  const contentWithoutFrontmatter = content.replace(/^---\s+([\s\S]*?)\s+---/, '');
+  // This regex matches the entire frontmatter block including the --- delimiters
+  const contentWithoutFrontmatter = content.replace(/^---[\s\S]+?---\s*/m, '');
 
   return (
     <div className="prose prose-blue max-w-none dark:prose-invert">
