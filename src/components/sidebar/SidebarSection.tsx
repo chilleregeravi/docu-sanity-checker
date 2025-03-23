@@ -15,7 +15,7 @@ type SidebarSectionProps = {
 };
 
 const SidebarSection = ({ section, isActive, index, toggleExpand }: SidebarSectionProps) => {
-  if (!section.items) {
+  if (!section.items || section.items.length === 0) {
     // Render a standalone section without children
     return (
       <Link
@@ -62,11 +62,11 @@ const SidebarSection = ({ section, isActive, index, toggleExpand }: SidebarSecti
           )}
         </div>
       </Button>
-      {section.isExpanded && section.items && (
+      {section.isExpanded && section.items && section.items.length > 0 && (
         <div className="ml-5 border-l pl-3 space-y-1">
-          {section.items.map((child) => (
+          {section.items.map((child, childIndex) => (
             <SidebarItem
-              key={child.path}
+              key={child.path + childIndex}
               title={child.title}
               path={child.path}
               isActive={isActive(child.path)}
