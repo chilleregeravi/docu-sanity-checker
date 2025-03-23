@@ -91,6 +91,11 @@ jobs:
       
       - name: Build project
         run: npm run build
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+      
+      - name: Create .nojekyll file
+        run: touch dist/.nojekyll
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

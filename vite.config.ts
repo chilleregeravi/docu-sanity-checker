@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === 'development' && componentTagger(),
   ].filter(Boolean),
-  base: mode === 'production' ? base : '/',
+  base, // Use the base path for all environments to ensure consistency
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

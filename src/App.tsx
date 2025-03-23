@@ -12,12 +12,15 @@ import DocPage from "./pages/docs/DocPage";
 
 const queryClient = new QueryClient();
 
+// Get the base path from environment or default to /
+const basePath = import.meta.env.BASE_URL || '/';
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={basePath}>
         <Routes>
           <Route path="/" element={<Index />} />
           
