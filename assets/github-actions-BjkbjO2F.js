@@ -1,6 +1,8 @@
 const n=`
 ---
 date: 2023-09-05
+icon: github
+description: "Seamlessly integrate validation into your CI/CD workflow"
 ---
 
 # GitHub Actions Overview
@@ -157,4 +159,4 @@ To generate and upload detailed reports, add the following steps to your workflo
     path: validation-report.json
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=github-actions-DeTycTFC.js.map
+//# sourceMappingURL=github-actions-BjkbjO2F.js.map

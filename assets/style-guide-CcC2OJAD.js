@@ -1,6 +1,8 @@
 const n=`
 ---
 date: 2023-08-01
+icon: check
+description: "Ensure consistent writing style across all documentation"
 ---
 
 # Style Guide Overview
@@ -50,4 +52,4 @@ Here are some common style issues to watch for:
 
 Always review your documentation against these common issues before submitting.
 `;export{n as default};
-//# sourceMappingURL=style-guide-CVxZz7QK.js.map
+//# sourceMappingURL=style-guide-CcC2OJAD.js.map

@@ -1,6 +1,8 @@
 const n=`
 ---
 date: 2023-08-15
+icon: arrow-right
+description: "Get detailed reports with actionable recommendations"
 ---
 
 # Configuration
@@ -162,4 +164,4 @@ module.exports = {
 };
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=configuration-Bte071OW.js.map
+//# sourceMappingURL=configuration-BYxSBw99.js.map
