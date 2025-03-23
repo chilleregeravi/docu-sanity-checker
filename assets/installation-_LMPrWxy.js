@@ -9,6 +9,8 @@ description: "Run validation checks locally during development"
 
 Setting up DocuSanity is simple and only takes a few minutes. Follow the steps below to get started.
 
+> **Tip:** When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility.
+
 ## Prerequisites
 
 Before installing DocuSanity, make sure you have the following:
@@ -109,4 +111,4 @@ Now that you have DocuSanity installed, you can:
 - Learn about [link validation](/docs/link-validation)
 - Set up [GitHub Actions](/docs/github-actions) for continuous validation
 `;export{n as default};
-//# sourceMappingURL=installation-Bpc1TCPX.js.map
+//# sourceMappingURL=installation-_LMPrWxy.js.map
