@@ -8,6 +8,9 @@ interface MarkdownRendererProps {
 }
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
+  // Strip out frontmatter before rendering
+  const contentWithoutFrontmatter = content.replace(/^---\s+([\s\S]*?)\s+---/, '');
+
   return (
     <div className="prose prose-blue max-w-none dark:prose-invert">
       <Markdown
@@ -63,7 +66,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           ),
         }}
       >
-        {content}
+        {contentWithoutFrontmatter}
       </Markdown>
     </div>
   );
