@@ -27,8 +27,8 @@ const App = () => (
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocsIndex />} />
-            {/* Dynamic route that will match any path after /docs/ */}
-            <Route path=":*" element={<DocPage />} />
+            {/* Fix dynamic route pattern to use proper "/*" pattern */}
+            <Route path="*" element={<DocPage />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

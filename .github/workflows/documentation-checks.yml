@@ -97,6 +97,9 @@ jobs:
       - name: Create .nojekyll file
         run: touch dist/.nojekyll
       
+      - name: Create 404.html for client-side routing
+        run: cp dist/index.html dist/404.html
+      
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
