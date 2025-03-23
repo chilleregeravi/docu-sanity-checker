@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { 
@@ -14,7 +13,7 @@ import DocMetadata from '@/components/DocMetadata';
 import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
-import DocsInfoBlock from '@/components/docs/DocsInfoBlock';
+import DocsAlert from '@/components/docs/DocsAlert';
 
 const DocPage: React.FC = () => {
   const { '*': path } = useParams();
@@ -30,18 +29,15 @@ const DocPage: React.FC = () => {
   const normalizedPath = path || 'introduction';
   const githubPath = getGitHubPath(normalizedPath);
   
-  // Get navigation links
   const { prev, next } = getNavigationLinks(location.pathname);
   
   useEffect(() => {
     const loadContent = async () => {
       setLoading(true);
       try {
-        // Dynamic import of markdown files
         const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
         const markdownContent = moduleImport.default;
         
-        // Extract frontmatter, title, and description from the markdown content
         const extractedFrontmatter = extractFrontmatter(markdownContent);
         const extractedTitle = extractTitle(markdownContent);
         const extractedDescription = extractDescription(markdownContent);
@@ -50,13 +46,11 @@ const DocPage: React.FC = () => {
         setTitle(extractedTitle);
         setDescription(extractedDescription);
         
-        // Extract publish date from frontmatter
         setPublishDate(extractPublishDate(markdownContent));
         
         setContent(markdownContent);
         setError(false);
         
-        // Update document title
         document.title = `${extractedTitle} | DocuSanity`;
       } catch (e) {
         console.error("Failed to load markdown:", e);
@@ -72,7 +66,6 @@ const DocPage: React.FC = () => {
     loadContent();
   }, [normalizedPath]);
 
-  // Determine which info block to show based on the path or frontmatter
   const showConfigInfo = normalizedPath.includes('configuration') || frontmatter.showConfigInfo;
   const showInstallationInfo = normalizedPath.includes('installation') || frontmatter.showInstallationInfo;
   const showStyleGuideInfo = normalizedPath.includes('style-guide') || frontmatter.showStyleGuideInfo;
@@ -83,40 +76,33 @@ const DocPage: React.FC = () => {
 
   return (
     <div className="animate-fadeIn square-docs-container">
-      {/* Breadcrumb */}
       <DocBreadcrumb title={title} />
 
-      {/* Conditional Info Blocks */}
-      <DocsInfoBlock 
-        title="Configuration Best Practices"
-        description="It's recommended to keep your configuration file in the root of your project and version it with your code. This ensures that everyone on your team uses the same configuration."
-        show={showConfigInfo}
-        variant="info"
-      />
+      {showConfigInfo && (
+        <DocsAlert variant="info" title="Configuration Best Practices">
+          It's recommended to keep your configuration file in the root of your project and version it with your code. 
+          This ensures that everyone on your team uses the same configuration.
+        </DocsAlert>
+      )}
       
-      <DocsInfoBlock 
-        title="Installation Notes"
-        description="When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility."
-        show={showInstallationInfo}
-        variant="tip"
-      />
+      {showInstallationInfo && (
+        <DocsAlert variant="tip" title="Installation Notes">
+          When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility.
+        </DocsAlert>
+      )}
       
-      <DocsInfoBlock 
-        title="Style Guide Recommendation"
-        description="Following a consistent style guide improves documentation readability and maintains a professional appearance across your project."
-        show={showStyleGuideInfo}
-        variant="warning"
-      />
+      {showStyleGuideInfo && (
+        <DocsAlert variant="warning" title="Style Guide Recommendation">
+          Following a consistent style guide improves documentation readability and maintains a professional appearance across your project.
+        </DocsAlert>
+      )}
 
-      {/* Main Content */}
       <MarkdownRenderer content={content} />
 
-      {/* DocMetadata moved to the bottom, before navigation links */}
       <div className="mt-12">
         <DocMetadata publishDate={publishDate} githubPath={githubPath} />
       </div>
 
-      {/* Navigation Links */}
       <DocNavigation prev={prev} next={next} />
     </div>
   );

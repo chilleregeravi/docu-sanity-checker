@@ -2,6 +2,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
+import DocsAlert from './DocsAlert';
 
 interface MarkdownRendererProps {
   content: string;
@@ -48,6 +49,55 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           ol: ({ children }) => (
             <ol className="my-6 ml-6 list-decimal [&>li]:mt-2">{children}</ol>
           ),
+          blockquote: ({ children }) => {
+            // Try to detect the note type from the first line
+            const childrenArray = React.Children.toArray(children);
+            const firstParagraph = childrenArray.find(
+              child => React.isValidElement(child) && child.type === 'p'
+            );
+            
+            let variant: 'info' | 'warning' | 'success' | 'tip' | 'note' = 'info';
+            let title = '';
+            let content = children;
+            
+            if (firstParagraph && React.isValidElement(firstParagraph)) {
+              const text = firstParagraph.props.children?.toString() || '';
+              
+              if (text.startsWith('**Note:**')) {
+                variant = 'note';
+                title = 'Note';
+                content = text.replace('**Note:**', '').trim();
+              } else if (text.startsWith('**Warning:**')) {
+                variant = 'warning';
+                title = 'Warning';
+                content = text.replace('**Warning:**', '').trim();
+              } else if (text.startsWith('**Tip:**')) {
+                variant = 'tip';
+                title = 'Tip';
+                content = text.replace('**Tip:**', '').trim();
+              } else if (text.startsWith('**Success:**')) {
+                variant = 'success';
+                title = 'Success';
+                content = text.replace('**Success:**', '').trim();
+              } else if (text.startsWith('**Info:**')) {
+                variant = 'info';
+                title = 'Information';
+                content = text.replace('**Info:**', '').trim();
+              }
+              
+              // If we detected a special blockquote, return our custom component
+              if (title) {
+                return <DocsAlert variant={variant} title={title}>{content}</DocsAlert>;
+              }
+            }
+            
+            // Default blockquote styling if no special type detected
+            return (
+              <blockquote className="border-l-4 border-slate-300 dark:border-slate-600 pl-4 py-1 my-6 text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900/30 rounded-sm">
+                {children}
+              </blockquote>
+            );
+          },
           table: ({ children }) => (
             <div className="my-6 w-full overflow-y-auto rounded-lg border">
               <table className="w-full">{children}</table>
