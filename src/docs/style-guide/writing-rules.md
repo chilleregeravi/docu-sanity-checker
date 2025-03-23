@@ -1,4 +1,8 @@
 
+---
+date: 2023-08-05
+---
+
 # Writing Rules
 
 Effective documentation requires consistent writing that is clear, concise, and easy to understand. This page outlines the writing rules for DocuSanity documentation.

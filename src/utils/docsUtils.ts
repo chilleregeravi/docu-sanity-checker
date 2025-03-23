@@ -80,6 +80,29 @@ export const getGitHubPath = (path: string): string => {
     normalizedPath = normalizedPath.substring(1);
   }
   
-  // Replace slashes with dashes for GitHub path
-  return `${normalizedPath.replace(/\//g, '-')}.md`;
+  // If the path contains slashes, convert them to file structure
+  if (normalizedPath.includes('/')) {
+    // For nested paths like "style-guide/writing-rules", create proper GitHub path
+    return `${normalizedPath.replace(/\//g, '/')}.md`;
+  }
+  
+  // For top-level paths
+  return `${normalizedPath}.md`;
+};
+
+/**
+ * Normalize a document path for import
+ */
+export const normalizeDocPath = (path: string): string => {
+  let normalizedPath = path || 'introduction';
+  if (normalizedPath.startsWith('/')) {
+    normalizedPath = normalizedPath.substring(1);
+  }
+  
+  // Removing any trailing slashes
+  if (normalizedPath.endsWith('/')) {
+    normalizedPath = normalizedPath.substring(0, normalizedPath.length - 1);
+  }
+  
+  return normalizedPath;
 };

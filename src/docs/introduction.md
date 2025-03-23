@@ -1,4 +1,8 @@
 
+---
+date: 2023-07-01
+---
+
 # Introduction
 
 Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.

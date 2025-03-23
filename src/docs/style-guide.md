@@ -1,4 +1,8 @@
 
+---
+date: 2023-08-01
+---
+
 # Style Guide Overview
 
 This guide outlines the writing and formatting standards for DocuSanity documentation. Following these guidelines ensures consistency across all documentation.

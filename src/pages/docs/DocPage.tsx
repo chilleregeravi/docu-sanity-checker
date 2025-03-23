@@ -1,18 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Copy, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Copy, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Markdown from 'react-markdown';
 import DocMetadata from '@/components/DocMetadata';
-import { getNavigationLinks } from '@/utils/docsUtils';
+import { getNavigationLinks, extractPublishDate, getGitHubPath } from '@/utils/docsUtils';
 
-interface DocPageProps {
-  publishDate?: string;
-}
-
-const DocPage: React.FC<DocPageProps> = ({ publishDate = "January 1, 2023" }) => {
+const DocPage: React.FC = () => {
   const { toast } = useToast();
   const { '*': path } = useParams();
   const location = useLocation();
@@ -22,9 +18,10 @@ const DocPage: React.FC<DocPageProps> = ({ publishDate = "January 1, 2023" }) =>
   const [title, setTitle] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [publishDate, setPublishDate] = useState<string>('January 1, 2023');
   
   const normalizedPath = path || 'introduction';
-  const githubPath = `${normalizedPath}.md`;
+  const githubPath = getGitHubPath(normalizedPath);
   
   // Get navigation links
   const { prev, next } = getNavigationLinks(location.pathname);
@@ -40,6 +37,10 @@ const DocPage: React.FC<DocPageProps> = ({ publishDate = "January 1, 2023" }) =>
         // Extract title from the first heading
         const titleMatch = markdownContent.match(/^# (.*)/m);
         setTitle(titleMatch ? titleMatch[1] : normalizedPath);
+        
+        // Extract publish date from frontmatter
+        setPublishDate(extractPublishDate(markdownContent));
+        
         setContent(markdownContent);
         setError(false);
       } catch (e) {
@@ -119,6 +120,22 @@ const DocPage: React.FC<DocPageProps> = ({ publishDate = "January 1, 2023" }) =>
       {/* Add DocMetadata component */}
       <DocMetadata publishDate={publishDate} githubPath={githubPath} />
 
+      {/* Info Block for Important Information */}
+      {normalizedPath.includes('configuration') && (
+        <div className="square-docs-info-block bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800/50 mb-6">
+          <div className="flex items-start gap-3">
+            <Info className="h-5 w-5 text-blue-500 dark:text-blue-400 mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300">Configuration Best Practices</h3>
+              <p className="text-sm text-blue-700 dark:text-blue-400 mt-1">
+                It's recommended to keep your configuration file in the root of your project and version it with your code.
+                This ensures that everyone on your team uses the same configuration.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="prose prose-blue max-w-none dark:prose-invert">
         <Markdown
@@ -154,6 +171,23 @@ const DocPage: React.FC<DocPageProps> = ({ publishDate = "January 1, 2023" }) =>
             ),
             ol: ({ children }) => (
               <ol className="my-6 ml-6 list-decimal [&>li]:mt-2">{children}</ol>
+            ),
+            table: ({ children }) => (
+              <div className="my-6 w-full overflow-y-auto rounded-lg border">
+                <table className="w-full">{children}</table>
+              </div>
+            ),
+            thead: ({ children }) => (
+              <thead className="bg-muted/50">{children}</thead>
+            ),
+            tr: ({ children }) => (
+              <tr className="m-0 border-t p-0 even:bg-muted/20">{children}</tr>
+            ),
+            th: ({ children }) => (
+              <th className="border px-4 py-2 text-left font-semibold">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="border px-4 py-2 text-left">{children}</td>
             ),
           }}
         >

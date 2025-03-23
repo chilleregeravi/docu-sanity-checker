@@ -1,4 +1,8 @@
 
+---
+date: 2023-08-15
+---
+
 # Configuration
 
 DocuSanity provides flexible configuration options to customize your documentation website and validation rules. This guide covers all available options and how to use them effectively.

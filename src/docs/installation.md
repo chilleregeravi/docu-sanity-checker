@@ -1,4 +1,8 @@
 
+---
+date: 2023-07-15
+---
+
 # Installation
 
 Setting up DocuSanity is simple and only takes a few minutes. Follow the steps below to get started.
