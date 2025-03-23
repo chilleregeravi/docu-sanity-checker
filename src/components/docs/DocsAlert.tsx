@@ -70,9 +70,9 @@ const DocsAlert: React.FC<DocsAlertProps> = ({
   return (
     <Alert className={cn(getVariantStyles(), 'my-6', className)}>
       {getIcon()}
-      {(title || variant !== 'info') && (
+      {title && (
         <AlertTitle className="font-medium">
-          {title || getDefaultTitle()}
+          {title}
         </AlertTitle>
       )}
       <AlertDescription className="mt-1">{children}</AlertDescription>

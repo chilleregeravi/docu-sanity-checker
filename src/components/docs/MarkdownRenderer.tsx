@@ -57,7 +57,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             );
             
             let variant: 'info' | 'warning' | 'success' | 'tip' | 'note' = 'info';
-            let title = '';
             let content = children;
             
             if (firstParagraph && React.isValidElement(firstParagraph)) {
@@ -65,29 +64,24 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               
               if (text.startsWith('**Note:**')) {
                 variant = 'note';
-                title = 'Note';
                 content = text.replace('**Note:**', '').trim();
               } else if (text.startsWith('**Warning:**')) {
                 variant = 'warning';
-                title = 'Warning';
                 content = text.replace('**Warning:**', '').trim();
               } else if (text.startsWith('**Tip:**')) {
                 variant = 'tip';
-                title = 'Tip';
                 content = text.replace('**Tip:**', '').trim();
               } else if (text.startsWith('**Success:**')) {
                 variant = 'success';
-                title = 'Success';
                 content = text.replace('**Success:**', '').trim();
               } else if (text.startsWith('**Info:**')) {
                 variant = 'info';
-                title = 'Information';
                 content = text.replace('**Info:**', '').trim();
               }
               
               // If we detected a special blockquote, return our custom component
-              if (title) {
-                return <DocsAlert variant={variant} title={title}>{content}</DocsAlert>;
+              if (variant) {
+                return <DocsAlert variant={variant}>{content}</DocsAlert>;
               }
             }
             
