@@ -151,40 +151,6 @@ export const extractDescription = (markdown: string): string => {
 };
 
 /**
- * Extract feature metadata from markdown content
- */
-export const extractFeatureMetadata = (markdown: string, path: string): {
-  title: string;
-  description: string;
-  icon: string;
-  path: string;
-} | null => {
-  const title = extractTitle(markdown);
-  const description = extractDescription(markdown);
-  
-  // Extract frontmatter
-  const frontmatterMatch = markdown.match(/^---\s+([\s\S]*?)\s+---/m);
-  
-  let icon = 'arrow-right'; // Default icon
-  
-  // Check for icon in frontmatter if available
-  if (frontmatterMatch) {
-    const frontmatter = frontmatterMatch[1];
-    const iconMatch = frontmatter.match(/icon:\s*([a-z-]+)/);
-    if (iconMatch) {
-      icon = iconMatch[1];
-    }
-  }
-  
-  return {
-    title,
-    description: description.substring(0, 120) + (description.length > 120 ? '...' : ''),
-    icon,
-    path
-  };
-};
-
-/**
  * Update section title and description from markdown content
  */
 export const updateSectionFromMarkdown = (

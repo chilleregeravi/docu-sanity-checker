@@ -1,12 +1,11 @@
 
-import React, { useRef } from 'react';
+import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import sidebarStructure from '@/docs/structure.json';
 import Hero from '@/components/home/Hero';
 import ScrollIndicator from '@/components/home/ScrollIndicator';
-import FeaturesSection from '@/components/home/FeaturesSection';
 import DocumentationSection from '@/components/home/DocumentationSection';
 import CTASection from '@/components/home/CTASection';
 
@@ -32,9 +31,6 @@ type StructureData = {
       description: string;
     }>;
   }>;
-  featurePaths: Array<{
-    path: string;
-  }>;
   community?: {
     title: string;
     url: string;
@@ -43,12 +39,7 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
-  const featuresRef = useRef<HTMLDivElement>(null);
   
-  const scrollToFeatures = () => {
-    featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <PageTransition>
       <div className="min-h-screen flex flex-col">
@@ -63,15 +54,6 @@ const Index = () => {
           primaryButtonUrl={structureData.hero.primaryButtonUrl}
           secondaryButtonText={structureData.hero.secondaryButtonText}
           secondaryButtonUrl={structureData.hero.secondaryButtonUrl}
-        />
-        
-        {/* Scroll indicator */}
-        <ScrollIndicator onClick={scrollToFeatures} />
-        
-        {/* Features Section */}
-        <FeaturesSection 
-          featurePaths={structureData.featurePaths} 
-          featuresSectionRef={featuresRef} 
         />
         
         {/* Documentation Sections */}

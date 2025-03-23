@@ -1,3 +1,4 @@
+
 {
   "hero": {
     "tagline": "Documentation Made Beautiful",
@@ -102,14 +103,6 @@
       "icon": "file",
       "showOnMainPage": false
     }
-  ],
-  "featurePaths": [
-    { "path": "/docs/link-validation" },
-    { "path": "/docs/style-guide" },
-    { "path": "/docs/dictionary-validation" },
-    { "path": "/docs/github-actions" },
-    { "path": "/docs/installation" },
-    { "path": "/docs/configuration" }
   ],
   "community": {
     "title": "Join our community",
