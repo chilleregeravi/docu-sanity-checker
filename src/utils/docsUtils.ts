@@ -1,9 +1,11 @@
+
 import sidebarStructure from '@/docs/structure.json';
 
 interface SidebarItem {
   title: string;
   path: string;
   icon?: string;
+  description?: string;
 }
 
 interface SectionItem extends SidebarItem {
