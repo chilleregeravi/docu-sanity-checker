@@ -23,7 +23,8 @@
     },
     "helpSection": {
       "title": "Need help?",
-      "nextStepsTitle": "Next steps"
+      "nextStepsTitle": "Next steps",
+      "communityLinkFallback": "Join our community"
     }
   },
   "sections": [

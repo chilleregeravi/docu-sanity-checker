@@ -40,6 +40,7 @@ type StructureData = {
     helpSection: {
       title: string;
       nextStepsTitle: string;
+      communityLinkFallback: string;
     };
   };
   features?: {
@@ -172,7 +173,7 @@ const DocsIndex = () => {
             </a>
           ) : (
             <a href="#" className="text-primary inline-flex items-center hover:underline">
-              Join our community <ExternalLink className="h-3 w-3 ml-1" />
+              {structureData.docsIndex.helpSection.communityLinkFallback} <ExternalLink className="h-3 w-3 ml-1" />
             </a>
           )}
         </div>
