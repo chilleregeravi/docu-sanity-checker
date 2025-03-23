@@ -11,7 +11,7 @@ const DocMetadata = ({ publishDate, githubPath = "docs" }: DocMetadataProps) => 
   const repoUrl = `https://github.com/docusanity/documentation/blob/main/${githubPath}`;
   
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 py-3 px-4 bg-muted/40 border rounded-lg mb-6 text-sm">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 py-3 px-4 bg-muted/40 border rounded-lg text-sm">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Calendar className="h-4 w-4" />
         <span>Published: {publishDate}</span>

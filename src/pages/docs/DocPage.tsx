@@ -68,9 +68,6 @@ const DocPage: React.FC = () => {
       {/* Breadcrumb */}
       <DocBreadcrumb title={title} />
 
-      {/* Add DocMetadata component */}
-      <DocMetadata publishDate={publishDate} githubPath={githubPath} />
-
       {/* Conditional Info Blocks */}
       <DocsInfoBlock 
         title="Configuration Best Practices"
@@ -95,6 +92,11 @@ const DocPage: React.FC = () => {
 
       {/* Main Content */}
       <MarkdownRenderer content={content} />
+
+      {/* DocMetadata moved to the bottom, before navigation links */}
+      <div className="mt-12">
+        <DocMetadata publishDate={publishDate} githubPath={githubPath} />
+      </div>
 
       {/* Navigation Links */}
       <DocNavigation prev={prev} next={next} />
