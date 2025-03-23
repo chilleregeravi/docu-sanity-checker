@@ -1,7 +1,8 @@
 
 ---
 date: 2023-08-15
-icon: arrow-right
+order: 3
+icon: settings
 description: "Get detailed reports with actionable recommendations"
 ---
 

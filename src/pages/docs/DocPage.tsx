@@ -7,14 +7,14 @@ import {
   getGitHubPath, 
   normalizeDocPath,
   extractTitle,
-  extractDescription
+  extractDescription,
+  extractFrontmatter
 } from '@/utils/docsUtils';
 import DocMetadata from '@/components/DocMetadata';
 import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
 import DocsInfoBlock from '@/components/docs/DocsInfoBlock';
-import sidebarStructure from '@/docs/structure.json';
 
 const DocPage: React.FC = () => {
   const { '*': path } = useParams();
@@ -25,6 +25,7 @@ const DocPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [publishDate, setPublishDate] = useState<string>('January 1, 2023');
   const [description, setDescription] = useState<string>('');
+  const [frontmatter, setFrontmatter] = useState<Record<string, any>>({});
   
   const normalizedPath = path || 'introduction';
   const githubPath = getGitHubPath(normalizedPath);
@@ -40,10 +41,12 @@ const DocPage: React.FC = () => {
         const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
         const markdownContent = moduleImport.default;
         
-        // Extract title and description from the markdown content
+        // Extract frontmatter, title, and description from the markdown content
+        const extractedFrontmatter = extractFrontmatter(markdownContent);
         const extractedTitle = extractTitle(markdownContent);
         const extractedDescription = extractDescription(markdownContent);
         
+        setFrontmatter(extractedFrontmatter);
         setTitle(extractedTitle);
         setDescription(extractedDescription);
         
@@ -69,10 +72,10 @@ const DocPage: React.FC = () => {
     loadContent();
   }, [normalizedPath]);
 
-  // Determine which info block to show based on the path
-  const showConfigInfo = normalizedPath.includes('configuration');
-  const showInstallationInfo = normalizedPath.includes('installation');
-  const showStyleGuideInfo = normalizedPath.includes('style-guide');
+  // Determine which info block to show based on the path or frontmatter
+  const showConfigInfo = normalizedPath.includes('configuration') || frontmatter.showConfigInfo;
+  const showInstallationInfo = normalizedPath.includes('installation') || frontmatter.showInstallationInfo;
+  const showStyleGuideInfo = normalizedPath.includes('style-guide') || frontmatter.showStyleGuideInfo;
 
   if (loading) {
     return <div className="animate-pulse p-4">Loading documentation...</div>;

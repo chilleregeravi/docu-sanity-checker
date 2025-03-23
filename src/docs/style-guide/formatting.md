@@ -1,4 +1,10 @@
 
+---
+date: 2023-08-10
+order: 2
+icon: file-text
+---
+
 # Formatting Guidelines
 
 Proper formatting enhances readability and ensures a consistent look and feel throughout the documentation. This guide covers formatting rules for DocuSanity documentation.

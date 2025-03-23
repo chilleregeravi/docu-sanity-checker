@@ -1,6 +1,8 @@
 
 ---
 date: 2023-08-05
+order: 1
+icon: edit
 ---
 
 # Writing Rules

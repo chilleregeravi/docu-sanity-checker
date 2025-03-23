@@ -2,27 +2,18 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import sidebarStructure from '@/docs/structure.json';
+import { useSidebarStructure, SidebarItem, SectionItem } from '@/utils/docsUtils';
 import SidebarSection from './sidebar/SidebarSection';
 
-type SidebarItem = {
-  title: string;
-  path: string;
-  icon?: 'file' | 'folder';
-};
-
-type SectionItem = SidebarItem & {
-  items?: SidebarItem[];
-  isExpanded?: boolean;
-};
-
-interface SidebarStructure {
-  sections: SectionItem[];
-}
-
 const DocsSidebar = () => {
-  const [docs, setDocs] = useState<SectionItem[]>((sidebarStructure as SidebarStructure).sections);
+  const sidebar = useSidebarStructure();
+  const [docs, setDocs] = useState<SectionItem[]>(sidebar.sections);
   const location = useLocation();
+
+  // Update docs when sidebar structure changes
+  useEffect(() => {
+    setDocs(sidebar.sections);
+  }, [sidebar]);
 
   useEffect(() => {
     // Expand the section that contains the current path
@@ -44,7 +35,7 @@ const DocsSidebar = () => {
     };
     
     expandCurrentSection();
-  }, [location.pathname]);
+  }, [location.pathname, docs]);
 
   const toggleExpand = (index: number) => {
     const newDocs = [...docs];
