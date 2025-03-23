@@ -2,7 +2,8 @@
 import sidebarStructure from '@/docs/structure.json';
 import { useEffect, useState } from 'react';
 
-interface SidebarItem {
+// Export these interfaces so they can be imported in other files
+export interface SidebarItem {
   title: string;
   path: string;
   icon?: string;
@@ -10,7 +11,7 @@ interface SidebarItem {
   order?: number;
 }
 
-interface SectionItem extends SidebarItem {
+export interface SectionItem extends SidebarItem {
   items?: SidebarItem[];
   isExpanded?: boolean;
 }
