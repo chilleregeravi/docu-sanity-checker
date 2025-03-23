@@ -9,6 +9,8 @@ description: "Run validation checks locally during development"
 
 Setting up DocuSanity is simple and only takes a few minutes. Follow the steps below to get started.
 
+> **Tip:** When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility.
+
 ## Prerequisites
 
 Before installing DocuSanity, make sure you have the following:

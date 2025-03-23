@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { 
@@ -67,7 +68,6 @@ const DocPage: React.FC = () => {
   }, [normalizedPath]);
 
   const showConfigInfo = normalizedPath.includes('configuration') || frontmatter.showConfigInfo;
-  const showInstallationInfo = normalizedPath.includes('installation') || frontmatter.showInstallationInfo;
   const showStyleGuideInfo = normalizedPath.includes('style-guide') || frontmatter.showStyleGuideInfo;
 
   if (loading) {
@@ -82,12 +82,6 @@ const DocPage: React.FC = () => {
         <DocsAlert variant="info" title="Configuration Best Practices">
           It's recommended to keep your configuration file in the root of your project and version it with your code. 
           This ensures that everyone on your team uses the same configuration.
-        </DocsAlert>
-      )}
-      
-      {showInstallationInfo && (
-        <DocsAlert variant="tip" title="Installation Notes">
-          When installing DocuSanity, make sure you have the latest Node.js version for optimal performance and compatibility.
         </DocsAlert>
       )}
       
