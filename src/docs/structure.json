@@ -1,5 +1,14 @@
 
 {
+  "hero": {
+    "tagline": "Documentation Made Beautiful",
+    "title": "Create Beautiful Docs with Automated Validation",
+    "description": "Build stunning documentation websites with built-in GitHub actions that check for broken links, validate against custom dictionaries, and enforce your style guide.",
+    "primaryButtonText": "Get Started",
+    "primaryButtonUrl": "/docs",
+    "secondaryButtonText": "View on GitHub",
+    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
+  },
   "sections": [
     {
       "title": "Getting Started",
@@ -7,6 +16,7 @@
       "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
       "icon": "folder",
       "isExpanded": true,
+      "showOnMainPage": true,
       "items": [
         { "title": "Introduction", "path": "/docs", "description": "Learn about DocuSanity and how to use it in your documentation." },
         { "title": "Installation", "path": "/docs/installation", "description": "Install DocuSanity in your project and set up your environment." },
@@ -18,6 +28,7 @@
       "path": "/docs/style-guide",
       "description": "Ensure consistent writing style across all documentation.",
       "icon": "folder",
+      "showOnMainPage": true,
       "items": [
         { "title": "Overview", "path": "/docs/style-guide", "description": "Learn about style guide enforcement and how to use it in your documentation." },
         { "title": "Writing Rules", "path": "/docs/style-guide/writing-rules", "description": "Explore the writing rules that DocuSanity enforces." },
@@ -29,6 +40,7 @@
       "path": "/docs/link-validation",
       "description": "Automatically detect and report broken links in your documentation.",
       "icon": "folder",
+      "showOnMainPage": true,
       "items": [
         { "title": "Overview", "path": "/docs/link-validation", "description": "Learn about link validation and how to use it in your documentation." },
         { "title": "Setting Up Checks", "path": "/docs/link-validation/setup", "description": "Configure link checking for your documentation." },
@@ -40,6 +52,7 @@
       "path": "/docs/dictionary-validation",
       "description": "Ensure consistent terminology using custom dictionaries.",
       "icon": "folder",
+      "showOnMainPage": true,
       "items": [
         { "title": "Overview", "path": "/docs/dictionary-validation", "description": "Learn about dictionary validation and how to use it in your documentation." },
         { "title": "Custom Dictionaries", "path": "/docs/dictionary-validation/custom", "description": "Create and manage custom terminology dictionaries." },
@@ -51,6 +64,7 @@
       "path": "/docs/github-actions",
       "description": "Seamlessly integrate validation into your CI/CD workflow.",
       "icon": "folder",
+      "showOnMainPage": true,
       "items": [
         { "title": "Overview", "path": "/docs/github-actions", "description": "Learn about GitHub Actions integration and how to use it in your documentation." },
         { "title": "Setting Up Workflows", "path": "/docs/github-actions/workflows", "description": "Configure GitHub workflow for documentation validation." },
@@ -61,18 +75,20 @@
       "title": "Contributing",
       "path": "/docs/contributing",
       "description": "Guidelines for contributing to DocuSanity.",
-      "icon": "file"
+      "icon": "file",
+      "showOnMainPage": false
     },
     {
       "title": "FAQ",
       "path": "/docs/faq",
       "description": "Frequently asked questions about DocuSanity.",
-      "icon": "file"
+      "icon": "file",
+      "showOnMainPage": false
     }
   ],
   "features": [
     {
-      "title": "Link Validation",
+      "title": "Broken Link Detection",
       "description": "Automatically detect and fix broken links in your documentation.",
       "icon": "zap"
     },
@@ -85,6 +101,21 @@
       "title": "Dictionary Validation", 
       "description": "Validate technical terms against custom dictionaries.",
       "icon": "shield"
+    },
+    {
+      "title": "GitHub Actions Integration",
+      "description": "Seamlessly integrate validation into your CI/CD workflow.",
+      "icon": "github"
+    },
+    {
+      "title": "Command Line Interface",
+      "description": "Run validation checks locally during development.",
+      "icon": "terminal-square"
+    },
+    {
+      "title": "Detailed Reports",
+      "description": "Get detailed reports with actionable recommendations.",
+      "icon": "arrow-right"
     }
   ],
   "community": {

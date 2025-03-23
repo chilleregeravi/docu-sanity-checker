@@ -6,45 +6,55 @@ import { ArrowRight, Check, Github, Zap, Shield, SquareTerminal } from 'lucide-r
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
+import sidebarStructure from '@/docs/structure.json';
 
-const features = [
-  {
-    title: 'Broken Link Detection',
-    description: 'Automatically detect and fix broken links in your documentation.',
-    icon: <Zap className="h-6 w-6 text-primary" />,
-  },
-  {
-    title: 'Style Guide Enforcement',
-    description: 'Ensure consistent writing style across all documentation.',
-    icon: <Check className="h-6 w-6 text-primary" />,
-  },
-  {
-    title: 'Dictionary Validation',
-    description: 'Validate technical terms against custom dictionaries.',
-    icon: <Shield className="h-6 w-6 text-primary" />,
-  },
-  {
-    title: 'GitHub Actions Integration',
-    description: 'Seamlessly integrate validation into your CI/CD workflow.',
-    icon: <Github className="h-6 w-6 text-primary" />,
-  },
-  {
-    title: 'Command Line Interface',
-    description: 'Run validation checks locally during development.',
-    icon: <SquareTerminal className="h-6 w-6 text-primary" />,
-  },
-  {
-    title: 'Detailed Reports',
-    description: 'Get detailed reports with actionable recommendations.',
-    icon: <ArrowRight className="h-6 w-6 text-primary" />,
-  },
-];
+type StructureData = {
+  hero: {
+    tagline: string;
+    title: string;
+    description: string;
+    primaryButtonText: string;
+    primaryButtonUrl: string;
+    secondaryButtonText: string;
+    secondaryButtonUrl: string;
+  };
+  sections: Array<{
+    title: string;
+    path: string;
+    description: string;
+    icon: string;
+    showOnMainPage?: boolean;
+    items?: Array<{
+      title: string;
+      path: string;
+      description: string;
+    }>;
+  }>;
+  features: Array<{
+    title: string;
+    description: string;
+    icon: string;
+  }>;
+};
 
 const Index = () => {
+  const structureData = sidebarStructure as StructureData;
   const featuresRef = useRef<HTMLDivElement>(null);
   
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Get the icon component based on name
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'zap': return <Zap className="h-6 w-6 text-primary" />;
+      case 'check': return <Check className="h-6 w-6 text-primary" />;
+      case 'shield': return <Shield className="h-6 w-6 text-primary" />;
+      case 'github': return <Github className="h-6 w-6 text-primary" />;
+      case 'terminal-square': return <SquareTerminal className="h-6 w-6 text-primary" />;
+      default: return <ArrowRight className="h-6 w-6 text-primary" />;
+    }
   };
 
   return (
@@ -52,40 +62,43 @@ const Index = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
         
-        {/* Hero Section - Updated top padding to prevent overlap with header */}
+        {/* Hero Section - Now using data from structure.json */}
         <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10" />
           <div className="max-w-7xl mx-auto text-center relative">
             <div className="inline-block animate-fadeIn">
               <span className="px-4 py-1.5 text-xs font-semibold rounded-full bg-primary/10 text-primary inline-block mb-6">
-                Documentation Made Beautiful
+                {structureData.hero.tagline}
               </span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade leading-tight">
-              Create Beautiful Docs <br className="hidden md:block" />
-              <span className="text-gradient">with Automated Validation</span>
+              {structureData.hero.title.split(' with ')[0]} <br className="hidden md:block" />
+              <span className="text-gradient">with {structureData.hero.title.split(' with ')[1]}</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 animate-slideUpAndFade" style={{ animationDelay: '100ms' }}>
-              Build stunning documentation websites with built-in GitHub actions that check for broken links,
-              validate against custom dictionaries, and enforce your style guide.
+              {structureData.hero.description}
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slideUpAndFade" style={{ animationDelay: '200ms' }}>
-              <Button size="lg" className="rounded-md px-8 w-full sm:w-auto shadow-sm hover:shadow-md transition-all">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="lg" className="rounded-md px-8 w-full sm:w-auto">
-                View on GitHub
-                <Github className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to={structureData.hero.primaryButtonUrl}>
+                <Button size="lg" className="rounded-md px-8 w-full sm:w-auto shadow-sm hover:shadow-md transition-all">
+                  {structureData.hero.primaryButtonText}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <a href={structureData.hero.secondaryButtonUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="lg" className="rounded-md px-8 w-full sm:w-auto">
+                  {structureData.hero.secondaryButtonText}
+                  <Github className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
             </div>
           </div>
         </section>
         
-        {/* Moved the scroll indicator to fixed position at bottom center of viewport */}
+        {/* Scroll indicator */}
         <div 
           className="hidden md:flex fixed bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce cursor-pointer"
           onClick={scrollToFeatures}
@@ -103,7 +116,7 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Features Section - Added ref for scroll target */}
+        {/* Features Section - Using features from structure.json */}
         <section ref={featuresRef} className="py-16 md:py-24 px-6 md:px-10 bg-secondary relative">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
@@ -114,18 +127,48 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
+              {structureData.features.map((feature, index) => (
                 <div 
                   key={index} 
                   className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group"
                 >
                   <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                    {feature.icon}
+                    {getIconComponent(feature.icon)}
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+        
+        {/* Documentation Sections - Show only those with showOnMainPage flag */}
+        <section className="py-16 md:py-24 px-6 md:px-10">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Documentation</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Explore our comprehensive guides and learn how to get the most out of DocuSanity.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {structureData.sections
+                .filter(section => section.showOnMainPage)
+                .map((section, index) => (
+                  <Link 
+                    to={section.path} 
+                    key={index} 
+                    className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group"
+                  >
+                    <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">{section.title}</h3>
+                    <p className="text-muted-foreground mb-4">{section.description}</p>
+                    <div className="flex items-center text-primary text-sm font-medium">
+                      Explore <ArrowRight className="ml-1 h-4 w-4" />
+                    </div>
+                  </Link>
+                ))}
             </div>
           </div>
         </section>
@@ -145,13 +188,17 @@ const Index = () => {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-                <Button size="lg" variant="secondary" className="rounded-md px-8 shadow-sm">
-                  View Documentation
-                </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
-                  <Github className="mr-2 h-5 w-5" />
-                  GitHub
-                </Button>
+                <Link to="/docs">
+                  <Button size="lg" variant="secondary" className="rounded-md px-8 shadow-sm">
+                    View Documentation
+                  </Button>
+                </Link>
+                <a href={structureData.community.url} target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
+                    <Github className="mr-2 h-5 w-5" />
+                    GitHub
+                  </Button>
+                </a>
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ type Section = {
   path: string;
   description?: string;
   icon?: string;
+  showOnMainPage?: boolean;
   items?: Array<{
     title: string;
     path: string;
