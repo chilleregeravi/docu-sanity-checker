@@ -1,4 +1,4 @@
-import{r as a,e as $,a as et,G as Qt,R as Jt}from"./vendor-D6KRw0q9.js";var tt={exports:{}},le={};/**
+import{r as a,e as $,a as et,G as Qt,R as Jt}from"./vendor-C2YVIcsF.js";var tt={exports:{}},le={};/**
  * @license React
  * react-jsx-runtime.production.min.js
  *
@@ -51,4 +51,4 @@ import{r as a,e as $,a as et,G as Qt,R as Jt}from"./vendor-D6KRw0q9.js";var tt={
 If you want to hide the \`${t.titleName}\`, you can wrap it with our VisuallyHidden component.
 
 For more information, see https://radix-ui.com/primitives/docs/components/${t.docsSlug}`;return a.useEffect(()=>{e&&(document.getElementById(e)||console.error(n))},[n,e]),null},Qr="DialogDescriptionWarning",Jr=({contentRef:e,descriptionId:t})=>{const r=`Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${zt(Qr).contentName}}.`;return a.useEffect(()=>{var s;const o=(s=e.current)==null?void 0:s.getAttribute("aria-describedby");t&&o&&(document.getElementById(t)||console.warn(r))},[r,e,t]),null},vo=Lt,po=kt,mo=Wt,ho=$t,go=Bt,Eo=Vt,yo=Ht,wo=Xt;export{co as A,uo as C,io as D,ho as O,ro as P,so as R,ln as S,ao as T,oo as V,N as a,_ as b,I as c,ot as d,R as e,Z as f,Oe as g,to as h,z as i,p as j,go as k,wo as l,Eo as m,yo as n,mo as o,vo as p,po as q,q as u};
-//# sourceMappingURL=ui-aqHDCds1.js.map
+//# sourceMappingURL=ui-ntbdYQ1A.js.map
