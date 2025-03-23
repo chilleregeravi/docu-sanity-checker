@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink, Github } from 'lucide-react';
+import { ArrowRight, ExternalLink, Github, Check, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Markdown from 'react-markdown';
@@ -12,24 +12,54 @@ import sidebarStructure from '@/docs/structure.json';
 type Section = {
   title: string;
   path: string;
+  description?: string;
   icon?: string;
   items?: Array<{
     title: string;
     path: string;
+    description?: string;
     icon?: string;
   }>;
 };
 
+type StructureData = {
+  sections: Section[];
+  features?: {
+    title: string;
+    description: string;
+    icon: string;
+  }[];
+  community?: {
+    title: string;
+    url: string;
+  };
+};
+
 const DocsIndex = () => {
   // Get the first three main sections from structure.json to feature on the index page
-  const featuredSections = (sidebarStructure.sections as Section[]).slice(0, 3);
+  const structureData = sidebarStructure as StructureData;
+  const featuredSections = structureData.sections.slice(0, 3);
+  const validationSections = structureData.sections.filter(section => 
+    ['Link Validation', 'Dictionary Validation', 'Style Guide'].includes(section.title)
+  );
+  
+  // Function to get icon component by name
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'zap': return <Zap className="h-5 w-5 text-primary" />;
+      case 'check': return <Check className="h-5 w-5 text-primary" />;
+      case 'shield': return <Shield className="h-5 w-5 text-primary" />;
+      default: return <ArrowRight className="h-5 w-5 text-primary" />;
+    }
+  };
   
   return (
     <div className="square-docs-container animate-fadeIn space-y-8">
       <div>
         <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">Introduction</h1>
         <p className="text-xl text-muted-foreground mb-6">
-          Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.
+          {structureData.sections[0]?.description || 
+           "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics."}
         </p>
         <DocMetadata publishDate="June 15, 2023" githubPath="introduction.md" />
       </div>
@@ -56,7 +86,7 @@ const DocsIndex = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Learn about {section.title.toLowerCase()} and how to use it in your documentation.
+                    {section.items[0].description || `Learn about ${section.title.toLowerCase()} and how to use it in your documentation.`}
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -79,28 +109,24 @@ const DocsIndex = () => {
         </p>
 
         <ul className="mt-6 space-y-4">
-          {sidebarStructure.sections
-            .filter(section => ['Link Validation', 'Dictionary Validation', 'Style Guide'].includes(section.title))
-            .map((section, index) => (
-              <li key={index} className="flex gap-4 p-4 rounded-lg border border-border/50 bg-card hover:shadow-sm transition-shadow">
-                <div className="flex-shrink-0 h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
-                  <svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
-                    <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium">{section.title}</h3>
-                  <p className="text-muted-foreground mt-1">
-                    {section.title === 'Link Validation' && 'Automatically detect and report broken links in your documentation.'}
-                    {section.title === 'Dictionary Validation' && 'Ensure consistent terminology using custom dictionaries.'}
-                    {section.title === 'Style Guide' && 'Enforce consistent writing style across your documentation.'}
-                    <Link to={section.path} className="text-primary ml-1 inline-flex items-center hover:underline text-sm">
-                      Learn more<ArrowRight className="h-3 w-3 ml-1" />
-                    </Link>
-                  </p>
-                </div>
-              </li>
-            ))}
+          {validationSections.map((section, index) => (
+            <li key={index} className="flex gap-4 p-4 rounded-lg border border-border/50 bg-card hover:shadow-sm transition-shadow">
+              <div className="flex-shrink-0 h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+                <svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+                  <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium">{section.title}</h3>
+                <p className="text-muted-foreground mt-1">
+                  {section.description}
+                  <Link to={section.path} className="text-primary ml-1 inline-flex items-center hover:underline text-sm">
+                    Learn more<ArrowRight className="h-3 w-3 ml-1" />
+                  </Link>
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -121,18 +147,24 @@ const DocsIndex = () => {
       <div className="flex items-center justify-between mt-10 pt-6 border-t text-sm">
         <div>
           <p className="text-muted-foreground">Need help?</p>
-          <a href="#" className="text-primary inline-flex items-center hover:underline">
-            Join our community <ExternalLink className="h-3 w-3 ml-1" />
-          </a>
+          {structureData.community ? (
+            <a href={structureData.community.url} className="text-primary inline-flex items-center hover:underline" target="_blank" rel="noopener noreferrer">
+              {structureData.community.title} <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          ) : (
+            <a href="#" className="text-primary inline-flex items-center hover:underline">
+              Join our community <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          )}
         </div>
         <div className="text-right">
           <p className="text-muted-foreground">Next steps</p>
-          {sidebarStructure.sections?.[0]?.items?.[1]?.path && (
+          {structureData.sections?.[0]?.items?.[1]?.path && (
             <Link 
-              to={sidebarStructure.sections[0].items[1].path} 
+              to={structureData.sections[0].items[1].path} 
               className="text-primary inline-flex items-center hover:underline"
             >
-              {sidebarStructure.sections[0].items[1].title} <ArrowRight className="h-3 w-3 ml-1" />
+              {structureData.sections[0].items[1].title} <ArrowRight className="h-3 w-3 ml-1" />
             </Link>
           )}
         </div>
