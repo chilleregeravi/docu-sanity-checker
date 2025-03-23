@@ -108,32 +108,38 @@
     {
       "title": "Broken Link Detection",
       "description": "Automatically detect and fix broken links in your documentation.",
-      "icon": "zap"
+      "icon": "zap",
+      "path": "/docs/link-validation"
     },
     {
       "title": "Style Guide Enforcement",
       "description": "Ensure consistent writing style across all documentation.",
-      "icon": "check"
+      "icon": "check",
+      "path": "/docs/style-guide"
     },
     {
       "title": "Dictionary Validation", 
       "description": "Validate technical terms against custom dictionaries.",
-      "icon": "shield"
+      "icon": "shield",
+      "path": "/docs/dictionary-validation"
     },
     {
       "title": "GitHub Actions Integration",
       "description": "Seamlessly integrate validation into your CI/CD workflow.",
-      "icon": "github"
+      "icon": "github",
+      "path": "/docs/github-actions"
     },
     {
       "title": "Command Line Interface",
       "description": "Run validation checks locally during development.",
-      "icon": "terminal-square"
+      "icon": "terminal-square",
+      "path": "/docs/installation"
     },
     {
       "title": "Detailed Reports",
       "description": "Get detailed reports with actionable recommendations.",
-      "icon": "arrow-right"
+      "icon": "arrow-right",
+      "path": "/docs/configuration"
     }
   ],
   "community": {

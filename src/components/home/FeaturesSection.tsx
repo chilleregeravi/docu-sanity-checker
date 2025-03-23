@@ -6,6 +6,7 @@ interface Feature {
   title: string;
   description: string;
   icon: string;
+  path?: string;
 }
 
 interface FeaturesSectionProps {
@@ -31,6 +32,7 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, featuresSec
               title={feature.title}
               description={feature.description}
               icon={feature.icon}
+              path={feature.path}
             />
           ))}
         </div>
