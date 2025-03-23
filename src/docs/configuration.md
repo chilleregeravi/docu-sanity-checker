@@ -1,6 +1,8 @@
 
 ---
 date: 2023-08-15
+icon: arrow-right
+description: "Get detailed reports with actionable recommendations"
 ---
 
 # Configuration

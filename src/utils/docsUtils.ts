@@ -1,4 +1,3 @@
-
 import sidebarStructure from '@/docs/structure.json';
 
 interface SidebarItem {
@@ -105,4 +104,55 @@ export const normalizeDocPath = (path: string): string => {
   }
   
   return normalizedPath;
+};
+
+/**
+ * Extract feature metadata from markdown content
+ */
+export const extractFeatureMetadata = (markdown: string, path: string): {
+  title: string;
+  description: string;
+  icon: string;
+  path: string;
+} | null => {
+  // Extract title from first heading
+  const titleMatch = markdown.match(/^# (.*)/m);
+  
+  // Extract frontmatter
+  const frontmatterMatch = markdown.match(/^---\s+([\s\S]*?)\s+---/);
+  
+  if (!titleMatch) return null;
+  
+  let icon = 'arrow-right'; // Default icon
+  let description = '';
+  
+  // Extract description from the first paragraph after the title
+  const descriptionMatch = markdown.match(/^# .*\n\n(.*)/m);
+  if (descriptionMatch) {
+    description = descriptionMatch[1];
+  }
+  
+  // Check for icon in frontmatter if available
+  if (frontmatterMatch) {
+    const frontmatter = frontmatterMatch[1];
+    const iconMatch = frontmatter.match(/icon:\s*([a-z-]+)/);
+    if (iconMatch) {
+      icon = iconMatch[1];
+    }
+    
+    // If no description from first paragraph, check frontmatter
+    if (!description) {
+      const descriptionFrontmatterMatch = frontmatter.match(/description:\s*"(.*)"/);
+      if (descriptionFrontmatterMatch) {
+        description = descriptionFrontmatterMatch[1];
+      }
+    }
+  }
+  
+  return {
+    title: titleMatch[1],
+    description: description.substring(0, 120) + (description.length > 120 ? '...' : ''),
+    icon,
+    path
+  };
 };

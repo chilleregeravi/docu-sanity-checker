@@ -32,10 +32,8 @@ type StructureData = {
       description: string;
     }>;
   }>;
-  features: Array<{
-    title: string;
-    description: string;
-    icon: string;
+  featurePaths: Array<{
+    path: string;
   }>;
   community?: {
     title: string;
@@ -72,7 +70,7 @@ const Index = () => {
         
         {/* Features Section */}
         <FeaturesSection 
-          features={structureData.features} 
+          featurePaths={structureData.featurePaths} 
           featuresSectionRef={featuresRef} 
         />
         

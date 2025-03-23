@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Shield, Github, Zap, SquareTerminal, ArrowRight } from 'lucide-react';
@@ -6,7 +7,7 @@ interface FeatureCardProps {
   title: string;
   description: string;
   icon: string;
-  path?: string;  // Optional path to the documentation page
+  path: string;  // Path to the documentation page
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, path }) => {
@@ -22,36 +23,17 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, pat
     }
   };
 
-  // Wrap card content based on whether we have a path or not
-  const CardContent = () => (
-    <>
+  return (
+    <Link to={path} className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group block">
       <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
         {getIconComponent(icon)}
       </div>
       <h3 className="text-xl font-semibold mb-3">{title}</h3>
       <p className="text-muted-foreground mb-3">{description}</p>
-      {path && (
-        <div className="flex items-center text-primary text-sm font-medium">
-          Learn more <ArrowRight className="ml-1 h-4 w-4" />
-        </div>
-      )}
-    </>
-  );
-
-  // If we have a path, make the card a Link
-  if (path) {
-    return (
-      <Link to={path} className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group block">
-        <CardContent />
-      </Link>
-    );
-  }
-
-  // Otherwise return a regular div
-  return (
-    <div className="bg-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border hover:border-primary/20 group">
-      <CardContent />
-    </div>
+      <div className="flex items-center text-primary text-sm font-medium">
+        Learn more <ArrowRight className="ml-1 h-4 w-4" />
+      </div>
+    </Link>
   );
 };
 

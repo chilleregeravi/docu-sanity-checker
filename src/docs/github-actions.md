@@ -1,6 +1,8 @@
 
 ---
 date: 2023-09-05
+icon: github
+description: "Seamlessly integrate validation into your CI/CD workflow"
 ---
 
 # GitHub Actions Overview

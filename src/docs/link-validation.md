@@ -1,4 +1,10 @@
 
+---
+date: 2023-08-10
+icon: zap
+description: "Automatically detect and report broken links in your documentation"
+---
+
 # Link Validation
 
 Broken links in documentation frustrate users and diminish trust in your content. DocuSanity's link validation feature automatically detects and reports broken links in your documentation.

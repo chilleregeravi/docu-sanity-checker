@@ -1,6 +1,8 @@
 
 ---
 date: 2023-07-15
+icon: terminal-square
+description: "Run validation checks locally during development"
 ---
 
 # Installation

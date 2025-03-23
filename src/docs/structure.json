@@ -1,4 +1,3 @@
-
 {
   "hero": {
     "tagline": "Documentation Made Beautiful",
@@ -104,43 +103,13 @@
       "showOnMainPage": false
     }
   ],
-  "features": [
-    {
-      "title": "Broken Link Detection",
-      "description": "Automatically detect and fix broken links in your documentation.",
-      "icon": "zap",
-      "path": "/docs/link-validation"
-    },
-    {
-      "title": "Style Guide Enforcement",
-      "description": "Ensure consistent writing style across all documentation.",
-      "icon": "check",
-      "path": "/docs/style-guide"
-    },
-    {
-      "title": "Dictionary Validation", 
-      "description": "Validate technical terms against custom dictionaries.",
-      "icon": "shield",
-      "path": "/docs/dictionary-validation"
-    },
-    {
-      "title": "GitHub Actions Integration",
-      "description": "Seamlessly integrate validation into your CI/CD workflow.",
-      "icon": "github",
-      "path": "/docs/github-actions"
-    },
-    {
-      "title": "Command Line Interface",
-      "description": "Run validation checks locally during development.",
-      "icon": "terminal-square",
-      "path": "/docs/installation"
-    },
-    {
-      "title": "Detailed Reports",
-      "description": "Get detailed reports with actionable recommendations.",
-      "icon": "arrow-right",
-      "path": "/docs/configuration"
-    }
+  "featurePaths": [
+    { "path": "/docs/link-validation" },
+    { "path": "/docs/style-guide" },
+    { "path": "/docs/dictionary-validation" },
+    { "path": "/docs/github-actions" },
+    { "path": "/docs/installation" },
+    { "path": "/docs/configuration" }
   ],
   "community": {
     "title": "Join our community",
