@@ -57,6 +57,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             );
             
             let variant: 'info' | 'warning' | 'success' | 'tip' | 'note' = 'info';
+            let customTitle: string | undefined = undefined;
             let content = children;
             
             if (firstParagraph && React.isValidElement(firstParagraph)) {
@@ -81,7 +82,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               
               // If we detected a special blockquote, return our custom component
               if (variant) {
-                return <DocsAlert variant={variant}>{content}</DocsAlert>;
+                return <DocsAlert variant={variant} hideDefaultTitle={true}>{content}</DocsAlert>;
               }
             }
             

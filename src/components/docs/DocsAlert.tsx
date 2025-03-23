@@ -11,6 +11,7 @@ interface DocsAlertProps {
   children: React.ReactNode;
   variant?: AlertVariant;
   className?: string;
+  hideDefaultTitle?: boolean;
 }
 
 const DocsAlert: React.FC<DocsAlertProps> = ({
@@ -18,6 +19,7 @@ const DocsAlert: React.FC<DocsAlertProps> = ({
   children,
   variant = 'info',
   className,
+  hideDefaultTitle = false,
 }) => {
   const getVariantStyles = (): string => {
     switch (variant) {
@@ -70,9 +72,9 @@ const DocsAlert: React.FC<DocsAlertProps> = ({
   return (
     <Alert className={cn(getVariantStyles(), 'my-6', className)}>
       {getIcon()}
-      {title && (
+      {!hideDefaultTitle && (title || (!hideDefaultTitle && !title)) && (
         <AlertTitle className="font-medium">
-          {title}
+          {title || getDefaultTitle()}
         </AlertTitle>
       )}
       <AlertDescription className="mt-1">{children}</AlertDescription>
