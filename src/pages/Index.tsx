@@ -35,6 +35,10 @@ type StructureData = {
     description: string;
     icon: string;
   }>;
+  community?: {
+    title: string;
+    url: string;
+  };
 };
 
 const Index = () => {
@@ -193,12 +197,14 @@ const Index = () => {
                     View Documentation
                   </Button>
                 </Link>
-                <a href={structureData.community.url} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
-                    <Github className="mr-2 h-5 w-5" />
-                    GitHub
-                  </Button>
-                </a>
+                {structureData.community && (
+                  <a href={structureData.community.url} target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
+                      <Github className="mr-2 h-5 w-5" />
+                      GitHub
+                    </Button>
+                  </a>
+                )}
               </div>
             </div>
           </div>
