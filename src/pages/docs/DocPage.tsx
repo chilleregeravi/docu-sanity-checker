@@ -1,12 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { getNavigationLinks, extractPublishDate, getGitHubPath, normalizeDocPath } from '@/utils/docsUtils';
+import { 
+  getNavigationLinks, 
+  extractPublishDate, 
+  getGitHubPath, 
+  normalizeDocPath,
+  extractTitle,
+  extractDescription
+} from '@/utils/docsUtils';
 import DocMetadata from '@/components/DocMetadata';
 import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
 import DocsInfoBlock from '@/components/docs/DocsInfoBlock';
+import sidebarStructure from '@/docs/structure.json';
 
 const DocPage: React.FC = () => {
   const { '*': path } = useParams();
@@ -16,6 +24,7 @@ const DocPage: React.FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [publishDate, setPublishDate] = useState<string>('January 1, 2023');
+  const [description, setDescription] = useState<string>('');
   
   const normalizedPath = path || 'introduction';
   const githubPath = getGitHubPath(normalizedPath);
@@ -31,21 +40,27 @@ const DocPage: React.FC = () => {
         const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
         const markdownContent = moduleImport.default;
         
-        // Extract title from the first heading after frontmatter
-        const contentWithoutFrontmatter = markdownContent.replace(/^---[\s\S]+?---\s*/m, '');
-        const titleMatch = contentWithoutFrontmatter.match(/^# (.*)/m);
-        setTitle(titleMatch ? titleMatch[1] : normalizedPath);
+        // Extract title and description from the markdown content
+        const extractedTitle = extractTitle(markdownContent);
+        const extractedDescription = extractDescription(markdownContent);
+        
+        setTitle(extractedTitle);
+        setDescription(extractedDescription);
         
         // Extract publish date from frontmatter
         setPublishDate(extractPublishDate(markdownContent));
         
         setContent(markdownContent);
         setError(false);
+        
+        // Update document title
+        document.title = `${extractedTitle} | DocuSanity`;
       } catch (e) {
         console.error("Failed to load markdown:", e);
         setError(true);
         setTitle('Not Found');
         setContent('# Page Not Found\n\nThe requested documentation page could not be found.');
+        document.title = "Page Not Found | DocuSanity";
       } finally {
         setLoading(false);
       }
