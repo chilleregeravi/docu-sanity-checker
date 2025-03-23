@@ -57,7 +57,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             );
             
             let variant: 'info' | 'warning' | 'success' | 'tip' | 'note' = 'info';
-            let customTitle: string | undefined = undefined;
             let content = children;
             
             if (firstParagraph && React.isValidElement(firstParagraph)) {
