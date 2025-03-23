@@ -25,6 +25,23 @@ type Section = {
 
 type StructureData = {
   sections: Section[];
+  docsIndex: {
+    title: string;
+    description: string;
+    validationFeatures: {
+      title: string;
+      description: string;
+    };
+    githubActions: {
+      title: string;
+      description: string;
+      buttonText: string;
+    };
+    helpSection: {
+      title: string;
+      nextStepsTitle: string;
+    };
+  };
   features?: {
     title: string;
     description: string;
@@ -57,10 +74,9 @@ const DocsIndex = () => {
   return (
     <div className="square-docs-container animate-fadeIn space-y-8">
       <div>
-        <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">Introduction</h1>
+        <h1 className="font-heading text-4xl font-bold tracking-tight mb-4">{structureData.docsIndex.title}</h1>
         <p className="text-xl text-muted-foreground mb-6">
-          {structureData.sections[0]?.description || 
-           "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics."}
+          {structureData.docsIndex.description}
         </p>
         <DocMetadata publishDate="June 15, 2023" githubPath="introduction.md" />
       </div>
@@ -104,9 +120,11 @@ const DocsIndex = () => {
       </div>
 
       <div className="space-y-4 mt-10">
-        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">Validation Features</h2>
+        <h2 className="text-2xl font-heading font-semibold border-b pb-2 border-border/50">
+          {structureData.docsIndex.validationFeatures.title}
+        </h2>
         <p>
-          DocuSanity comes with powerful validation tools to ensure your documentation is accurate, consistent, and follows best practices.
+          {structureData.docsIndex.validationFeatures.description}
         </p>
 
         <ul className="mt-6 space-y-4">
@@ -132,14 +150,14 @@ const DocsIndex = () => {
       </div>
 
       <div className="mt-10 pt-6 border-t">
-        <h2 className="text-2xl font-heading font-semibold mb-4">GitHub Actions Integration</h2>
+        <h2 className="text-2xl font-heading font-semibold mb-4">{structureData.docsIndex.githubActions.title}</h2>
         <p className="mb-4">
-          DocuSanity seamlessly integrates with GitHub Actions to automate validation checks as part of your CI/CD pipeline.
+          {structureData.docsIndex.githubActions.description}
         </p>
         <Link to="/docs/github-actions">
           <Button className="gap-2">
             <Github className="h-4 w-4" />
-            GitHub Actions Setup
+            {structureData.docsIndex.githubActions.buttonText}
             <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
@@ -147,7 +165,7 @@ const DocsIndex = () => {
 
       <div className="flex items-center justify-between mt-10 pt-6 border-t text-sm">
         <div>
-          <p className="text-muted-foreground">Need help?</p>
+          <p className="text-muted-foreground">{structureData.docsIndex.helpSection.title}</p>
           {structureData.community ? (
             <a href={structureData.community.url} className="text-primary inline-flex items-center hover:underline" target="_blank" rel="noopener noreferrer">
               {structureData.community.title} <ExternalLink className="h-3 w-3 ml-1" />
@@ -159,7 +177,7 @@ const DocsIndex = () => {
           )}
         </div>
         <div className="text-right">
-          <p className="text-muted-foreground">Next steps</p>
+          <p className="text-muted-foreground">{structureData.docsIndex.helpSection.nextStepsTitle}</p>
           {structureData.sections?.[0]?.items?.[1]?.path && (
             <Link 
               to={structureData.sections[0].items[1].path} 
