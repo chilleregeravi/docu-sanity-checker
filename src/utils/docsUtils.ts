@@ -1,4 +1,3 @@
-
 import sidebarStructure from '@/docs/structure.json';
 import { useEffect, useState } from 'react';
 
@@ -6,7 +5,7 @@ import { useEffect, useState } from 'react';
 export interface SidebarItem {
   title: string;
   path: string;
-  icon?: string;
+  icon?: 'file' | 'folder';  // Changed from string to specific literal types
   description?: string;
   order?: number;
 }
@@ -192,9 +191,10 @@ export const extractOrder = (markdown: string): number => {
 /**
  * Extract icon from markdown frontmatter
  */
-export const extractIcon = (markdown: string): string => {
+export const extractIcon = (markdown: string): 'file' | 'folder' => {
   const frontmatter = extractFrontmatter(markdown);
-  return frontmatter.icon || 'file'; // Default icon if none specified
+  const icon = frontmatter.icon as 'file' | 'folder';
+  return icon === 'folder' ? 'folder' : 'file'; // Default to 'file' if invalid or not specified
 };
 
 /**

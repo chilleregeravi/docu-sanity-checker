@@ -5,21 +5,10 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import SidebarItem from './SidebarItem';
 import { Link } from 'react-router-dom';
-
-type SidebarSectionItemType = {
-  title: string;
-  path: string;
-  icon?: 'file' | 'folder';
-};
+import { SidebarItem as SidebarItemType, SectionItem } from '@/utils/docsUtils';
 
 type SidebarSectionProps = {
-  section: {
-    title: string;
-    path: string;
-    icon?: 'file' | 'folder';
-    items?: SidebarSectionItemType[];
-    isExpanded?: boolean;
-  };
+  section: SectionItem;
   isActive: (path: string) => boolean;
   index: number;
   toggleExpand: (index: number) => void;
