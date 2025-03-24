@@ -9,6 +9,7 @@ import {
   extractTitle,
   extractDescription,
   extractFrontmatter,
+  loadMarkdownFile,
   generateSidebarStructure
 } from '@/utils/docs';
 import DocMetadata from '@/components/DocMetadata';
@@ -27,11 +28,26 @@ const DocPage: React.FC = () => {
   const [publishDate, setPublishDate] = useState<string>('January 1, 2023');
   const [description, setDescription] = useState<string>('');
   const [frontmatter, setFrontmatter] = useState<Record<string, any>>({});
+  const [sidebar, setSidebar] = useState<any>({ sections: [] });
+  
+  // Load the sidebar structure for navigation
+  useEffect(() => {
+    const loadSidebar = async () => {
+      try {
+        const sidebarData = await generateSidebarStructure();
+        setSidebar(sidebarData);
+      } catch (err) {
+        console.error("Failed to load sidebar for navigation:", err);
+      }
+    };
+    
+    loadSidebar();
+  }, []);
   
   const normalizedPath = normalizeDocPath(path || '');
   const githubPath = getGitHubPath(normalizedPath);
   
-  const sidebar = generateSidebarStructure();
+  // Navigation links
   const { prev, next } = getNavigationLinks(location.pathname, sidebar);
   
   useEffect(() => {
@@ -40,45 +56,8 @@ const DocPage: React.FC = () => {
       try {
         console.log("Attempting to load markdown for path:", normalizedPath);
         
-        // Dynamic import approach based on path patterns
-        let content;
-        
-        try {
-          // Handle different path patterns
-          if (normalizedPath === '') {
-            content = await import('@/docs/introduction.md?raw');
-          } else if (normalizedPath === 'introduction') {
-            content = await import('@/docs/introduction.md?raw');
-          } else if (normalizedPath === 'style-guide') {
-            content = await import('@/docs/style-guide/index.md?raw');
-          } else if (normalizedPath === 'style-guide/writing-rules') {
-            content = await import('@/docs/style-guide/writing-rules.md?raw');
-          } else if (normalizedPath === 'style-guide/formatting') {
-            content = await import('@/docs/style-guide/formatting.md?raw');
-          } else if (normalizedPath === 'link-validation') {
-            content = await import('@/docs/link-validation/index.md?raw');
-          } else if (normalizedPath === 'dictionary-validation') {
-            content = await import('@/docs/dictionary-validation.md?raw');
-          } else if (normalizedPath === 'github-actions') {
-            content = await import('@/docs/github-actions.md?raw');
-          } else if (normalizedPath === 'contributing') {
-            content = await import('@/docs/contributing.md?raw');
-          } else if (normalizedPath === 'faq') {
-            content = await import('@/docs/faq.md?raw');
-          } else {
-            // For any other paths, try direct path format
-            content = await import(`@/docs/${normalizedPath}.md?raw`);
-          }
-        } catch (error) {
-          console.error("Failed to load content for path:", normalizedPath, error);
-          throw error;
-        }
-        
-        if (!content) {
-          throw new Error(`Content not found for path: ${normalizedPath}`);
-        }
-        
-        const markdownContent = content.default;
+        // Dynamically load markdown content
+        const markdownContent = await loadMarkdownFile(normalizedPath);
         console.log("Successfully loaded markdown content");
         
         const extractedFrontmatter = extractFrontmatter(markdownContent);

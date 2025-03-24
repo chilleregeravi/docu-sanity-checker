@@ -23,10 +23,12 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           
-          {/* Documentation Routes - using a catch-all pattern */}
+          {/* Documentation Routes with dynamic catch-all pattern */}
           <Route path="/docs" element={<DocsLayout />}>
+            {/* Root docs path */}
             <Route index element={<DocPage />} />
-            {/* Using a catch-all route to handle all documentation paths */}
+            
+            {/* Use catch-all route for all documentation paths */}
             <Route path="*" element={<DocPage />} />
           </Route>
           

@@ -7,51 +7,49 @@ import { SidebarStructure, SectionItem, SidebarItem } from './types';
 import { generateNavStructure } from './paths';
 
 /**
- * Generate sidebar structure by loading from static structure.json and enhancing with dynamic file discovery
+ * Generate sidebar structure by scanning the docs directory
  */
-export const generateSidebarStructure = (): SidebarStructure => {
-  // Use the static configuration from structure.json for basic metadata
-  const staticStructure = sidebarStructure as any;
-  
+export const generateSidebarStructure = async (): Promise<SidebarStructure> => {
   try {
-    const dynamicSections = generateNavStructure();
+    // Get dynamic sections from file structure
+    const dynamicSections = await generateNavStructure();
     
-    // Create sections by merging static metadata with dynamic file discovery
-    const sections: SectionItem[] = staticStructure.sections.map((staticSection: any) => {
-      // Extract path without /docs/ prefix
-      const sectionPath = staticSection.path.replace('/docs/', '').replace('/docs', '');
-      const sectionName = sectionPath || 'introduction';
+    // Load static metadata from structure.json
+    const staticStructure = sidebarStructure as any;
+    
+    // Create a map of section paths to their static metadata
+    const sectionMetadataMap: Record<string, any> = {};
+    
+    if (staticStructure.sections && Array.isArray(staticStructure.sections)) {
+      staticStructure.sections.forEach((section: any) => {
+        const path = section.path.replace(/^\/docs\//, '').replace(/^\/docs$/, '');
+        sectionMetadataMap[path || 'index'] = {
+          title: section.title,
+          description: section.description,
+          icon: section.icon || 'file',
+          isExpanded: section.isExpanded || false
+        };
+      });
+    }
+    
+    // Enhance dynamic sections with static metadata where available
+    const enhancedSections: SectionItem[] = dynamicSections.map((section: any) => {
+      const sectionPath = section.path.replace(/^\/docs\//, '').replace(/^\/docs$/, '');
+      const sectionKey = sectionPath || 'index';
+      const metadata = sectionMetadataMap[sectionKey] || {};
       
-      // Find the matching dynamic section info
-      const dynamicSection = dynamicSections.find(
-        (s: any) => s.path === staticSection.path
-      );
-      
-      // Create the section with merged data
-      const newSection: SectionItem = {
-        title: staticSection.title,
-        path: staticSection.path,
-        description: staticSection.description,
-        icon: staticSection.icon || 'folder',
-        isExpanded: staticSection.isExpanded,
-        items: []
+      return {
+        title: metadata.title || section.title,
+        path: section.path,
+        description: metadata.description || '',
+        icon: metadata.icon || 'file',
+        isExpanded: metadata.isExpanded || false,
+        items: section.items || []
       };
-      
-      // Add child items from dynamic discovery if available
-      if (dynamicSection && dynamicSection.items) {
-        newSection.items = dynamicSection.items.map((item: any) => ({
-          title: item.title,
-          path: item.path,
-          description: item.description || '',
-          order: 999 // Default order if not specified
-        }));
-      }
-      
-      return newSection;
     });
     
     return {
-      sections: sections
+      sections: enhancedSections
     };
   } catch (error) {
     console.error("Error generating sidebar structure:", error);

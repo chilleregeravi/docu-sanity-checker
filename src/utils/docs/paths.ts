@@ -2,26 +2,33 @@
 /**
  * Utilities for handling documentation paths and navigation
  */
-import { SidebarItem } from './types';
+import { SidebarItem, SectionItem } from './types';
 
 /**
  * Get GitHub path for a document
  */
 export const getGitHubPath = (path: string): string => {
   // Normalize the path
-  let normalizedPath = path || 'introduction';
+  let normalizedPath = path || '';
   if (normalizedPath.startsWith('/')) {
     normalizedPath = normalizedPath.substring(1);
   }
   
-  // Check if this is a nested path (contains a slash)
-  if (normalizedPath.includes('/')) {
-    return `${normalizedPath}.md`;
+  // Remove docs prefix if present
+  normalizedPath = normalizedPath.replace(/^docs\//, '');
+  
+  // For empty path, return index
+  if (normalizedPath === '') {
+    return 'index.md';
   }
   
-  // For section landing pages, return the index file
-  if (['style-guide', 'link-validation', 'dictionary-validation', 'github-actions'].includes(normalizedPath)) {
-    return `${normalizedPath}/index.md`;
+  // Check if this is a nested path (contains a slash)
+  if (normalizedPath.includes('/')) {
+    // If it ends with a slash, it's a directory index
+    if (normalizedPath.endsWith('/')) {
+      return `${normalizedPath}index.md`;
+    }
+    return `${normalizedPath}.md`;
   }
   
   return `${normalizedPath}.md`;
@@ -31,10 +38,13 @@ export const getGitHubPath = (path: string): string => {
  * Normalize a document path for import
  */
 export const normalizeDocPath = (path: string): string => {
-  let normalizedPath = path || 'introduction';
+  let normalizedPath = path || '';
   if (normalizedPath.startsWith('/')) {
     normalizedPath = normalizedPath.substring(1);
   }
+  
+  // Remove docs prefix if present
+  normalizedPath = normalizedPath.replace(/^docs\//, '');
   
   // Removing any trailing slashes
   if (normalizedPath.endsWith('/')) {
@@ -75,66 +85,128 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
 };
 
 /**
- * Get the available documentation files from context imports
- * Note: In a real app, this would scan the filesystem, but we're limited to the import context in browser environments
+ * Dynamic markdown import handler
+ * This loads markdown files from the docs directory
  */
-export const getAvailableDocFiles = (): string[] => {
-  // This list represents all markdown files we have in the project
-  // In a real implementation, we would scan the file system
-  return [
-    'introduction',
-    'style-guide/index',
-    'style-guide/writing-rules',
-    'style-guide/formatting',
-    'link-validation/index',
-    'dictionary-validation/index',
-    'github-actions/index',
-    'contributing',
-    'faq'
-  ];
+export const loadMarkdownFile = async (path: string): Promise<string> => {
+  try {
+    const normalizedPath = normalizeDocPath(path);
+    
+    // Use dynamic import with glob pattern to find any markdown file
+    const modules = import.meta.glob('/src/docs/**/*.md', { as: 'raw' });
+    
+    // Find matching files based on the normalized path
+    let matchingPaths: string[] = [];
+    
+    for (const modulePath in modules) {
+      // Normalize the module path to match our format
+      let normalizedModulePath = modulePath
+        .replace('/src/docs/', '')
+        .replace('.md', '');
+      
+      if (normalizedModulePath === 'index' && normalizedPath === '') {
+        matchingPaths.push(modulePath);
+      } else if (normalizedModulePath === normalizedPath) {
+        matchingPaths.push(modulePath);
+      } else if (normalizedModulePath === `${normalizedPath}/index`) {
+        matchingPaths.push(modulePath);
+      }
+    }
+    
+    if (matchingPaths.length === 0) {
+      throw new Error(`No markdown file found for path: ${normalizedPath}`);
+    }
+    
+    // Use the first matching file
+    const loader = modules[matchingPaths[0]];
+    if (!loader) {
+      throw new Error(`Could not load module for path: ${matchingPaths[0]}`);
+    }
+    
+    const content = await loader();
+    return content;
+  } catch (error) {
+    console.error('Error loading markdown file:', error);
+    throw error;
+  }
 };
 
 /**
- * Generate navigation structure from available file paths
- * In a real app, this would analyze frontmatter, but here we'll infer from paths
+ * Get all available markdown files in the docs directory
  */
-export const generateNavStructure = () => {
-  const files = getAvailableDocFiles();
-  const sections: Record<string, any> = {};
-  
-  // First, create section entries
-  files.forEach(file => {
-    if (file.includes('/')) {
-      // This is a section or a nested page
-      const [sectionName] = file.split('/');
+export const getAvailableDocFiles = async (): Promise<string[]> => {
+  try {
+    // Use dynamic import with glob pattern to find any markdown file
+    const modules = import.meta.glob('/src/docs/**/*.md', { as: 'raw' });
+    
+    // Extract paths and normalize them
+    return Object.keys(modules).map(path => {
+      return path
+        .replace('/src/docs/', '')
+        .replace('.md', '');
+    });
+  } catch (error) {
+    console.error('Error getting available doc files:', error);
+    return [];
+  }
+};
+
+/**
+ * Generate navigation structure by scanning the docs directory
+ */
+export const generateNavStructure = async () => {
+  try {
+    const files = await getAvailableDocFiles();
+    const sections: Record<string, any> = {};
+    
+    // Process each file to build the navigation structure
+    files.forEach(file => {
+      // Handle root index file
+      if (file === 'index') {
+        sections['index'] = {
+          title: 'Introduction',
+          path: '/docs',
+          items: []
+        };
+        return;
+      }
       
-      if (!sections[sectionName]) {
-        sections[sectionName] = {
-          title: formatSectionTitle(sectionName),
-          path: `/docs/${sectionName}`,
+      if (file.includes('/')) {
+        // This is a section or a nested page
+        const [sectionName, ...restPath] = file.split('/');
+        const restPathJoined = restPath.join('/');
+        
+        if (!sections[sectionName]) {
+          sections[sectionName] = {
+            title: formatSectionTitle(sectionName),
+            path: `/docs/${sectionName}`,
+            items: []
+          };
+        }
+        
+        // If this is not the index file, add it as a child page
+        if (restPathJoined && restPathJoined !== 'index') {
+          const pageName = restPathJoined.split('/').pop() || '';
+          sections[sectionName].items.push({
+            title: formatPageTitle(pageName),
+            path: `/docs/${sectionName}/${restPathJoined}`
+          });
+        }
+      } else {
+        // This is a top-level page
+        sections[file] = {
+          title: formatPageTitle(file),
+          path: `/docs/${file}`,
           items: []
         };
       }
-      
-      // If this is not the index file, add it as a child page
-      if (!file.endsWith('/index')) {
-        const pageName = file.split('/').pop() || '';
-        sections[sectionName].items.push({
-          title: formatPageTitle(pageName),
-          path: `/docs/${file}`.replace('/index', '')
-        });
-      }
-    } else {
-      // This is a top-level page
-      sections[file] = {
-        title: formatPageTitle(file),
-        path: `/docs/${file}`,
-        items: []
-      };
-    }
-  });
-  
-  return Object.values(sections);
+    });
+    
+    return Object.values(sections);
+  } catch (error) {
+    console.error('Error generating nav structure:', error);
+    return [];
+  }
 };
 
 /**

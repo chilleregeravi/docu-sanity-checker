@@ -11,18 +11,32 @@ import { generateSidebarStructure } from './sidebarStructure';
  */
 export const useSidebarStructure = () => {
   const [sidebar, setSidebar] = useState<SidebarStructure>({ sections: [] });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   
   useEffect(() => {
-    // Generate the sidebar structure
-    const structure = generateSidebarStructure();
-    setSidebar(structure);
+    const loadSidebar = async () => {
+      try {
+        setLoading(true);
+        // Generate the sidebar structure
+        const structure = await generateSidebarStructure();
+        setSidebar(structure);
+        setError(null);
+      } catch (err: any) {
+        console.error("Failed to load sidebar structure:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadSidebar();
   }, []);
   
-  return sidebar;
+  return { sidebar, loading, error };
 };
 
 /**
- * Generate sidebar structure by loading from the static structure.json
- * This function is exported for direct usage where hooks cannot be used
+ * Export the generate function for direct usage
  */
 export { generateSidebarStructure } from './sidebarStructure';

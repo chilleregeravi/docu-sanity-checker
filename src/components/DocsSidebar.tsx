@@ -5,9 +5,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useSidebarStructure } from '@/utils/docs';
 import { SectionItem } from '@/utils/docs/types';
 import SidebarSection from './sidebar/SidebarSection';
+import { RefreshCw } from 'lucide-react';
 
 const DocsSidebar = () => {
-  const sidebar = useSidebarStructure();
+  const { sidebar, loading, error } = useSidebarStructure();
   const [docs, setDocs] = useState<SectionItem[]>([]);
   const location = useLocation();
 
@@ -74,7 +75,20 @@ const DocsSidebar = () => {
               Documentation
             </h3>
             <nav className="space-y-1">
-              {docs && docs.length > 0 ? (
+              {loading && (
+                <div className="flex items-center gap-2 text-muted-foreground py-2">
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  <span>Loading documentation...</span>
+                </div>
+              )}
+              
+              {error && (
+                <div className="text-red-500 py-2">
+                  Error loading documentation structure
+                </div>
+              )}
+              
+              {!loading && !error && docs && docs.length > 0 ? (
                 docs.map((section, i) => (
                   <SidebarSection
                     key={section.title + i}
@@ -85,7 +99,9 @@ const DocsSidebar = () => {
                   />
                 ))
               ) : (
-                <div className="text-muted-foreground py-2">Loading documentation...</div>
+                !loading && !error && (
+                  <div className="text-muted-foreground py-2">No documentation found.</div>
+                )
               )}
             </nav>
           </div>
