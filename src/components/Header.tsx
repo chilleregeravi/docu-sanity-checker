@@ -13,11 +13,24 @@ import {
   SheetClose 
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
+import content from '@/content.json';
+
+const iconMap: Record<string, React.ComponentType<any>> = {
+  Home,
+  FileText,
+  Book,
+  Code,
+  BookOpen,
+  Search,
+  Menu,
+  X
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isMobile = useIsMobile();
+  const { header } = content;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,22 +57,22 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-            D
+            {header.logo.logoLetter}
           </div>
-          <span className="text-xl font-medium">DocuSanity</span>
+          <span className="text-xl font-medium">{header.logo.text}</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLinks isActive={isActive} />
+          <NavLinks isActive={isActive} navItems={header.navigation} />
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
           <Button variant="outline" size="sm" className="rounded-full">
-            <Search className="h-4 w-4 mr-2" />
-            <span>Search</span>
+            {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
+            <span>{header.actions.search.label}</span>
           </Button>
-          <Button size="sm" className="rounded-full">Get Started</Button>
+          <Button size="sm" className="rounded-full">{header.actions.getStarted.label}</Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,23 +92,23 @@ const Header = () => {
               <SheetTitle>
                 <Link to="/" className="flex items-center space-x-2">
                   <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                    D
+                    {header.logo.logoLetter}
                   </div>
-                  <span className="text-xl font-medium">DocuSanity</span>
+                  <span className="text-xl font-medium">{header.logo.text}</span>
                 </Link>
               </SheetTitle>
             </SheetHeader>
             
             <nav className="flex flex-col mt-6 space-y-5">
-              <MobileNavLinks isActive={isActive} />
+              <MobileNavLinks isActive={isActive} navItems={header.navigation} />
             </nav>
             
             <div className="mt-10 space-y-4">
               <Button variant="outline" className="w-full justify-start">
-                <Search className="h-4 w-4 mr-2" />
-                <span>Search</span>
+                {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
+                <span>{header.actions.search.label}</span>
               </Button>
-              <Button className="w-full">Get Started</Button>
+              <Button className="w-full">{header.actions.getStarted.label}</Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -107,23 +120,20 @@ const Header = () => {
 interface NavLinksProps {
   isMobile?: boolean;
   isActive: (path: string) => boolean;
+  navItems: Array<{
+    path: string;
+    label: string;
+    icon: string;
+  }>;
 }
 
 // Desktop navigation links component
-const NavLinks = ({ isActive }: NavLinksProps) => {
+const NavLinks = ({ isActive, navItems }: NavLinksProps) => {
   const linkClass = "text-sm font-medium transition-colors hover:text-primary flex items-center";
-
-  const links = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/docs", label: "Docs", icon: FileText },
-    { path: "/guides", label: "Guides", icon: Book },
-    { path: "/api", label: "API", icon: Code },
-    { path: "/blog", label: "Blog", icon: BookOpen },
-  ];
 
   return (
     <>
-      {links.map((link) => (
+      {navItems.map((link) => (
         <Link
           key={link.path}
           to={link.path}
@@ -140,33 +150,28 @@ const NavLinks = ({ isActive }: NavLinksProps) => {
 };
 
 // Mobile navigation links component with icons
-const MobileNavLinks = ({ isActive }: NavLinksProps) => {
-  const links = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/docs", label: "Docs", icon: FileText },
-    { path: "/guides", label: "Guides", icon: Book },
-    { path: "/api", label: "API", icon: Code },
-    { path: "/blog", label: "Blog", icon: BookOpen },
-  ];
-
+const MobileNavLinks = ({ isActive, navItems }: NavLinksProps) => {
   return (
     <>
-      {links.map((link) => (
-        <SheetClose asChild key={link.path}>
-          <Link
-            to={link.path}
-            className={cn(
-              "flex items-center space-x-3 text-base font-medium transition-colors",
-              isActive(link.path) 
-                ? "text-primary font-semibold" 
-                : "text-foreground hover:text-primary"
-            )}
-          >
-            <link.icon className="h-5 w-5" />
-            <span>{link.label}</span>
-          </Link>
-        </SheetClose>
-      ))}
+      {navItems.map((link) => {
+        const Icon = iconMap[link.icon];
+        return (
+          <SheetClose asChild key={link.path}>
+            <Link
+              to={link.path}
+              className={cn(
+                "flex items-center space-x-3 text-base font-medium transition-colors",
+                isActive(link.path) 
+                  ? "text-primary font-semibold" 
+                  : "text-foreground hover:text-primary"
+              )}
+            >
+              {Icon && <Icon className="h-5 w-5" />}
+              <span>{link.label}</span>
+            </Link>
+          </SheetClose>
+        );
+      })}
     </>
   );
 };

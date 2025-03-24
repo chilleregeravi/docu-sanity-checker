@@ -1,0 +1,81 @@
+
+{
+  "header": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "navigation": [
+      { "path": "/", "label": "Home", "icon": "Home" },
+      { "path": "/docs", "label": "Docs", "icon": "FileText" },
+      { "path": "/guides", "label": "Guides", "icon": "Book" },
+      { "path": "/api", "label": "API", "icon": "Code" },
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+    ],
+    "actions": {
+      "search": {
+        "label": "Search",
+        "icon": "Search"
+      },
+      "getStarted": {
+        "label": "Get Started",
+        "path": "/docs"
+      }
+    }
+  },
+  "footer": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "description": "Beautiful documentation made simple. With built-in validation, style guide enforcement, and seamless GitHub integration.",
+    "socialLinks": [
+      { "icon": "Github", "url": "https://github.com" },
+      { "icon": "Twitter", "url": "https://twitter.com" },
+      { "icon": "Slack", "url": "https://slack.com" }
+    ],
+    "columns": [
+      {
+        "title": "Documentation",
+        "links": [
+          { "label": "Introduction", "href": "/docs" },
+          { "label": "Installation", "href": "/docs/installation" },
+          { "label": "Configuration", "href": "/docs/configuration" },
+          { "label": "GitHub Actions", "href": "/docs/github-actions" },
+          { "label": "FAQ", "href": "/docs/faq" }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          { "label": "Guides", "href": "/guides" },
+          { "label": "API Reference", "href": "/api" },
+          { "label": "Blog", "href": "/blog" },
+          { "label": "Community", "href": "/community" },
+          { "label": "Showcase", "href": "/showcase" }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          { "label": "About", "href": "/about" },
+          { "label": "Contact", "href": "/contact" },
+          { "label": "Privacy", "href": "/privacy" },
+          { "label": "Terms", "href": "/terms" },
+          { "label": "Careers", "href": "/careers" }
+        ]
+      }
+    ],
+    "copyright": "© {year} DocuSanity. All rights reserved.",
+    "madeWith": "Made with ❤️ by the DocuSanity team"
+  },
+  "hero": {
+    "tagline": "Documentation Made Beautiful",
+    "title": "Create Beautiful Docs with Automated Validation",
+    "description": "Build stunning documentation websites with built-in GitHub actions that check for broken links, validate against custom dictionaries, and enforce your style guide.",
+    "primaryButtonText": "Get Started",
+    "primaryButtonUrl": "/docs",
+    "secondaryButtonText": "View on GitHub",
+    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
+  }
+}

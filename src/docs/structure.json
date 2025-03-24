@@ -1,14 +1,5 @@
 
 {
-  "hero": {
-    "tagline": "Documentation Made Beautiful",
-    "title": "Create Beautiful Docs with Automated Validation",
-    "description": "Build stunning documentation websites with built-in GitHub actions that check for broken links, validate against custom dictionaries, and enforce your style guide.",
-    "primaryButtonText": "Get Started",
-    "primaryButtonUrl": "/docs",
-    "secondaryButtonText": "View on GitHub",
-    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
-  },
   "docsIndex": {
     "title": "Introduction",
     "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",

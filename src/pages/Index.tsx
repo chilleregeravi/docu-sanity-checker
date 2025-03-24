@@ -10,15 +10,6 @@ import DocumentationSection from '@/components/home/DocumentationSection';
 import CTASection from '@/components/home/CTASection';
 
 type StructureData = {
-  hero: {
-    tagline: string;
-    title: string;
-    description: string;
-    primaryButtonText: string;
-    primaryButtonUrl: string;
-    secondaryButtonText: string;
-    secondaryButtonUrl: string;
-  };
   sections: Array<{
     title: string;
     path: string;
@@ -46,15 +37,7 @@ const Index = () => {
         <Header />
         
         {/* Hero Section */}
-        <Hero 
-          tagline={structureData.hero.tagline}
-          title={structureData.hero.title}
-          description={structureData.hero.description}
-          primaryButtonText={structureData.hero.primaryButtonText}
-          primaryButtonUrl={structureData.hero.primaryButtonUrl}
-          secondaryButtonText={structureData.hero.secondaryButtonText}
-          secondaryButtonUrl={structureData.hero.secondaryButtonUrl}
-        />
+        <Hero />
         
         {/* Documentation Sections */}
         <DocumentationSection sections={structureData.sections} />
