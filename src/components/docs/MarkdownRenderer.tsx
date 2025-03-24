@@ -93,26 +93,38 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Updated table components to use shadcn UI
+          // Enhanced table components to ensure proper rendering
           table: ({ children }) => (
-            <div className="my-6 w-full overflow-y-auto">
-              <Table>{children}</Table>
+            <div className="my-6 w-full overflow-x-auto rounded-md border border-border">
+              <Table className="min-w-full divide-y divide-border">
+                {children}
+              </Table>
             </div>
           ),
           thead: ({ children }) => (
-            <TableHeader>{children}</TableHeader>
+            <TableHeader className="bg-muted">
+              {children}
+            </TableHeader>
           ),
           tbody: ({ children }) => (
-            <TableBody>{children}</TableBody>
+            <TableBody className="divide-y divide-border">
+              {children}
+            </TableBody>
           ),
           tr: ({ children }) => (
-            <TableRow>{children}</TableRow>
+            <TableRow>
+              {children}
+            </TableRow>
           ),
           th: ({ children }) => (
-            <TableHead className="font-medium">{children}</TableHead>
+            <TableHead className="px-4 py-3 text-left text-sm font-semibold">
+              {children}
+            </TableHead>
           ),
           td: ({ children }) => (
-            <TableCell>{children}</TableCell>
+            <TableCell className="px-4 py-3 text-sm">
+              {children}
+            </TableCell>
           ),
         }}
       >
