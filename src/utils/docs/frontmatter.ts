@@ -102,16 +102,15 @@ export const extractDescription = (markdown: string): string => {
  */
 export const extractOrder = (markdown: string): number => {
   const frontmatter = extractFrontmatter(markdown);
-  return frontmatter.order || 999; // Default high number if no order specified
+  return typeof frontmatter.order === 'number' ? frontmatter.order : 999; // Default high number if no order specified
 };
 
 /**
  * Extract icon from markdown frontmatter
  */
-export const extractIcon = (markdown: string): 'file' | 'folder' => {
+export const extractIcon = (markdown: string): string => {
   const frontmatter = extractFrontmatter(markdown);
-  const icon = frontmatter.icon as 'file' | 'folder';
-  return icon === 'folder' ? 'folder' : 'file'; // Default to 'file' if invalid or not specified
+  return frontmatter.icon || 'file'; // Default to 'file' if not specified
 };
 
 /**
@@ -135,5 +134,8 @@ export const updateSectionFromMarkdown = (
   };
 };
 
-// Export the loadMarkdownFile function for direct use
+/**
+ * Load markdown file (re-exported from paths.ts)
+ */
 export { loadMarkdownFile } from './paths';
+

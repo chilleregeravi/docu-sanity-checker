@@ -3,7 +3,7 @@
  * Utilities for handling documentation paths and navigation
  */
 import { SidebarItem, SectionItem } from './types';
-import { extractTitle, loadMarkdownFile } from './frontmatter';
+import { extractTitle } from './frontmatter';
 
 /**
  * Get GitHub path for a document
@@ -274,3 +274,4 @@ const formatPageTitle = (path: string): string => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
+
