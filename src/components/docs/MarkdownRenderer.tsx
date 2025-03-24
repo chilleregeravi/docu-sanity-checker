@@ -101,22 +101,38 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Improved table rendering
-          table: ({ children }) => {
-            return (
-              <div className="my-6 w-full overflow-auto rounded-md border">
-                <Table>{children}</Table>
-              </div>
-            );
-          },
-          thead: ({ children }) => <TableHeader>{children}</TableHeader>,
-          tbody: ({ children }) => <TableBody>{children}</TableBody>,
-          tr: ({ children }) => <TableRow>{children}</TableRow>,
-          th: ({ children }) => (
-            <TableHead className="py-3 px-4 text-left font-medium">{children}</TableHead>
+          // Custom table components that work with react-markdown's properties
+          table: ({ ...props }) => (
+            <div className="my-6 w-full overflow-auto rounded-md border">
+              <table className="w-full caption-bottom text-sm">
+                {props.children}
+              </table>
+            </div>
           ),
-          td: ({ children }) => (
-            <TableCell className="py-3 px-4 align-top">{children}</TableCell>
+          thead: ({ ...props }) => (
+            <thead className="border-b bg-muted/50">
+              {props.children}
+            </thead>
+          ),
+          tbody: ({ ...props }) => (
+            <tbody className="[&_tr:last-child]:border-0">
+              {props.children}
+            </tbody>
+          ),
+          tr: ({ ...props }) => (
+            <tr className="border-b transition-colors hover:bg-muted/50">
+              {props.children}
+            </tr>
+          ),
+          th: ({ ...props }) => (
+            <th className="h-10 px-4 text-left align-middle font-medium text-muted-foreground">
+              {props.children}
+            </th>
+          ),
+          td: ({ ...props }) => (
+            <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+              {props.children}
+            </td>
           ),
         }}
       >
