@@ -3,7 +3,6 @@ import React from 'react';
 import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { Separator } from "@/components/ui/separator";
 
 interface MarkdownRendererProps {
@@ -94,35 +93,35 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Simplified table components with proper structure
+          // Completely rewritten table renderer with native HTML elements
           table: ({ children }) => {
             return (
-              <div className="my-6 w-full overflow-x-auto">
-                <table className="min-w-full border-collapse text-sm">
+              <div className="my-6 w-full overflow-x-auto rounded-lg border border-border">
+                <table className="w-full border-collapse">
                   {children}
                 </table>
               </div>
             );
           },
-          thead: ({ children }) => {
-            return <thead className="bg-muted/50">{children}</thead>;
-          },
-          tbody: ({ children }) => {
-            return <tbody>{children}</tbody>;
-          },
-          tr: ({ children }) => {
-            return <tr className="border-b border-border">{children}</tr>;
+          thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+          tbody: ({ children }) => <tbody>{children}</tbody>,
+          tr: ({ children, isHeader }) => {
+            return (
+              <tr className={`${isHeader ? 'bg-muted/70' : 'border-t border-border'}`}>
+                {children}
+              </tr>
+            );
           },
           th: ({ children }) => {
             return (
-              <th className="border border-border px-4 py-2 text-left font-medium">
+              <th className="px-4 py-3 text-left font-medium text-foreground">
                 {children}
               </th>
             );
           },
           td: ({ children }) => {
             return (
-              <td className="border border-border px-4 py-2">
+              <td className="border-t border-border px-4 py-3 align-top text-sm">
                 {children}
               </td>
             );
