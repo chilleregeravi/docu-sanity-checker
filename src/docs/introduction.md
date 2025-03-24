@@ -3,6 +3,7 @@
 date: 2023-07-25
 icon: file-text
 description: "Introduction to DocuSanity and its features"
+title: "Introduction"
 ---
 
 # Introduction to DocuSanity
