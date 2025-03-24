@@ -15,8 +15,8 @@ const DocPage = () => {
   const [error, setError] = useState<Error | null>(null);
   const { sidebar } = useSidebarStructure();
 
-  // Determine the path from the URL
-  const path = location.pathname.replace(/^\/docs\//, '').replace(/\/$/, '');
+  // Determine the path from the URL, handling both with and without trailing slashes
+  const path = location.pathname.replace(/^\/docs\//, '');
   
   // Extract navigation links
   const { prev, next } = getNavigationLinks(location.pathname, sidebar);

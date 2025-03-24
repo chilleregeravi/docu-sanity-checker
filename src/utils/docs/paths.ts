@@ -32,7 +32,7 @@ export const getGitHubPath = (path: string): string => {
     return `${normalizedPath}.md`;
   }
   
-  return `${normalizedPath}.md`;
+  return `${normalizedPath}/index.md`;
 };
 
 /**
@@ -105,12 +105,38 @@ export const loadMarkdownFile = async (path: string): Promise<string> => {
         .replace('/src/docs/', '')
         .replace('.md', '');
       
+      // Special case for root index
       if (normalizedModulePath === 'index' && normalizedPath === '') {
         matchingPaths.push(modulePath);
-      } else if (normalizedModulePath === normalizedPath) {
+        break;
+      } 
+      // Exact match for file
+      else if (normalizedModulePath === normalizedPath) {
         matchingPaths.push(modulePath);
-      } else if (normalizedModulePath === `${normalizedPath}/index`) {
+        break;
+      } 
+      // Section index file (e.g., github-actions/index)
+      else if (normalizedPath && (
+        normalizedModulePath === `${normalizedPath}/index` || 
+        normalizedModulePath === normalizedPath
+      )) {
         matchingPaths.push(modulePath);
+        break;
+      }
+    }
+    
+    // If no direct match was found, try to find index.md in the requested directory
+    if (matchingPaths.length === 0) {
+      for (const modulePath in modules) {
+        const normalizedModulePath = modulePath
+          .replace('/src/docs/', '')
+          .replace('.md', '');
+        
+        // Look for a section's index file as fallback
+        if (normalizedPath && normalizedModulePath === `${normalizedPath}/index`) {
+          matchingPaths.push(modulePath);
+          break;
+        }
       }
     }
     
