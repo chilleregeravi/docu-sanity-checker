@@ -18,7 +18,7 @@ export const useSidebarStructure = () => {
     const loadSidebar = async () => {
       try {
         setLoading(true);
-        // Generate the sidebar structure
+        // Generate the sidebar structure with titles from markdown files
         const structure = await generateSidebarStructure();
         setSidebar(structure);
         setError(null);

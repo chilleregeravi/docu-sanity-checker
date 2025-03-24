@@ -71,7 +71,7 @@ export const extractTitle = (markdown: string): string => {
   
   // Look for the first heading (# Title)
   const titleMatch = contentWithoutFrontmatter.match(/^# (.*)/m);
-  return titleMatch ? titleMatch[1] : 'Untitled';
+  return titleMatch ? titleMatch[1] : '';
 };
 
 /**
@@ -134,3 +134,6 @@ export const updateSectionFromMarkdown = (
     order: order || section.order
   };
 };
+
+// Export the loadMarkdownFile function for direct use
+export { loadMarkdownFile } from './paths';
