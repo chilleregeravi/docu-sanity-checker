@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { SidebarItem } from '@/utils/docs/types';
 
 interface NavLink {
   path: string;

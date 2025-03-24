@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { 
@@ -8,8 +7,9 @@ import {
   normalizeDocPath,
   extractTitle,
   extractDescription,
-  extractFrontmatter
-} from '@/utils/docsUtils';
+  extractFrontmatter,
+  generateSidebarStructure
+} from '@/utils/docs';
 import DocMetadata from '@/components/DocMetadata';
 import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
@@ -30,7 +30,8 @@ const DocPage: React.FC = () => {
   const normalizedPath = path || 'introduction';
   const githubPath = getGitHubPath(normalizedPath);
   
-  const { prev, next } = getNavigationLinks(location.pathname);
+  const sidebar = generateSidebarStructure();
+  const { prev, next } = getNavigationLinks(location.pathname, sidebar);
   
   useEffect(() => {
     const loadContent = async () => {

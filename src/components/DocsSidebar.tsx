@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useSidebarStructure, SectionItem } from '@/utils/docsUtils';
+import { useSidebarStructure, SectionItem } from '@/utils/docs';
 import SidebarSection from './sidebar/SidebarSection';
 
 const DocsSidebar = () => {

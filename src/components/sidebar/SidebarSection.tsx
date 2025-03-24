@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, File, Folder } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import SidebarItem from './SidebarItem';
 import { Link } from 'react-router-dom';
-import { SidebarItem as SidebarItemType, SectionItem } from '@/utils/docsUtils';
+import { SidebarItem as SidebarItemType, SectionItem } from '@/utils/docs/types';
 
 type SidebarSectionProps = {
   section: SectionItem;
