@@ -101,26 +101,22 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Use shadcn/ui Table components for better table rendering
-          table: ({ children }) => (
-            <div className="my-6 w-full overflow-auto">
-              <Table>{children}</Table>
-            </div>
-          ),
-          thead: ({ children }) => (
-            <TableHeader>{children}</TableHeader>
-          ),
-          tbody: ({ children }) => (
-            <TableBody>{children}</TableBody>
-          ),
-          tr: ({ children }) => (
-            <TableRow>{children}</TableRow>
-          ),
+          // Improved table rendering
+          table: ({ children }) => {
+            return (
+              <div className="my-6 w-full overflow-auto rounded-md border">
+                <Table>{children}</Table>
+              </div>
+            );
+          },
+          thead: ({ children }) => <TableHeader>{children}</TableHeader>,
+          tbody: ({ children }) => <TableBody>{children}</TableBody>,
+          tr: ({ children }) => <TableRow>{children}</TableRow>,
           th: ({ children }) => (
-            <TableHead className="font-semibold">{children}</TableHead>
+            <TableHead className="py-3 px-4 text-left font-medium">{children}</TableHead>
           ),
           td: ({ children }) => (
-            <TableCell>{children}</TableCell>
+            <TableCell className="py-3 px-4 align-top">{children}</TableCell>
           ),
         }}
       >
