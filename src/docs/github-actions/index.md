@@ -3,6 +3,8 @@
 date: 2023-09-05
 icon: github
 description: "Seamlessly integrate validation into your CI/CD workflow"
+title: "Overview"
+order: 1
 ---
 
 # GitHub Actions Overview

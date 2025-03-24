@@ -3,6 +3,8 @@
 date: 2023-08-10
 icon: zap
 description: "Automatically detect and report broken links in your documentation"
+title: "Link Validation"
+order: 3
 ---
 
 # Link Validation

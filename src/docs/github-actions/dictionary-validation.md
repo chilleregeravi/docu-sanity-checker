@@ -2,6 +2,8 @@
 date: 2023-08-20
 icon: shield
 description: "Validate technical terms against custom dictionaries"
+title: "Dictionary Validation"
+order: 2
 ---
 
 # Dictionary Validation

@@ -3,6 +3,8 @@
 date: 2023-08-01
 icon: check
 description: "Ensure consistent writing style across all documentation"
+title: "Overview"
+order: 1
 ---
 
 # Style Guide Overview

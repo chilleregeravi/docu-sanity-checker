@@ -3,6 +3,8 @@
 date: 2023-08-05
 order: 1
 icon: edit
+title: "Writing Rules"
+order: 3
 ---
 
 # Writing Rules
