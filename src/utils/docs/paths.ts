@@ -32,6 +32,7 @@ export const getGitHubPath = (path: string): string => {
     return `${normalizedPath}.md`;
   }
   
+  // If no slash in the path, it's a top-level section, return its index
   return `${normalizedPath}/index.md`;
 };
 

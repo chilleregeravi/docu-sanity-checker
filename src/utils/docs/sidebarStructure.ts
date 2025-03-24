@@ -48,34 +48,60 @@ export const generateSidebarStructure = async (): Promise<SidebarStructure> => {
       const sectionKey = sectionPath || 'index';
       const metadata = sectionMetadataMap[sectionKey] || {};
       
-      // Use folder name rather than index.md title for section titles
+      // For section titles, always use formatted folder name instead of index.md title
       let sectionTitle = '';
       let order = 999;
       
       if (sectionKey === 'index') {
-        // For the root index, we can use the title from the markdown
+        // Special case for root index
+        sectionTitle = 'Documentation';
         try {
-          const markdownContent = await loadMarkdownFile(sectionPath);
-          sectionTitle = extractTitle(markdownContent) || 'Documentation';
+          const markdownContent = await loadMarkdownFile('');
           order = extractOrder(markdownContent);
+          // Use title from metadata if available, otherwise from markdown
+          const titleFromMarkdown = extractTitle(markdownContent);
+          if (titleFromMarkdown) {
+            sectionTitle = titleFromMarkdown;
+          }
         } catch (error) {
-          sectionTitle = 'Documentation';
+          // Keep default title and order
         }
       } else {
-        // For section folders, use the formatted section name
+        // For section folders, always use the formatted section name
         sectionTitle = formatSectionTitle(sectionKey);
         
-        // Still try to get the order from index.md if it exists
+        // Try to get the order from index.md if it exists
         try {
-          const markdownContent = await loadMarkdownFile(sectionPath);
+          const markdownContent = await loadMarkdownFile(sectionKey);
           order = extractOrder(markdownContent);
         } catch (error) {
           // Keep default order
         }
       }
       
-      // Process child items to get their titles and order from markdown
-      const enhancedItems = await Promise.all((section.items || []).map(async (item: any) => {
+      // Include the index.md file as the first item in the section
+      let sectionItems = [...(section.items || [])];
+      
+      // Only add the index page if it's not the root index
+      if (sectionKey !== 'index') {
+        try {
+          const indexMarkdownContent = await loadMarkdownFile(sectionKey);
+          const indexTitle = extractTitle(indexMarkdownContent) || 'Overview';
+          const indexOrder = extractOrder(indexMarkdownContent) || 0;
+          
+          // Add index as the first item in the section
+          sectionItems.unshift({
+            title: indexTitle,
+            path: section.path,
+            order: indexOrder
+          });
+        } catch (error) {
+          console.warn(`Couldn't load index markdown for section ${sectionKey}`, error);
+        }
+      }
+      
+      // Process remaining child items to get their titles and order from markdown
+      const enhancedItems = await Promise.all(sectionItems.map(async (item: any) => {
         const itemPath = item.path.replace(/^\/docs\//, '');
         let itemOrder = 999;
         
