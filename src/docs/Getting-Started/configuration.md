@@ -4,6 +4,7 @@ date: 2023-08-15
 order: 3
 icon: settings
 description: "Get detailed reports with actionable recommendations"
+title: "Configuration"
 ---
 
 # Configuration
