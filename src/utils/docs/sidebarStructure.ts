@@ -1,11 +1,10 @@
-
 /**
  * Utilities for generating and loading sidebar structure
  */
 import sidebarStructure from '@/docs/structure.json';
 import { SidebarStructure, SectionItem, SidebarItem } from './types';
 import { generateNavStructure } from './paths';
-import { loadMarkdownFile, extractTitle, extractOrder } from './frontmatter';
+import { loadMarkdownFile, extractTitle, extractOrder, formatSectionTitle } from './frontmatter';
 
 /**
  * Sort items by order
@@ -49,19 +48,30 @@ export const generateSidebarStructure = async (): Promise<SidebarStructure> => {
       const sectionKey = sectionPath || 'index';
       const metadata = sectionMetadataMap[sectionKey] || {};
       
-      // Try to load the markdown file for this section to get the title and order
+      // Use folder name rather than index.md title for section titles
+      let sectionTitle = '';
       let order = 999;
-      try {
-        const markdownContent = await loadMarkdownFile(sectionPath);
-        const titleFromMarkdown = extractTitle(markdownContent);
-        order = extractOrder(markdownContent);
-        
-        if (titleFromMarkdown) {
-          metadata.title = titleFromMarkdown;
+      
+      if (sectionKey === 'index') {
+        // For the root index, we can use the title from the markdown
+        try {
+          const markdownContent = await loadMarkdownFile(sectionPath);
+          sectionTitle = extractTitle(markdownContent) || 'Documentation';
+          order = extractOrder(markdownContent);
+        } catch (error) {
+          sectionTitle = 'Documentation';
         }
-      } catch (error) {
-        // If we can't load the markdown, use the fallback title
-        console.warn(`Couldn't load markdown for section ${sectionPath}`, error);
+      } else {
+        // For section folders, use the formatted section name
+        sectionTitle = formatSectionTitle(sectionKey);
+        
+        // Still try to get the order from index.md if it exists
+        try {
+          const markdownContent = await loadMarkdownFile(sectionPath);
+          order = extractOrder(markdownContent);
+        } catch (error) {
+          // Keep default order
+        }
       }
       
       // Process child items to get their titles and order from markdown
@@ -93,7 +103,7 @@ export const generateSidebarStructure = async (): Promise<SidebarStructure> => {
       const sortedItems = enhancedItems.sort(sortByOrder);
       
       return {
-        title: metadata.title || section.title,
+        title: sectionTitle || metadata.title || section.title,
         path: section.path,
         description: metadata.description || '',
         icon: metadata.icon || 'file',
@@ -114,4 +124,3 @@ export const generateSidebarStructure = async (): Promise<SidebarStructure> => {
     return { sections: [] };
   }
 };
-

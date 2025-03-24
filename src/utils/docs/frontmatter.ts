@@ -117,6 +117,28 @@ export const extractIcon = (markdown: string): "file" | "folder" => {
 };
 
 /**
+ * Format section title from path
+ */
+export const formatSectionTitle = (path: string): string => {
+  // Convert kebab-case to Title Case
+  return path
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+/**
+ * Format page title from path
+ */
+export const formatPageTitle = (path: string): string => {
+  // Convert kebab-case to Title Case
+  return path
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+/**
  * Update section title and description from markdown content
  */
 export const updateSectionFromMarkdown = (

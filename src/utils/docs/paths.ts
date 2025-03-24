@@ -3,7 +3,7 @@
  * Utilities for handling documentation paths and navigation
  */
 import { SidebarItem, SectionItem } from './types';
-import { extractTitle } from './frontmatter';
+import { extractTitle, formatSectionTitle, formatPageTitle } from './frontmatter';
 
 /**
  * Get GitHub path for a document
@@ -189,22 +189,11 @@ export const generateNavStructure = async () => {
         const restPathJoined = restPath.join('/');
         
         if (!sections[sectionName]) {
-          // Try to load the section index to get the section title
-          try {
-            const markdownContent = await loadMarkdownFile(sectionName);
-            const titleFromMarkdown = extractTitle(markdownContent);
-            sections[sectionName] = {
-              title: titleFromMarkdown || formatSectionTitle(sectionName),
-              path: `/docs/${sectionName}`,
-              items: []
-            };
-          } catch (error) {
-            sections[sectionName] = {
-              title: formatSectionTitle(sectionName),
-              path: `/docs/${sectionName}`,
-              items: []
-            };
-          }
+          sections[sectionName] = {
+            title: formatSectionTitle(sectionName),
+            path: `/docs/${sectionName}`,
+            items: []
+          };
         }
         
         // If this is not the index file, add it as a child page
@@ -252,26 +241,3 @@ export const generateNavStructure = async () => {
     return [];
   }
 };
-
-/**
- * Format section title from path
- */
-const formatSectionTitle = (path: string): string => {
-  // Convert kebab-case to Title Case
-  return path
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
-
-/**
- * Format page title from path
- */
-const formatPageTitle = (path: string): string => {
-  // Convert kebab-case to Title Case
-  return path
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
-
