@@ -2,6 +2,7 @@
 /**
  * Utilities for extracting and processing frontmatter from markdown content
  */
+import { SectionItem } from './types';
 
 /**
  * Extract data from markdown frontmatter
