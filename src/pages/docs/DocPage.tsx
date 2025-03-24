@@ -62,7 +62,7 @@ const DocPage = () => {
           </div>
         ) : (
           <>
-            <DocMetadata markdown={content} />
+            <DocMetadata markdown={content} githubPath={path} />
             <MarkdownRenderer content={content} />
           </>
         )}

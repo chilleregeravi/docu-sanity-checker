@@ -4,10 +4,19 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 interface DocBreadcrumbProps {
-  title: string;
+  path: string;
 }
 
-const DocBreadcrumb: React.FC<DocBreadcrumbProps> = ({ title }) => {
+const DocBreadcrumb: React.FC<DocBreadcrumbProps> = ({ path }) => {
+  // Extract title from path
+  const pathSegments = path.split('/').filter(Boolean);
+  const title = pathSegments.length > 1 
+    ? pathSegments[pathSegments.length - 1]
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : 'Documentation';
+    
   return (
     <div className="square-docs-section">
       <div className="flex items-center text-sm text-muted-foreground">
