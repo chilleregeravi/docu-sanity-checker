@@ -93,39 +93,31 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Completely rewritten table renderer with native HTML elements
-          table: ({ children }) => {
-            return (
-              <div className="my-6 w-full overflow-x-auto rounded-lg border border-border">
-                <table className="w-full border-collapse">
-                  {children}
-                </table>
-              </div>
-            );
-          },
+          // Fixed table components using native HTML elements
+          table: ({ children }) => (
+            <div className="my-6 w-full overflow-x-auto rounded-lg border border-border">
+              <table className="w-full border-collapse">
+                {children}
+              </table>
+            </div>
+          ),
           thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
           tbody: ({ children }) => <tbody>{children}</tbody>,
-          tr: ({ children, isHeader }) => {
-            return (
-              <tr className={`${isHeader ? 'bg-muted/70' : 'border-t border-border'}`}>
-                {children}
-              </tr>
-            );
-          },
-          th: ({ children }) => {
-            return (
-              <th className="px-4 py-3 text-left font-medium text-foreground">
-                {children}
-              </th>
-            );
-          },
-          td: ({ children }) => {
-            return (
-              <td className="border-t border-border px-4 py-3 align-top text-sm">
-                {children}
-              </td>
-            );
-          },
+          tr: ({ children }) => (
+            <tr className="border-t border-border">
+              {children}
+            </tr>
+          ),
+          th: ({ children }) => (
+            <th className="px-4 py-3 text-left font-medium text-foreground">
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="border-t border-border px-4 py-3 align-top text-sm">
+              {children}
+            </td>
+          ),
         }}
       >
         {contentWithoutFrontmatter}
