@@ -25,7 +25,7 @@ const App = () => (
           
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
-            <Route index element={<Navigate to="/docs/introduction" replace />} />
+            <Route index element={<DocPage />} />
             <Route path="*" element={<DocPage />} />
           </Route>
           

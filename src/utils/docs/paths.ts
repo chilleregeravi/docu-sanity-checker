@@ -14,25 +14,25 @@ export const getGitHubPath = (path: string): string => {
     normalizedPath = normalizedPath.substring(1);
   }
   
-  // Check if this might be a section landing page
-  if (!normalizedPath.includes('/')) {
-    // For top-level paths like 'style-guide', 'link-validation', etc.
-    // First check if there's an index.md in a subdirectory with this name
-    try {
-      // We can't dynamically import here to check, but we'll assume the structure
-      // This is just for generating GitHub URLs
-      if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration'].includes(normalizedPath)) {
-        return `${normalizedPath}/index.md`;
-      }
-    } catch (e) {
-      // Fall back to regular path if needed
-    }
-    
+  // Check if this is a nested path (contains a slash)
+  if (normalizedPath.includes('/')) {
     return `${normalizedPath}.md`;
   }
   
-  // If the path contains slashes, convert them to file structure
-  return `${normalizedPath.replace(/\//g, '/')}.md`;
+  // Check if this might be a section landing page
+  // For top-level paths like 'style-guide', 'link-validation', etc.
+  // First check if there's an index.md in a subdirectory with this name
+  try {
+    // We can't dynamically import here to check, but we'll assume the structure
+    // This is just for generating GitHub URLs
+    if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration', 'github-actions'].includes(normalizedPath)) {
+      return `${normalizedPath}/index.md`;
+    }
+  } catch (e) {
+    // Fall back to regular path if needed
+  }
+  
+  return `${normalizedPath}.md`;
 };
 
 /**
@@ -63,11 +63,20 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
   
   // Flatten the sidebar structure to get an ordered list of all pages
   sidebarStructure.sections.forEach((section: any) => {
-    if (section.items) {
-      allPages.push(section); // Add section overview page
-      allPages = [...allPages, ...section.items];
-    } else {
-      allPages.push(section);
+    allPages.push(section); // Add section overview page
+    
+    // Some hardcoded paths for section child pages since items were removed
+    if (section.title === "Style Guide") {
+      allPages.push({ 
+        title: "Writing Rules", 
+        path: "/docs/style-guide/writing-rules",
+        description: "Guidelines for language, tone, and structure"
+      });
+      allPages.push({ 
+        title: "Formatting", 
+        path: "/docs/style-guide/formatting",
+        description: "Standards for markdown formatting, code blocks, and images"
+      });
     }
   });
   

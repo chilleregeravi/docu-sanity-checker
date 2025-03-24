@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { 
@@ -37,23 +38,47 @@ const DocPage: React.FC = () => {
     const loadContent = async () => {
       setLoading(true);
       try {
+        console.log("Attempting to load markdown for path:", normalizedPath);
+        
         // Handle both regular pages and overview pages (like style-guide, link-validation)
         // First try to load as is, and if that fails, try to load as an index file
         let markdownContent;
+        let resolvedPath = '';
+
         try {
-          const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
+          resolvedPath = `@/docs/${normalizeDocPath(normalizedPath)}.md`;
+          console.log("Trying to load file directly:", resolvedPath);
+          const moduleImport = await import(`${resolvedPath}?raw`);
           markdownContent = moduleImport.default;
         } catch (e) {
-          // If loading the direct file fails, it might be a section landing page
-          // Don't show error yet, try to load potential section overview page
+          console.log("Failed to load file directly, trying index file");
+          // If loading the direct file fails, try to load potential section overview page
           try {
-            const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}/index.md?raw`);
+            resolvedPath = `@/docs/${normalizeDocPath(normalizedPath)}/index.md`;
+            console.log("Trying to load index file:", resolvedPath);
+            const moduleImport = await import(`${resolvedPath}?raw`);
             markdownContent = moduleImport.default;
           } catch (innerError) {
-            // If both attempts fail, throw to trigger the error handling
-            throw innerError;
+            console.error("Both attempts failed for path:", normalizedPath, innerError);
+            // In case normalizedPath already includes 'style-guide/writing-rules' format
+            // Try direct path for second-level pages
+            if (normalizedPath.includes('/')) {
+              try {
+                resolvedPath = `@/docs/${normalizedPath}.md`;
+                console.log("Trying direct path for nested page:", resolvedPath);
+                const moduleImport = await import(`${resolvedPath}?raw`);
+                markdownContent = moduleImport.default;
+              } catch (finalError) {
+                console.error("All attempts failed:", finalError);
+                throw finalError;
+              }
+            } else {
+              throw innerError;
+            }
           }
         }
+        
+        console.log("Successfully loaded markdown from:", resolvedPath);
         
         const extractedFrontmatter = extractFrontmatter(markdownContent);
         const extractedTitle = extractTitle(markdownContent);

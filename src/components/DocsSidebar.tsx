@@ -2,8 +2,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useSidebarStructure, SectionItem } from '@/utils/docs';
+import { useSidebarStructure } from '@/utils/docs';
+import { SectionItem } from '@/utils/docs/types';
 import SidebarSection from './sidebar/SidebarSection';
+import { Link } from 'react-router-dom';
+import { ChevronDown, ChevronUp, Folder, File } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 const DocsSidebar = () => {
   const sidebar = useSidebarStructure();
@@ -13,7 +18,30 @@ const DocsSidebar = () => {
   // Update docs when sidebar structure changes
   useEffect(() => {
     if (sidebar.sections && sidebar.sections.length > 0) {
-      setDocs(sidebar.sections);
+      // Add custom child items for sections
+      const enhancedSections = sidebar.sections.map(section => {
+        const enhancedSection = { ...section };
+        
+        // Add child items for Style Guide section
+        if (section.title === "Style Guide") {
+          enhancedSection.items = [
+            { 
+              title: "Writing Rules", 
+              path: "/docs/style-guide/writing-rules",
+              description: "Guidelines for language, tone, and structure"
+            },
+            { 
+              title: "Formatting", 
+              path: "/docs/style-guide/formatting",
+              description: "Standards for markdown formatting, code blocks, and images"
+            }
+          ];
+        }
+        
+        return enhancedSection;
+      });
+      
+      setDocs(enhancedSections);
     }
   }, [sidebar]);
 
@@ -25,20 +53,25 @@ const DocsSidebar = () => {
       const newDocs = [...docs];
       
       for (const doc of newDocs) {
+        // Check if current path matches the section itself
+        if (doc.path === location.pathname) {
+          doc.isExpanded = true;
+          continue;
+        }
+        
+        // Check if current path matches any child items or starts with the section path (for nested routes)
         if (doc.items) {
-          // Check if current path matches the section itself
-          if (doc.path === location.pathname) {
-            doc.isExpanded = true;
-            continue;
-          }
-          
-          // Check if current path matches any child items
           for (const item of doc.items) {
             if (item.path === location.pathname) {
               doc.isExpanded = true;
               break;
             }
           }
+        }
+        
+        // Also expand if the current path starts with the section path (for nested routes)
+        if (location.pathname.startsWith(doc.path) && doc.path !== "/docs") {
+          doc.isExpanded = true;
         }
       }
       
