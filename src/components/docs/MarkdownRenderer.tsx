@@ -3,6 +3,7 @@ import React from 'react';
 import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 
 interface MarkdownRendererProps {
   content: string;
@@ -92,22 +93,26 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
+          // Updated table components to use shadcn UI
           table: ({ children }) => (
-            <div className="my-6 w-full overflow-y-auto rounded-lg border">
-              <table className="w-full">{children}</table>
+            <div className="my-6 w-full overflow-y-auto">
+              <Table>{children}</Table>
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-muted/50">{children}</thead>
+            <TableHeader>{children}</TableHeader>
+          ),
+          tbody: ({ children }) => (
+            <TableBody>{children}</TableBody>
           ),
           tr: ({ children }) => (
-            <tr className="m-0 border-t p-0 even:bg-muted/20">{children}</tr>
+            <TableRow>{children}</TableRow>
           ),
           th: ({ children }) => (
-            <th className="border px-4 py-2 text-left font-semibold">{children}</th>
+            <TableHead className="font-medium">{children}</TableHead>
           ),
           td: ({ children }) => (
-            <td className="border px-4 py-2 text-left">{children}</td>
+            <TableCell>{children}</TableCell>
           ),
         }}
       >
