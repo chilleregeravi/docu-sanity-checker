@@ -3,6 +3,8 @@ const n=`
 date: 2023-08-10
 order: 2
 icon: file-text
+title: "Formatting"
+order: 2
 ---
 
 # Formatting Guidelines
@@ -155,4 +157,4 @@ module.exports = {
 };
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=formatting-_NbPRgmn.js.map
+//# sourceMappingURL=formatting-CWxh3z8G.js.map

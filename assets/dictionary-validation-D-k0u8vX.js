@@ -2,6 +2,8 @@ const n=`---
 date: 2023-08-20
 icon: shield
 description: "Validate technical terms against custom dictionaries"
+title: "Dictionary Validation"
+order: 2
 ---
 
 # Dictionary Validation
@@ -103,4 +105,4 @@ You can also integrate dictionary validation into your CI/CD pipeline using [Git
 
 Visit [Custom Dictionaries](/docs/dictionary-validation/custom) for more detailed information.
 `;export{n as default};
-//# sourceMappingURL=dictionary-validation-D6DlQ8-f.js.map
+//# sourceMappingURL=dictionary-validation-D-k0u8vX.js.map
