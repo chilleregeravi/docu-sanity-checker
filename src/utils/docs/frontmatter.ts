@@ -108,9 +108,12 @@ export const extractOrder = (markdown: string): number => {
 /**
  * Extract icon from markdown frontmatter
  */
-export const extractIcon = (markdown: string): string => {
+export const extractIcon = (markdown: string): "file" | "folder" => {
   const frontmatter = extractFrontmatter(markdown);
-  return frontmatter.icon || 'file'; // Default to 'file' if not specified
+  const iconValue = frontmatter.icon || 'file';
+  
+  // Make sure we only return valid icon types
+  return iconValue === 'folder' ? 'folder' : 'file';
 };
 
 /**
@@ -138,4 +141,3 @@ export const updateSectionFromMarkdown = (
  * Load markdown file (re-exported from paths.ts)
  */
 export { loadMarkdownFile } from './paths';
-
