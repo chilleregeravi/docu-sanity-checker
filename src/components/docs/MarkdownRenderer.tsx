@@ -4,6 +4,14 @@ import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
 import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 
 interface MarkdownRendererProps {
   content: string;
@@ -93,30 +101,26 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Fixed table components using native HTML elements
+          // Use shadcn/ui Table components for better table rendering
           table: ({ children }) => (
-            <div className="my-6 w-full overflow-x-auto rounded-lg border border-border">
-              <table className="w-full border-collapse">
-                {children}
-              </table>
+            <div className="my-6 w-full overflow-auto">
+              <Table>{children}</Table>
             </div>
           ),
-          thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
-          tbody: ({ children }) => <tbody>{children}</tbody>,
+          thead: ({ children }) => (
+            <TableHeader>{children}</TableHeader>
+          ),
+          tbody: ({ children }) => (
+            <TableBody>{children}</TableBody>
+          ),
           tr: ({ children }) => (
-            <tr className="border-t border-border">
-              {children}
-            </tr>
+            <TableRow>{children}</TableRow>
           ),
           th: ({ children }) => (
-            <th className="px-4 py-3 text-left font-medium text-foreground">
-              {children}
-            </th>
+            <TableHead className="font-semibold">{children}</TableHead>
           ),
           td: ({ children }) => (
-            <td className="border-t border-border px-4 py-3 align-top text-sm">
-              {children}
-            </td>
+            <TableCell>{children}</TableCell>
           ),
         }}
       >
