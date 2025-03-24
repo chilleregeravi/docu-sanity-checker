@@ -30,7 +30,7 @@
   "sections": [
     {
       "title": "Getting Started",
-      "path": "/docs",
+      "path": "/docs/introduction",
       "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
       "icon": "folder",
       "isExpanded": true,
