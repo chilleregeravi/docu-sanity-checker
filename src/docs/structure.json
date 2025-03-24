@@ -30,7 +30,7 @@
   "sections": [
     {
       "title": "Getting Started",
-      "path": "/docs/introduction",
+      "path": "/docs/getting-started/introduction",
       "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
       "icon": "folder",
       "isExpanded": true,
@@ -38,42 +38,42 @@
     },
     {
       "title": "Style Guide",
-      "path": "/docs/style-guide",
+      "path": "/docs/style-guide/overview",
       "description": "Ensure consistent writing style across all documentation.",
       "icon": "folder",
       "showOnMainPage": true
     },
     {
       "title": "Link Validation",
-      "path": "/docs/link-validation",
+      "path": "/docs/github-actions/link-validation",
       "description": "Automatically detect and report broken links in your documentation.",
       "icon": "folder",
       "showOnMainPage": true
     },
     {
       "title": "Dictionary Validation",
-      "path": "/docs/dictionary-validation",
+      "path": "/docs/github-actions/dictionary-validation",
       "description": "Ensure consistent terminology using custom dictionaries.",
       "icon": "folder",
       "showOnMainPage": true
     },
     {
       "title": "GitHub Actions",
-      "path": "/docs/github-actions",
+      "path": "/docs/github-actions/overview",
       "description": "Seamlessly integrate validation into your CI/CD workflow.",
       "icon": "folder",
       "showOnMainPage": true
     },
     {
       "title": "Contributing",
-      "path": "/docs/contributing",
+      "path": "/docs/getting-started/contributing",
       "description": "Guidelines for contributing to DocuSanity.",
       "icon": "file",
       "showOnMainPage": false
     },
     {
       "title": "FAQ",
-      "path": "/docs/faq",
+      "path": "/docs/getting-started/faq",
       "description": "Frequently asked questions about DocuSanity.",
       "icon": "file",
       "showOnMainPage": false
