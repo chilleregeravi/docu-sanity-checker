@@ -4,6 +4,7 @@ date: 2023-07-25
 icon: file-text
 description: "Introduction to DocuSanity and its features"
 title: "Introduction"
+order: 1
 ---
 
 # Introduction to DocuSanity
@@ -68,4 +69,4 @@ If you need help with DocuSanity, you can reach out to the community through:
 
 We welcome contributions to DocuSanity! Check out our [Contributing Guide](/docs/contributing) for more information.
 `;export{n as default};
-//# sourceMappingURL=introduction-BgBVrYGa.js.map
+//# sourceMappingURL=introduction-B81Lv9Bl.js.map

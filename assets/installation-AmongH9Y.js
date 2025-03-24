@@ -3,6 +3,8 @@ const n=`
 date: 2023-07-15
 icon: terminal-square
 description: "Run validation checks locally during development"
+title: "Installation"
+order: 2
 ---
 
 # Installation
@@ -111,4 +113,4 @@ Now that you have DocuSanity installed, you can:
 - Learn about [link validation](/docs/link-validation)
 - Set up [GitHub Actions](/docs/github-actions) for continuous validation
 `;export{n as default};
-//# sourceMappingURL=installation-_LMPrWxy.js.map
+//# sourceMappingURL=installation-AmongH9Y.js.map

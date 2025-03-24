@@ -4,6 +4,7 @@ date: 2023-08-15
 order: 3
 icon: settings
 description: "Get detailed reports with actionable recommendations"
+title: "Configuration"
 ---
 
 # Configuration
@@ -165,4 +166,4 @@ module.exports = {
 };
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=configuration-DO3L6yzg.js.map
+//# sourceMappingURL=configuration-DyAxcJUU.js.map
