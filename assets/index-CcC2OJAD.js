@@ -52,4 +52,4 @@ Here are some common style issues to watch for:
 
 Always review your documentation against these common issues before submitting.
 `;export{n as default};
-//# sourceMappingURL=style-guide-CcC2OJAD.js.map
+//# sourceMappingURL=index-CcC2OJAD.js.map

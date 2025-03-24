@@ -92,4 +92,4 @@ You can also integrate link validation into your CI/CD pipeline using [GitHub Ac
 
 Visit [Setting Up Checks](/docs/link-validation/setup) for more detailed configuration information.
 `;export{n as default};
-//# sourceMappingURL=link-validation-C4fXx9pE.js.map
+//# sourceMappingURL=index-C4fXx9pE.js.map
