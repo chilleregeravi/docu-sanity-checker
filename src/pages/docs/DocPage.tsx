@@ -36,8 +36,23 @@ const DocPage: React.FC = () => {
     const loadContent = async () => {
       setLoading(true);
       try {
-        const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
-        const markdownContent = moduleImport.default;
+        // Handle both regular pages and overview pages (like style-guide, link-validation)
+        // First try to load as is, and if that fails, try to load as an index file
+        let markdownContent;
+        try {
+          const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}.md?raw`);
+          markdownContent = moduleImport.default;
+        } catch (e) {
+          // If loading the direct file fails, it might be a section landing page
+          // Don't show error yet, try to load potential section overview page
+          try {
+            const moduleImport = await import(`@/docs/${normalizeDocPath(normalizedPath)}/index.md?raw`);
+            markdownContent = moduleImport.default;
+          } catch (innerError) {
+            // If both attempts fail, throw to trigger the error handling
+            throw innerError;
+          }
+        }
         
         const extractedFrontmatter = extractFrontmatter(markdownContent);
         const extractedTitle = extractTitle(markdownContent);
@@ -67,6 +82,7 @@ const DocPage: React.FC = () => {
     loadContent();
   }, [normalizedPath]);
 
+  // Show certain alerts based on path or frontmatter flags
   const showConfigInfo = normalizedPath.includes('configuration') || frontmatter.showConfigInfo;
   const showStyleGuideInfo = normalizedPath.includes('style-guide') || frontmatter.showStyleGuideInfo;
 

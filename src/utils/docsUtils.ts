@@ -1,3 +1,4 @@
+
 import sidebarStructure from '@/docs/structure.json';
 import { useEffect, useState } from 'react';
 
@@ -114,14 +115,25 @@ export const getGitHubPath = (path: string): string => {
     normalizedPath = normalizedPath.substring(1);
   }
   
-  // If the path contains slashes, convert them to file structure
-  if (normalizedPath.includes('/')) {
-    // For nested paths like "style-guide/writing-rules", create proper GitHub path
-    return `${normalizedPath.replace(/\//g, '/')}.md`;
+  // Check if this might be a section landing page
+  if (!normalizedPath.includes('/')) {
+    // For top-level paths like 'style-guide', 'link-validation', etc.
+    // First check if there's an index.md in a subdirectory with this name
+    try {
+      // We can't dynamically import here to check, but we'll assume the structure
+      // This is just for generating GitHub URLs
+      if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration'].includes(normalizedPath)) {
+        return `${normalizedPath}/index.md`;
+      }
+    } catch (e) {
+      // Fall back to regular path if needed
+    }
+    
+    return `${normalizedPath}.md`;
   }
   
-  // For top-level paths
-  return `${normalizedPath}.md`;
+  // If the path contains slashes, convert them to file structure
+  return `${normalizedPath.replace(/\//g, '/')}.md`;
 };
 
 /**
