@@ -4,68 +4,54 @@
  */
 import sidebarStructure from '@/docs/structure.json';
 import { SidebarStructure, SectionItem, SidebarItem } from './types';
+import { generateNavStructure } from './paths';
 
 /**
- * Generate sidebar structure by loading from the static structure.json
- * In a real app, this could scan the file system.
+ * Generate sidebar structure by loading from static structure.json and enhancing with dynamic file discovery
  */
 export const generateSidebarStructure = (): SidebarStructure => {
-  // Use the static configuration but eventually this would scan the file system
-  const structure = sidebarStructure as any;
+  // Use the static configuration from structure.json for basic metadata
+  const staticStructure = sidebarStructure as any;
   
   try {
-    const sections: SectionItem[] = [];
+    const dynamicSections = generateNavStructure();
     
-    // Transform existing sections
-    for (const section of structure.sections) {
-      const sectionPath = section.path.replace('/docs/', '').replace('/docs', '');
-      const sectionPathNormalized = sectionPath || 'introduction';
+    // Create sections by merging static metadata with dynamic file discovery
+    const sections: SectionItem[] = staticStructure.sections.map((staticSection: any) => {
+      // Extract path without /docs/ prefix
+      const sectionPath = staticSection.path.replace('/docs/', '').replace('/docs', '');
+      const sectionName = sectionPath || 'introduction';
       
-      // Create the section 
-      try {
-        const newSection: SectionItem = {
-          title: section.title,
-          path: section.path,
-          description: section.description,
-          icon: section.icon || 'folder',
-          isExpanded: section.isExpanded,
-          items: []
-        };
-        
-        // Transform child items if they exist
-        if (section.items && section.items.length > 0) {
-          const items: SidebarItem[] = [];
-          
-          for (const item of section.items) {
-            // Extract relative path
-            const itemPath = item.path.replace('/docs/', '').replace('/docs', '');
-            
-            const newItem: SidebarItem = {
-              title: item.title,
-              path: item.path,
-              description: item.description,
-              // In a real implementation, we would extract the order from the markdown
-              order: 999 // Default order if not specified
-            };
-            
-            items.push(newItem);
-          }
-          
-          // Sort items by order
-          newSection.items = items.sort((a, b) => (a.order || 999) - (b.order || 999));
-        }
-        
-        sections.push(newSection);
-      } catch (e) {
-        console.error(`Error loading section ${sectionPathNormalized}:`, e);
+      // Find the matching dynamic section info
+      const dynamicSection = dynamicSections.find(
+        (s: any) => s.path === staticSection.path
+      );
+      
+      // Create the section with merged data
+      const newSection: SectionItem = {
+        title: staticSection.title,
+        path: staticSection.path,
+        description: staticSection.description,
+        icon: staticSection.icon || 'folder',
+        isExpanded: staticSection.isExpanded,
+        items: []
+      };
+      
+      // Add child items from dynamic discovery if available
+      if (dynamicSection && dynamicSection.items) {
+        newSection.items = dynamicSection.items.map((item: any) => ({
+          title: item.title,
+          path: item.path,
+          description: item.description || '',
+          order: 999 // Default order if not specified
+        }));
       }
-    }
-    
-    // Sort sections by order
-    const sortedSections = sections.sort((a, b) => (a.order || 999) - (b.order || 999));
+      
+      return newSection;
+    });
     
     return {
-      sections: sortedSections
+      sections: sections
     };
   } catch (error) {
     console.error("Error generating sidebar structure:", error);

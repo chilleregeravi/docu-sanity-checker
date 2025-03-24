@@ -19,10 +19,8 @@ export const getGitHubPath = (path: string): string => {
     return `${normalizedPath}.md`;
   }
   
-  // Check if this might be a section landing page
-  // For top-level paths like 'style-guide', 'link-validation', etc.
-  // First check if there's an index.md in a subdirectory with this name
-  if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration', 'github-actions'].includes(normalizedPath)) {
+  // For section landing pages, return the index file
+  if (['style-guide', 'link-validation', 'dictionary-validation', 'github-actions'].includes(normalizedPath)) {
     return `${normalizedPath}/index.md`;
   }
   
@@ -59,19 +57,7 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
   sidebarStructure.sections.forEach((section: any) => {
     allPages.push(section); // Add section overview page
     
-    // Add specific paths for section child pages
-    if (section.title === "Style Guide") {
-      allPages.push({ 
-        title: "Writing Rules", 
-        path: "/docs/style-guide/writing-rules",
-        description: "Guidelines for language, tone, and structure"
-      });
-      allPages.push({ 
-        title: "Formatting", 
-        path: "/docs/style-guide/formatting",
-        description: "Standards for markdown formatting, code blocks, and images"
-      });
-    } else if (section.items) {
+    if (section.items) {
       section.items.forEach((item: SidebarItem) => {
         allPages.push(item);
       });
@@ -86,4 +72,89 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
   const next = currentIndex < allPages.length - 1 ? allPages[currentIndex + 1] : null;
   
   return { prev, next };
+};
+
+/**
+ * Get the available documentation files from context imports
+ * Note: In a real app, this would scan the filesystem, but we're limited to the import context in browser environments
+ */
+export const getAvailableDocFiles = (): string[] => {
+  // This list represents all markdown files we have in the project
+  // In a real implementation, we would scan the file system
+  return [
+    'introduction',
+    'style-guide/index',
+    'style-guide/writing-rules',
+    'style-guide/formatting',
+    'link-validation/index',
+    'dictionary-validation/index',
+    'github-actions/index',
+    'contributing',
+    'faq'
+  ];
+};
+
+/**
+ * Generate navigation structure from available file paths
+ * In a real app, this would analyze frontmatter, but here we'll infer from paths
+ */
+export const generateNavStructure = () => {
+  const files = getAvailableDocFiles();
+  const sections: Record<string, any> = {};
+  
+  // First, create section entries
+  files.forEach(file => {
+    if (file.includes('/')) {
+      // This is a section or a nested page
+      const [sectionName] = file.split('/');
+      
+      if (!sections[sectionName]) {
+        sections[sectionName] = {
+          title: formatSectionTitle(sectionName),
+          path: `/docs/${sectionName}`,
+          items: []
+        };
+      }
+      
+      // If this is not the index file, add it as a child page
+      if (!file.endsWith('/index')) {
+        const pageName = file.split('/').pop() || '';
+        sections[sectionName].items.push({
+          title: formatPageTitle(pageName),
+          path: `/docs/${file}`.replace('/index', '')
+        });
+      }
+    } else {
+      // This is a top-level page
+      sections[file] = {
+        title: formatPageTitle(file),
+        path: `/docs/${file}`,
+        items: []
+      };
+    }
+  });
+  
+  return Object.values(sections);
+};
+
+/**
+ * Format section title from path
+ */
+const formatSectionTitle = (path: string): string => {
+  // Convert kebab-case to Title Case
+  return path
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+/**
+ * Format page title from path
+ */
+const formatPageTitle = (path: string): string => {
+  // Convert kebab-case to Title Case
+  return path
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 };

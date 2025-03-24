@@ -28,7 +28,7 @@ const DocPage: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const [frontmatter, setFrontmatter] = useState<Record<string, any>>({});
   
-  const normalizedPath = path || 'introduction';
+  const normalizedPath = normalizeDocPath(path || '');
   const githubPath = getGitHubPath(normalizedPath);
   
   const sidebar = generateSidebarStructure();
@@ -40,11 +40,14 @@ const DocPage: React.FC = () => {
       try {
         console.log("Attempting to load markdown for path:", normalizedPath);
         
-        // Define the potential import paths - first try the direct path
+        // Dynamic import approach based on path patterns
         let content;
         
         try {
-          if (normalizedPath === 'introduction') {
+          // Handle different path patterns
+          if (normalizedPath === '') {
+            content = await import('@/docs/introduction.md?raw');
+          } else if (normalizedPath === 'introduction') {
             content = await import('@/docs/introduction.md?raw');
           } else if (normalizedPath === 'style-guide') {
             content = await import('@/docs/style-guide/index.md?raw');
@@ -54,11 +57,16 @@ const DocPage: React.FC = () => {
             content = await import('@/docs/style-guide/formatting.md?raw');
           } else if (normalizedPath === 'link-validation') {
             content = await import('@/docs/link-validation/index.md?raw');
-          } else if (normalizedPath.includes('/')) {
-            // For nested paths, try the direct path
-            content = await import(`@/docs/${normalizedPath}.md?raw`);
+          } else if (normalizedPath === 'dictionary-validation') {
+            content = await import('@/docs/dictionary-validation.md?raw');
+          } else if (normalizedPath === 'github-actions') {
+            content = await import('@/docs/github-actions.md?raw');
+          } else if (normalizedPath === 'contributing') {
+            content = await import('@/docs/contributing.md?raw');
+          } else if (normalizedPath === 'faq') {
+            content = await import('@/docs/faq.md?raw');
           } else {
-            // For any other path, try the file directly
+            // For any other paths, try direct path format
             content = await import(`@/docs/${normalizedPath}.md?raw`);
           }
         } catch (error) {

@@ -23,21 +23,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           
-          {/* Documentation Routes */}
+          {/* Documentation Routes - using a catch-all pattern */}
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocPage />} />
-            <Route path="style-guide" element={<DocPage />} />
-            <Route path="style-guide/writing-rules" element={<DocPage />} />
-            <Route path="style-guide/formatting" element={<DocPage />} />
-            <Route path="link-validation" element={<DocPage />} />
-            <Route path="dictionary-validation" element={<DocPage />} />
-            <Route path="github-actions" element={<DocPage />} />
-            <Route path="contributing" element={<DocPage />} />
-            <Route path="faq" element={<DocPage />} />
+            {/* Using a catch-all route to handle all documentation paths */}
             <Route path="*" element={<DocPage />} />
           </Route>
           
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Catch-all for non-matching routes */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
