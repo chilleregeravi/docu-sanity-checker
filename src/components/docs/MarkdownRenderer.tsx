@@ -4,6 +4,7 @@ import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { Separator } from "@/components/ui/separator";
 
 interface MarkdownRendererProps {
   content: string;
@@ -93,37 +94,37 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Completely revised table components
+          // Simplified table components with proper structure
           table: ({ children }) => {
             return (
-              <div className="my-6 w-full overflow-auto border border-border rounded-md">
-                <Table>
+              <div className="my-6 w-full overflow-x-auto">
+                <table className="min-w-full border-collapse text-sm">
                   {children}
-                </Table>
+                </table>
               </div>
             );
           },
           thead: ({ children }) => {
-            return <TableHeader>{children}</TableHeader>;
+            return <thead className="bg-muted/50">{children}</thead>;
           },
           tbody: ({ children }) => {
-            return <TableBody>{children}</TableBody>;
+            return <tbody>{children}</tbody>;
           },
           tr: ({ children }) => {
-            return <TableRow>{children}</TableRow>;
+            return <tr className="border-b border-border">{children}</tr>;
           },
           th: ({ children }) => {
             return (
-              <TableHead className="font-semibold text-foreground p-2">
+              <th className="border border-border px-4 py-2 text-left font-medium">
                 {children}
-              </TableHead>
+              </th>
             );
           },
           td: ({ children }) => {
             return (
-              <TableCell className="p-2">
+              <td className="border border-border px-4 py-2">
                 {children}
-              </TableCell>
+              </td>
             );
           },
         }}
