@@ -4,14 +4,6 @@ import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 
 interface MarkdownRendererProps {
   content: string;
@@ -101,38 +93,26 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Custom table components that work with react-markdown's properties
-          table: ({ ...props }) => (
-            <div className="my-6 w-full overflow-auto rounded-md border">
-              <table className="w-full caption-bottom text-sm">
-                {props.children}
-              </table>
+          // Simple native table elements with styling
+          table: ({ node, ...props }) => (
+            <div className="my-6 w-full overflow-x-auto">
+              <table className="w-full border-collapse border border-border" {...props} />
             </div>
           ),
-          thead: ({ ...props }) => (
-            <thead className="border-b bg-muted/50">
-              {props.children}
-            </thead>
+          thead: ({ node, ...props }) => (
+            <thead className="bg-muted/50" {...props} />
           ),
-          tbody: ({ ...props }) => (
-            <tbody className="[&_tr:last-child]:border-0">
-              {props.children}
-            </tbody>
+          tbody: ({ node, ...props }) => (
+            <tbody {...props} />
           ),
-          tr: ({ ...props }) => (
-            <tr className="border-b transition-colors hover:bg-muted/50">
-              {props.children}
-            </tr>
+          tr: ({ node, ...props }) => (
+            <tr className="border-b border-border hover:bg-muted/20" {...props} />
           ),
-          th: ({ ...props }) => (
-            <th className="h-10 px-4 text-left align-middle font-medium text-muted-foreground">
-              {props.children}
-            </th>
+          th: ({ node, ...props }) => (
+            <th className="px-4 py-2 text-left font-medium" {...props} />
           ),
-          td: ({ ...props }) => (
-            <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-              {props.children}
-            </td>
+          td: ({ node, ...props }) => (
+            <td className="px-4 py-2 border-r border-border last:border-r-0" {...props} />
           ),
         }}
       >
