@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, Github, Check, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Markdown from 'react-markdown';
-import DocMetadata from '@/components/DocMetadata';
 import introContent from '@/docs/introduction.md?raw';
 import sidebarStructure from '@/docs/structure.json';
 
@@ -79,7 +77,6 @@ const DocsIndex = () => {
         <p className="text-xl text-muted-foreground mb-6">
           {structureData.docsIndex.description}
         </p>
-        <DocMetadata publishDate="June 15, 2023" githubPath="introduction.md" />
       </div>
 
       <div className="prose prose-blue max-w-none dark:prose-invert">
