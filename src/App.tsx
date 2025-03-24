@@ -27,7 +27,6 @@ const App = () => (
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocsIndex />} />
-            {/* Fix dynamic route pattern to use proper "/*" pattern */}
             <Route path="*" element={<DocPage />} />
           </Route>
           
