@@ -93,39 +93,39 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Enhanced table components to ensure proper rendering
-          table: ({ children }) => (
-            <div className="my-6 w-full overflow-x-auto rounded-md border border-border">
-              <Table className="min-w-full divide-y divide-border">
+          // Completely revised table components
+          table: ({ children }) => {
+            return (
+              <div className="my-6 w-full overflow-auto border border-border rounded-md">
+                <Table>
+                  {children}
+                </Table>
+              </div>
+            );
+          },
+          thead: ({ children }) => {
+            return <TableHeader>{children}</TableHeader>;
+          },
+          tbody: ({ children }) => {
+            return <TableBody>{children}</TableBody>;
+          },
+          tr: ({ children }) => {
+            return <TableRow>{children}</TableRow>;
+          },
+          th: ({ children }) => {
+            return (
+              <TableHead className="font-semibold text-foreground p-2">
                 {children}
-              </Table>
-            </div>
-          ),
-          thead: ({ children }) => (
-            <TableHeader className="bg-muted">
-              {children}
-            </TableHeader>
-          ),
-          tbody: ({ children }) => (
-            <TableBody className="divide-y divide-border">
-              {children}
-            </TableBody>
-          ),
-          tr: ({ children }) => (
-            <TableRow>
-              {children}
-            </TableRow>
-          ),
-          th: ({ children }) => (
-            <TableHead className="px-4 py-3 text-left text-sm font-semibold">
-              {children}
-            </TableHead>
-          ),
-          td: ({ children }) => (
-            <TableCell className="px-4 py-3 text-sm">
-              {children}
-            </TableCell>
-          ),
+              </TableHead>
+            );
+          },
+          td: ({ children }) => {
+            return (
+              <TableCell className="p-2">
+                {children}
+              </TableCell>
+            );
+          },
         }}
       >
         {contentWithoutFrontmatter}
