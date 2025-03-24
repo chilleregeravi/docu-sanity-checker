@@ -3,11 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DocsLayout from "./pages/DocsLayout";
-import DocsIndex from "./pages/docs/Index";
 import DocPage from "./pages/docs/DocPage";
 
 const queryClient = new QueryClient();
@@ -26,7 +25,7 @@ const App = () => (
           
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
-            <Route index element={<DocsIndex />} />
+            <Route index element={<Navigate to="/docs/introduction" replace />} />
             <Route path="*" element={<DocPage />} />
           </Route>
           
