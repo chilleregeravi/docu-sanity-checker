@@ -40,49 +40,42 @@ const DocPage: React.FC = () => {
       try {
         console.log("Attempting to load markdown for path:", normalizedPath);
         
-        // Handle both regular pages and overview pages (like style-guide, link-validation)
-        // First try to load as is, and if that fails, try to load as an index file
-        let markdownContent;
-        let resolvedPath = '';
-
+        // Define the potential import paths - first try the direct path
+        let content;
+        
         try {
-          resolvedPath = `@/docs/${normalizeDocPath(normalizedPath)}.md`;
-          console.log("Trying to load file directly:", resolvedPath);
-          const moduleImport = await import(`${resolvedPath}?raw`);
-          markdownContent = moduleImport.default;
-        } catch (e) {
-          console.log("Failed to load file directly, trying index file");
-          // If loading the direct file fails, try to load potential section overview page
-          try {
-            resolvedPath = `@/docs/${normalizeDocPath(normalizedPath)}/index.md`;
-            console.log("Trying to load index file:", resolvedPath);
-            const moduleImport = await import(`${resolvedPath}?raw`);
-            markdownContent = moduleImport.default;
-          } catch (innerError) {
-            console.error("Both attempts failed for path:", normalizedPath, innerError);
-            // In case normalizedPath already includes 'style-guide/writing-rules' format
-            // Try direct path for second-level pages
-            if (normalizedPath.includes('/')) {
-              try {
-                resolvedPath = `@/docs/${normalizedPath}.md`;
-                console.log("Trying direct path for nested page:", resolvedPath);
-                const moduleImport = await import(`${resolvedPath}?raw`);
-                markdownContent = moduleImport.default;
-              } catch (finalError) {
-                console.error("All attempts failed:", finalError);
-                throw finalError;
-              }
-            } else {
-              throw innerError;
-            }
+          if (normalizedPath === 'introduction') {
+            content = await import('@/docs/introduction.md?raw');
+          } else if (normalizedPath === 'style-guide') {
+            content = await import('@/docs/style-guide/index.md?raw');
+          } else if (normalizedPath === 'style-guide/writing-rules') {
+            content = await import('@/docs/style-guide/writing-rules.md?raw');
+          } else if (normalizedPath === 'style-guide/formatting') {
+            content = await import('@/docs/style-guide/formatting.md?raw');
+          } else if (normalizedPath === 'link-validation') {
+            content = await import('@/docs/link-validation/index.md?raw');
+          } else if (normalizedPath.includes('/')) {
+            // For nested paths, try the direct path
+            content = await import(`@/docs/${normalizedPath}.md?raw`);
+          } else {
+            // For any other path, try the file directly
+            content = await import(`@/docs/${normalizedPath}.md?raw`);
           }
+        } catch (error) {
+          console.error("Failed to load content for path:", normalizedPath, error);
+          throw error;
         }
         
-        console.log("Successfully loaded markdown from:", resolvedPath);
+        if (!content) {
+          throw new Error(`Content not found for path: ${normalizedPath}`);
+        }
+        
+        const markdownContent = content.default;
+        console.log("Successfully loaded markdown content");
         
         const extractedFrontmatter = extractFrontmatter(markdownContent);
-        const extractedTitle = extractTitle(markdownContent);
-        const extractedDescription = extractDescription(markdownContent);
+        const extractedTitle = extractTitle(markdownContent) || 'Documentation';
+        const extractedDescription = extractDescription(markdownContent) || '';
         
         setFrontmatter(extractedFrontmatter);
         setTitle(extractedTitle);

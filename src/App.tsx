@@ -26,6 +26,14 @@ const App = () => (
           {/* Documentation Routes */}
           <Route path="/docs" element={<DocsLayout />}>
             <Route index element={<DocPage />} />
+            <Route path="style-guide" element={<DocPage />} />
+            <Route path="style-guide/writing-rules" element={<DocPage />} />
+            <Route path="style-guide/formatting" element={<DocPage />} />
+            <Route path="link-validation" element={<DocPage />} />
+            <Route path="dictionary-validation" element={<DocPage />} />
+            <Route path="github-actions" element={<DocPage />} />
+            <Route path="contributing" element={<DocPage />} />
+            <Route path="faq" element={<DocPage />} />
             <Route path="*" element={<DocPage />} />
           </Route>
           

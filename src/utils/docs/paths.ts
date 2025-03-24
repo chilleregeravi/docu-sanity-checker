@@ -22,14 +22,8 @@ export const getGitHubPath = (path: string): string => {
   // Check if this might be a section landing page
   // For top-level paths like 'style-guide', 'link-validation', etc.
   // First check if there's an index.md in a subdirectory with this name
-  try {
-    // We can't dynamically import here to check, but we'll assume the structure
-    // This is just for generating GitHub URLs
-    if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration', 'github-actions'].includes(normalizedPath)) {
-      return `${normalizedPath}/index.md`;
-    }
-  } catch (e) {
-    // Fall back to regular path if needed
+  if (['style-guide', 'link-validation', 'dictionary-validation', 'configuration', 'github-actions'].includes(normalizedPath)) {
+    return `${normalizedPath}/index.md`;
   }
   
   return `${normalizedPath}.md`;
@@ -65,7 +59,7 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
   sidebarStructure.sections.forEach((section: any) => {
     allPages.push(section); // Add section overview page
     
-    // Some hardcoded paths for section child pages since items were removed
+    // Add specific paths for section child pages
     if (section.title === "Style Guide") {
       allPages.push({ 
         title: "Writing Rules", 
@@ -76,6 +70,10 @@ export const getNavigationLinks = (currentPath: string, sidebarStructure: any): 
         title: "Formatting", 
         path: "/docs/style-guide/formatting",
         description: "Standards for markdown formatting, code blocks, and images"
+      });
+    } else if (section.items) {
+      section.items.forEach((item: SidebarItem) => {
+        allPages.push(item);
       });
     }
   });
