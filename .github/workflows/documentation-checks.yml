@@ -13,7 +13,7 @@ jobs:
     name: Check for broken links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -31,7 +31,7 @@ jobs:
     name: Validate against dictionary
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -52,7 +52,7 @@ jobs:
     name: Check style guide compliance
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -78,7 +78,7 @@ jobs:
     name: Build project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -116,7 +116,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Download build artifacts
         uses: actions/download-artifact@v4
