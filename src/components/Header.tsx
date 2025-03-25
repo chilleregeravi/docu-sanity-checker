@@ -13,8 +13,9 @@ import {
   SheetClose 
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import content from '@/content.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageSelector } from './LanguageSelector';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Home,
@@ -31,7 +32,8 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isMobile = useIsMobile();
-  const { header } = content;
+  const { t } = useLanguage();
+  const header = t('header');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,6 +71,7 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
+          <LanguageSelector />
           <ThemeToggle />
           <Button variant="outline" size="sm" className="rounded-full">
             {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
@@ -106,6 +109,10 @@ const Header = () => {
             </nav>
             
             <div className="mt-10 space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium">{t('language.selectLanguage')}</span>
+                <LanguageSelector />
+              </div>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm font-medium">Theme</span>
                 <ThemeToggle />

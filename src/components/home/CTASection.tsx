@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Github } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CommunityLink {
   title: string;
@@ -14,6 +15,8 @@ interface CTASectionProps {
 }
 
 const CTASection: React.FC<CTASectionProps> = ({ community }) => {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-24 md:py-32 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">

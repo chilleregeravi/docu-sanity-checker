@@ -4,10 +4,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import sidebarStructure from '@/docs/structure.json';
-import content from '@/content.json';
 import Hero from '@/components/home/Hero';
 import DocumentationSection from '@/components/home/DocumentationSection';
 import CTASection from '@/components/home/CTASection';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type StructureData = {
   sections: Array<{
@@ -26,7 +26,8 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
-  const { community } = content;
+  const { t } = useLanguage();
+  const community = t('community');
   
   return (
     <PageTransition>

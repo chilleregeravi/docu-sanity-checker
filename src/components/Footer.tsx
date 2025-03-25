@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Github, Twitter, Slack, Heart } from 'lucide-react';
-import content from '@/content.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Github,
@@ -13,7 +13,8 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 };
 
 const Footer = () => {
-  const { footer } = content;
+  const { t } = useLanguage();
+  const footer = t('footer');
   const currentYear = new Date().getFullYear();
   const copyrightText = footer.copyright.replace('{year}', currentYear.toString());
 
