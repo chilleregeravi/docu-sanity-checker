@@ -21,13 +21,15 @@ type LanguageContextType = {
   language: string;
   setLanguage: (lang: string) => void;
   t: (key: string) => any;
+  getLocalizedPath: (basePath: string) => string;
 };
 
 // Create the context with default values
 const LanguageContext = createContext<LanguageContextType>({
   language: 'en',
   setLanguage: () => {},
-  t: (key: string) => key
+  t: (key: string) => key,
+  getLocalizedPath: (path: string) => path
 });
 
 // Provider component
@@ -75,8 +77,20 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     return value;
   };
 
+  // Function to get the localized path for markdown content
+  const getLocalizedPath = (basePath: string): string => {
+    if (language === 'en') {
+      return basePath; // Default language uses the base path
+    }
+    
+    // For non-English languages, add language prefix to the path
+    // This assumes your markdown files are organized in language-specific folders
+    const pathWithoutExtension = basePath.replace(/\.md$/, '');
+    return `${pathWithoutExtension}.${language}.md`;
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, getLocalizedPath }}>
       {children}
     </LanguageContext.Provider>
   );

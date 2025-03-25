@@ -7,6 +7,7 @@ import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocMetadata from '@/components/DocMetadata';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const DocPage = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const DocPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const { sidebar } = useSidebarStructure();
+  const { getLocalizedPath } = useLanguage();
 
   // Determine the path from the URL
   const path = location.pathname.replace(/^\/docs\//, '');
@@ -25,10 +27,19 @@ const DocPage = () => {
     const fetchContent = async () => {
       try {
         setIsLoading(true);
-        // Load markdown content from the appropriate file
-        const markdownContent = await loadMarkdownFile(path);
-        setContent(markdownContent);
-        setError(null);
+        // Try to load localized markdown content first
+        const localizedPath = getLocalizedPath(path);
+        try {
+          // First try to load the localized version
+          const markdownContent = await loadMarkdownFile(localizedPath);
+          setContent(markdownContent);
+          setError(null);
+        } catch (localizedErr) {
+          // If localized version fails, fall back to the default (English) version
+          const markdownContent = await loadMarkdownFile(path);
+          setContent(markdownContent);
+          setError(null);
+        }
       } catch (err: any) {
         console.error("Failed to load doc content:", err);
         setError(err);
@@ -39,7 +50,7 @@ const DocPage = () => {
     };
     
     fetchContent();
-  }, [path]);
+  }, [path, getLocalizedPath]);
   
   return (
     <div className="pb-16">
