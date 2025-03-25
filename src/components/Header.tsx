@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import content from '@/content.json';
+import { ThemeToggle } from './ThemeToggle';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Home,
@@ -50,7 +51,7 @@ const Header = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out px-6 md:px-10 py-4',
         isScrolled
-          ? 'bg-white/70 backdrop-blur-lg shadow-subtle dark:bg-black/70'
+          ? 'bg-white/70 dark:bg-black/70 backdrop-blur-lg shadow-subtle'
           : 'bg-transparent'
       )}
     >
@@ -68,6 +69,7 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
+          <ThemeToggle />
           <Button variant="outline" size="sm" className="rounded-full">
             {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
             <span>{header.actions.search.label}</span>
@@ -104,6 +106,10 @@ const Header = () => {
             </nav>
             
             <div className="mt-10 space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium">Theme</span>
+                <ThemeToggle />
+              </div>
               <Button variant="outline" className="w-full justify-start">
                 {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
                 <span>{header.actions.search.label}</span>
