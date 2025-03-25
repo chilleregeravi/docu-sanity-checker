@@ -23,8 +23,12 @@ type LanguageContextType = {
   t: (key: string) => any;
 };
 
-// Create the context
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+// Create the context with default values
+const LanguageContext = createContext<LanguageContextType>({
+  language: 'en',
+  setLanguage: () => {},
+  t: (key: string) => key
+});
 
 // Provider component
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -81,7 +85,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 // Custom hook for using the language context
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
