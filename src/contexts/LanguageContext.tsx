@@ -16,9 +16,6 @@ export const languages = {
 // Create the translations object with all language data
 const translations = { en, es, fr };
 
-// Define the type for the translations
-type TranslationType = typeof en;
-
 // Define context type
 type LanguageContextType = {
   language: string;
