@@ -10,7 +10,8 @@
       { "path": "/docs", "label": "Docs", "icon": "FileText" },
       { "path": "/guides", "label": "Guides", "icon": "Book" },
       { "path": "/api", "label": "API", "icon": "Code" },
-      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" },
+      { "path": "/tools/microsoft-style", "label": "MS Style Tool", "icon": "Edit" }
     ],
     "actions": {
       "search": {
@@ -56,13 +57,13 @@
         ]
       },
       {
-        "title": "Company",
+        "title": "Tools",
         "links": [
+          { "label": "Microsoft Style Guide Tool", "href": "/tools/microsoft-style" },
           { "label": "About", "href": "/about" },
           { "label": "Contact", "href": "/contact" },
           { "label": "Privacy", "href": "/privacy" },
-          { "label": "Terms", "href": "/terms" },
-          { "label": "Careers", "href": "/careers" }
+          { "label": "Terms", "href": "/terms" }
         ]
       }
     ],
