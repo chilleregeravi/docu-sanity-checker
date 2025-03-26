@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Github } from 'lucide-react';
-import content from '@/content.json';
+import content from '../../content.json';
 
 const Hero: React.FC = () => {
   const hero = content.hero;
