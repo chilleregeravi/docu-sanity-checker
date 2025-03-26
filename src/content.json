@@ -2,7 +2,7 @@
 {
   "header": {
     "logo": {
-      "text": "DocuSanity",
+      "text": "FrameD",
       "logoLetter": "D"
     },
     "navigation": [
@@ -25,7 +25,7 @@
   },
   "footer": {
     "logo": {
-      "text": "DocuSanity",
+      "text": "FrameD",
       "logoLetter": "D"
     },
     "description": "Beautiful documentation made simple. With built-in validation, style guide enforcement, and seamless GitHub integration.",
@@ -66,8 +66,8 @@
         ]
       }
     ],
-    "copyright": "© {year} DocuSanity. All rights reserved.",
-    "madeWith": "Made with ❤️ by the DocuSanity team"
+    "copyright": "© {year} FrameD. All rights reserved.",
+    "madeWith": "Made with ❤️ by the FrameD team"
   },
   "hero": {
     "tagline": "Documentation Made Beautiful",
@@ -76,7 +76,7 @@
     "primaryButtonText": "Get Started",
     "primaryButtonUrl": "/docs",
     "secondaryButtonText": "View on GitHub",
-    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
+    "secondaryButtonUrl": "https://github.com/chilleregeravi/FrameD"
   },
   "docsIndex": {
     "title": "Introduction",
@@ -98,6 +98,6 @@
   },
   "community": {
     "title": "Join our community",
-    "url": "https://github.com/docusanity/documentation/discussions"
+    "url": "https://github.com/chilleregeravi/FrameD/discussions"
   }
 }
