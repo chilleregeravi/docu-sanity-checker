@@ -26,6 +26,7 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
+  
   // Prepare community data for the CTA section
   const community = {
     title: content.community?.title || "Join our community",

@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import content from '@/content.json';
 
 interface DocSection {
   title: string;
@@ -23,7 +22,7 @@ const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections })
   const displaySections = sections.filter(section => section.showOnMainPage === true);
   
   if (displaySections.length === 0) {
-    console.error("No sections with showOnMainPage=true found");
+    console.warn("No sections with showOnMainPage=true found");
     return null;
   }
   

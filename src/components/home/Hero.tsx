@@ -33,15 +33,15 @@ const Hero: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slideUpAndFade" style={{ animationDelay: '200ms' }}>
-          <Link to={hero.primaryButtonUrl}>
+          <Link to={hero.primaryButtonUrl || "/docs"}>
             <Button size="lg" className="rounded-md px-8 w-full sm:w-auto shadow-sm hover:shadow-md transition-all">
-              {hero.primaryButtonText}
+              {hero.primaryButtonText || "Get Started"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-          <a href={hero.secondaryButtonUrl} target="_blank" rel="noopener noreferrer">
+          <a href={hero.secondaryButtonUrl || "https://github.com"} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="lg" className="rounded-md px-8 w-full sm:w-auto">
-              {hero.secondaryButtonText}
+              {hero.secondaryButtonText || "View on GitHub"}
               <Github className="ml-2 h-4 w-4" />
             </Button>
           </a>
