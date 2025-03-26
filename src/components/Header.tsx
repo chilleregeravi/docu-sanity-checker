@@ -35,6 +35,16 @@ const Header = () => {
   const { t } = useLanguage();
   const header = t('header');
 
+  // Add Microsoft Style link to navigation items
+  const navItems = [
+    ...header.navigation,
+    {
+      path: "/microsoft-style",
+      label: "Microsoft Style",
+      icon: "FileText"
+    }
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -67,7 +77,7 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLinks isActive={isActive} navItems={header.navigation} />
+          <NavLinks isActive={isActive} navItems={navItems} />
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -105,7 +115,7 @@ const Header = () => {
             </SheetHeader>
             
             <nav className="flex flex-col mt-6 space-y-5">
-              <MobileNavLinks isActive={isActive} navItems={header.navigation} />
+              <MobileNavLinks isActive={isActive} navItems={navItems} />
             </nav>
             
             <div className="mt-10 space-y-4">

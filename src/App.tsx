@@ -38,7 +38,7 @@ function App() {
             </Route>
             
             {/* Microsoft Style Guide Generator */}
-            <Route path="/tools/microsoft-style" element={
+            <Route path="/microsoft-style" element={
               <Suspense fallback={<div>Loading...</div>}>
                 <MicrosoftStyleGenerator />
               </Suspense>
