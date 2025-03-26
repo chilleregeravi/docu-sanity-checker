@@ -16,6 +16,9 @@ export const languages = {
 // Create the translations object with all language data
 const translations = { en, es, fr };
 
+// Define the type for the translations
+type TranslationType = typeof en;
+
 // Define context type
 type LanguageContextType = {
   language: string;
@@ -55,26 +58,35 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Translation function that navigates through the nested keys
   const t = (key: string) => {
     const keys = key.split('.');
-    let value = translations[language as keyof typeof translations];
+    const currentTranslations = translations[language as keyof typeof translations] as TranslationType;
     
-    for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
-        value = value[k as keyof typeof value];
+    let result = currentTranslations;
+    let fallbackResult = translations.en as TranslationType;
+    
+    // Navigate through the nested keys
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i];
+      
+      // Check if the key exists in the current language
+      if (result && typeof result === 'object' && k in result) {
+        result = result[k as keyof typeof result];
       } else {
-        // Fallback to English if the key doesn't exist in the current language
-        let fallback = translations.en;
-        for (const fallbackKey of keys) {
-          if (fallback && typeof fallback === 'object' && fallbackKey in fallback) {
-            fallback = fallback[fallbackKey as keyof typeof fallback];
-          } else {
-            return key; // Return the key itself if not found in any language
-          }
-        }
-        return fallback;
+        // Key doesn't exist in current language, try fallback
+        result = undefined;
+        break;
+      }
+      
+      // Also navigate through fallback
+      if (fallbackResult && typeof fallbackResult === 'object' && k in fallbackResult) {
+        fallbackResult = fallbackResult[k as keyof typeof fallbackResult];
+      } else {
+        // If key doesn't exist in fallback either, return the key itself
+        fallbackResult = undefined;
       }
     }
     
-    return value;
+    // Return the result from current language, fallback to English or the key itself
+    return result !== undefined ? result : (fallbackResult !== undefined ? fallbackResult : key);
   };
 
   // Function to get the localized path for markdown content
@@ -83,8 +95,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       return basePath; // Default language uses the base path
     }
     
-    // For non-English languages, add language prefix to the path
-    // This assumes your markdown files are organized in language-specific folders
+    // For non-English languages, add language suffix to the path
     const pathWithoutExtension = basePath.replace(/\.md$/, '');
     return `${pathWithoutExtension}.${language}.md`;
   };
