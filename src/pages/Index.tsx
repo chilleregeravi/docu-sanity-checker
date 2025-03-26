@@ -27,7 +27,10 @@ type StructureData = {
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
   const { t } = useLanguage();
-  const community = t('community');
+  const community = {
+    title: t('community.title'),
+    url: t('community.url')
+  };
   
   return (
     <PageTransition>
