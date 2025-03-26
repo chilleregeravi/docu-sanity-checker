@@ -26,16 +26,16 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
-  const community = content.community && {
-    title: content.community.title,
-    url: content.community.url
+  // Prepare community data for the CTA section
+  const community = {
+    title: content.community?.title || "Join our community",
+    url: content.community?.url || "https://github.com"
   };
   
-  console.log("Index rendering with content:", content);
-  console.log("Structure data:", structureData);
+  console.log("Index rendering with sidebar structure:", structureData);
 
-  // Make sure we have at least some sections to show
-  const sectionsToShow = structureData.sections || [];
+  // Make sure we have sections to show
+  const sections = structureData.sections || [];
   
   return (
     <PageTransition>
@@ -46,7 +46,7 @@ const Index = () => {
         <Hero />
         
         {/* Documentation Sections */}
-        <DocumentationSection sections={sectionsToShow} />
+        <DocumentationSection sections={sections} />
         
         {/* CTA Section */}
         <CTASection community={community} />

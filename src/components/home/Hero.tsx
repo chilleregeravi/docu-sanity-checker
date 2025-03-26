@@ -11,7 +11,6 @@ const Hero: React.FC = () => {
   console.log("Hero rendering with content:", hero);
 
   if (!hero) {
-    console.error("Hero content not found in content.json");
     return null;
   }
 

@@ -43,14 +43,12 @@ const CTASection: React.FC<CTASectionProps> = ({ community }) => {
                 View Documentation
               </Button>
             </Link>
-            {communityInfo && (
-              <a href={communityInfo.url} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
-                  <Github className="mr-2 h-5 w-5" />
-                  {communityInfo.title}
-                </Button>
-              </a>
-            )}
+            <a href={communityInfo.url} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
+                <Github className="mr-2 h-5 w-5" />
+                {communityInfo.title}
+              </Button>
+            </a>
           </div>
         </div>
       </div>
