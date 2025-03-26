@@ -58,10 +58,11 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Translation function that navigates through the nested keys
   const t = (key: string) => {
     const keys = key.split('.');
-    const currentTranslations = translations[language as keyof typeof translations] as TranslationType;
+    const currentTranslations = translations[language as keyof typeof translations] as any;
+    const fallbackTranslations = translations.en as any;
     
-    let result = currentTranslations;
-    let fallbackResult = translations.en as TranslationType;
+    let result: any = currentTranslations;
+    let fallbackResult: any = fallbackTranslations;
     
     // Navigate through the nested keys
     for (let i = 0; i < keys.length; i++) {
@@ -69,18 +70,18 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       
       // Check if the key exists in the current language
       if (result && typeof result === 'object' && k in result) {
-        result = result[k as keyof typeof result];
+        result = result[k];
       } else {
-        // Key doesn't exist in current language, try fallback
+        // Key doesn't exist in current language, mark as undefined to use fallback
         result = undefined;
         break;
       }
       
       // Also navigate through fallback
       if (fallbackResult && typeof fallbackResult === 'object' && k in fallbackResult) {
-        fallbackResult = fallbackResult[k as keyof typeof fallbackResult];
+        fallbackResult = fallbackResult[k];
       } else {
-        // If key doesn't exist in fallback either, return the key itself
+        // If key doesn't exist in fallback either, mark as undefined
         fallbackResult = undefined;
       }
     }
