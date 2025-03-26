@@ -16,6 +16,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSelector } from './LanguageSelector';
+import content from '../content.json';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Home,
@@ -70,9 +71,9 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-            {header.logo.logoLetter}
+            {content.header.logo.logoLetter}
           </div>
-          <span className="text-xl font-medium">{header.logo.text}</span>
+          <span className="text-xl font-medium">{content.header.logo.text}</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -84,8 +85,8 @@ const Header = () => {
           <LanguageSelector />
           <ThemeToggle />
           <Button variant="outline" size="sm" className="rounded-full">
-            {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
-            <span>{header.actions.search.label}</span>
+            {iconMap[content.header.actions.search.icon] && React.createElement(iconMap[content.header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
+            <span>{content.header.actions.search.label}</span>
           </Button>
           <Button size="sm" className="rounded-full">{header.actions.getStarted.label}</Button>
         </div>
@@ -107,9 +108,9 @@ const Header = () => {
               <SheetTitle>
                 <Link to="/" className="flex items-center space-x-2">
                   <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                    {header.logo.logoLetter}
+                    {content.header.logo.logoLetter}
                   </div>
-                  <span className="text-xl font-medium">{header.logo.text}</span>
+                  <span className="text-xl font-medium">{content.header.logo.text}</span>
                 </Link>
               </SheetTitle>
             </SheetHeader>
