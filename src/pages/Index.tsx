@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
@@ -26,54 +26,16 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
-  const community = {
+  const community = content.community && {
     title: content.community.title,
     url: content.community.url
   };
   
   console.log("Index rendering with content:", content);
   console.log("Structure data:", structureData);
-  
-  // Make sure all sections have the showOnMainPage property
-  useEffect(() => {
-    if (structureData && structureData.sections) {
-      structureData.sections.forEach(section => {
-        if (section.showOnMainPage === undefined) {
-          console.log(`Section ${section.title} doesn't have showOnMainPage property`);
-        }
-      });
-    }
-  }, [structureData]);
-  
-  // If we have no sections in structure.json, create fallback sections
-  const fallbackSections = [
-    {
-      title: "Getting Started",
-      path: "/docs/getting-started/introduction",
-      description: "Welcome to the FrameD documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
-      icon: "folder",
-      showOnMainPage: true
-    },
-    {
-      title: "Style Guide",
-      path: "/docs/style-guide/overview",
-      description: "Ensure consistent writing style across all documentation.",
-      icon: "folder",
-      showOnMainPage: true
-    },
-    {
-      title: "GitHub Actions",
-      path: "/docs/github-actions/overview",
-      description: "Seamlessly integrate validation into your CI/CD workflow.",
-      icon: "folder",
-      showOnMainPage: true
-    }
-  ];
-  
-  // Use fallback sections if no sections are available with showOnMainPage
-  const sectionsToShow = structureData.sections?.filter(s => s.showOnMainPage).length > 0 
-    ? structureData.sections 
-    : fallbackSections;
+
+  // Make sure we have at least some sections to show
+  const sectionsToShow = structureData.sections || [];
   
   return (
     <PageTransition>

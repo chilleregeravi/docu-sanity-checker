@@ -26,14 +26,7 @@ const Hero: React.FC = () => {
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade leading-tight">
-          {hero.title.split(' with ').length > 1 ? (
-            <>
-              {hero.title.split(' with ')[0]} <br className="hidden md:block" />
-              <span className="text-gradient">with {hero.title.split(' with ')[1]}</span>
-            </>
-          ) : (
-            <>{hero.title}</>
-          )}
+          {hero.title}
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 animate-slideUpAndFade" style={{ animationDelay: '100ms' }}>

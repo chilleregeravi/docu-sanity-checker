@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import content from '@/content.json';
+import sidebarStructure from '@/docs/structure.json';
 
 interface DocSection {
   title: string;
@@ -18,11 +19,17 @@ interface DocumentationSectionProps {
 
 const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections }) => {
   const docsIndex = content.docsIndex;
-  // Ensure we're actually showing sections by setting a default value if showOnMainPage is undefined
-  const filteredSections = sections.filter(section => section.showOnMainPage !== false);
+  
+  // Use explicitly filtered sections that have showOnMainPage as true
+  const filteredSections = sections.filter(section => section.showOnMainPage === true);
+  
+  // If we have no sections to show, use sections from structure.json directly
+  const displaySections = filteredSections.length > 0 ? 
+    filteredSections : 
+    sidebarStructure.sections.filter((s: any) => s.showOnMainPage === true);
   
   console.log("Documentation section rendering with content:", docsIndex);
-  console.log("Filtered sections:", filteredSections);
+  console.log("Filtered sections for display:", displaySections);
   
   return (
     <section className="py-16 md:py-24 px-6 md:px-10">
@@ -35,8 +42,8 @@ const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections })
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredSections.length > 0 ? (
-            filteredSections.map((section, index) => (
+          {displaySections.length > 0 ? (
+            displaySections.map((section, index) => (
               <Link 
                 to={section.path} 
                 key={index} 

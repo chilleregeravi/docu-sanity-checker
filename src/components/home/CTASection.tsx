@@ -15,13 +15,13 @@ interface CTASectionProps {
 }
 
 const CTASection: React.FC<CTASectionProps> = ({ community }) => {
-  console.log("CTA section rendering with community:", community);
-  
-  // Fallback to content.json if no community prop is provided
+  // Use community from props first, fallback to content.json
   const communityInfo = community || {
     title: content.community?.title || "Join our community",
     url: content.community?.url || "https://github.com"
   };
+  
+  console.log("CTA section rendering with community:", communityInfo);
   
   return (
     <section className="py-24 md:py-32 px-6 md:px-10">
@@ -47,7 +47,7 @@ const CTASection: React.FC<CTASectionProps> = ({ community }) => {
               <a href={communityInfo.url} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
                   <Github className="mr-2 h-5 w-5" />
-                  GitHub
+                  {communityInfo.title}
                 </Button>
               </a>
             )}
