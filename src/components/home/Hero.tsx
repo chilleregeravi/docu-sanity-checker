@@ -10,6 +10,11 @@ const Hero: React.FC = () => {
   
   console.log("Hero rendering with content:", hero);
 
+  if (!hero) {
+    console.error("Hero content not found in content.json");
+    return null;
+  }
+
   return (
     <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10" />
@@ -21,8 +26,14 @@ const Hero: React.FC = () => {
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade leading-tight">
-          {hero.title.split(' with ')[0]} <br className="hidden md:block" />
-          <span className="text-gradient">with {hero.title.split(' with ')[1]}</span>
+          {hero.title.split(' with ').length > 1 ? (
+            <>
+              {hero.title.split(' with ')[0]} <br className="hidden md:block" />
+              <span className="text-gradient">with {hero.title.split(' with ')[1]}</span>
+            </>
+          ) : (
+            <>{hero.title}</>
+          )}
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 animate-slideUpAndFade" style={{ animationDelay: '100ms' }}>
