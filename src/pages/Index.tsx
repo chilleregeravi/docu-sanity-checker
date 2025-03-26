@@ -31,6 +31,8 @@ const Index = () => {
     url: content.community.url
   };
   
+  console.log("Index rendering with content:", content);
+  
   return (
     <PageTransition>
       <div className="min-h-screen flex flex-col">

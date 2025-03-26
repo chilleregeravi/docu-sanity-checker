@@ -19,6 +19,9 @@ const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections })
   const docsIndex = content.docsIndex;
   const filteredSections = sections.filter(section => section.showOnMainPage);
   
+  console.log("Documentation section rendering with content:", docsIndex);
+  console.log("Filtered sections:", filteredSections);
+  
   return (
     <section className="py-16 md:py-24 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">

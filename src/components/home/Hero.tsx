@@ -7,6 +7,8 @@ import content from '@/content.json';
 
 const Hero: React.FC = () => {
   const hero = content.hero;
+  
+  console.log("Hero rendering with content:", hero);
 
   return (
     <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
