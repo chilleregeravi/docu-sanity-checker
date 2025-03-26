@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { loadMarkdownFile, getNavigationLinks } from '@/utils/docs';
@@ -17,25 +16,20 @@ const DocPage = () => {
   const { sidebar } = useSidebarStructure();
   const { getLocalizedPath } = useLanguage();
 
-  // Determine the path from the URL
   const path = location.pathname.replace(/^\/docs\//, '');
   
-  // Extract navigation links
   const { prev, next } = getNavigationLinks(location.pathname, sidebar);
   
   useEffect(() => {
     const fetchContent = async () => {
       try {
         setIsLoading(true);
-        // Try to load localized markdown content first
         const localizedPath = getLocalizedPath(path);
         try {
-          // First try to load the localized version
           const markdownContent = await loadMarkdownFile(localizedPath);
           setContent(markdownContent);
           setError(null);
         } catch (localizedErr) {
-          // If localized version fails, fall back to the default (English) version
           const markdownContent = await loadMarkdownFile(path);
           setContent(markdownContent);
           setError(null);
@@ -54,18 +48,9 @@ const DocPage = () => {
   
   return (
     <div className="pb-16">
-      {/* Breadcrumb navigation at the top */}
       <DocBreadcrumb path={location.pathname} />
       
-      {/* Document metadata - Now positioned at the top before the content */}
-      {!isLoading && !error && content && (
-        <div className="mt-6">
-          <DocMetadata markdown={content} githubPath={path} />
-        </div>
-      )}
-      
-      {/* Content area */}
-      <div className="mt-4">
+      <div className="mt-6">
         {isLoading ? (
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-3/4"></div>
@@ -79,11 +64,15 @@ const DocPage = () => {
             <p className="mt-2">{error.message}</p>
           </div>
         ) : (
-          <MarkdownRenderer content={content} />
+          <>
+            <MarkdownRenderer content={content} />
+            <div className="mt-8">
+              <DocMetadata markdown={content} githubPath={path} />
+            </div>
+          </>
         )}
       </div>
       
-      {/* Next/Previous navigation */}
       <DocNavigation prev={prev} next={next} />
     </div>
   );
