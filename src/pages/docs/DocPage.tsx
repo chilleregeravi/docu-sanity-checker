@@ -57,8 +57,15 @@ const DocPage = () => {
       {/* Breadcrumb navigation at the top */}
       <DocBreadcrumb path={location.pathname} />
       
+      {/* Document metadata - Now positioned at the top before the content */}
+      {!isLoading && !error && content && (
+        <div className="mt-6">
+          <DocMetadata markdown={content} githubPath={path} />
+        </div>
+      )}
+      
       {/* Content area */}
-      <div className="mt-6">
+      <div className="mt-4">
         {isLoading ? (
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-3/4"></div>
@@ -72,10 +79,7 @@ const DocPage = () => {
             <p className="mt-2">{error.message}</p>
           </div>
         ) : (
-          <>
-            <DocMetadata markdown={content} githubPath={path} />
-            <MarkdownRenderer content={content} />
-          </>
+          <MarkdownRenderer content={content} />
         )}
       </div>
       
