@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import DocsLayout from '@/pages/DocsLayout';
-import { SidebarProvider } from '@/utils/docs/sidebarStructure';
+import { SidebarProvider } from '@/contexts/SidebarContext';
 import Index from '@/pages/Index';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import NotFound from '@/pages/NotFound';
