@@ -7,7 +7,7 @@ import sidebarStructure from '@/docs/structure.json';
 import Hero from '@/components/home/Hero';
 import DocumentationSection from '@/components/home/DocumentationSection';
 import CTASection from '@/components/home/CTASection';
-import { useLanguage } from '@/contexts/LanguageContext';
+import content from '@/content.json';
 
 type StructureData = {
   sections: Array<{
@@ -26,10 +26,9 @@ type StructureData = {
 
 const Index = () => {
   const structureData = sidebarStructure as StructureData;
-  const { t } = useLanguage();
   const community = {
-    title: t('community.title'),
-    url: t('community.url')
+    title: content.community.title,
+    url: content.community.url
   };
   
   return (

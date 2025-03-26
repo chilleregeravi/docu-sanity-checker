@@ -3,11 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Github } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import content from '@/content.json';
 
 const Hero: React.FC = () => {
-  const { t } = useLanguage();
-  const hero = t('hero');
+  const hero = content.hero;
 
   return (
     <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
