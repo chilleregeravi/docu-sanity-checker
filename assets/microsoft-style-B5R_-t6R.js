@@ -1,5 +1,4 @@
-const e=`
----
+const e=`---
 date: 2023-09-15
 order: 4
 icon: file-text
@@ -95,4 +94,4 @@ To create documentation that follows the Microsoft Manual of Style, use our cont
 - [Microsoft Style Guide (Official)](https://learn.microsoft.com/en-us/style-guide/welcome/)
 - [Microsoft Writing Style Guide PDF](https://microsoft.github.io/MicrosoftStyle/)
 `;export{e as default};
-//# sourceMappingURL=microsoft-style-C162ioH4.js.map
+//# sourceMappingURL=microsoft-style-B5R_-t6R.js.map

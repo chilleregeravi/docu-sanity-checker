@@ -1,5 +1,4 @@
-const n=`
----
+const n=`---
 date: 2023-08-01
 icon: check
 description: "Ensure consistent writing style across all documentation"
@@ -54,4 +53,4 @@ Here are some common style issues to watch for:
 
 Always review your documentation against these common issues before submitting.
 `;export{n as default};
-//# sourceMappingURL=index-DaWEcAM9.js.map
+//# sourceMappingURL=index-DFyUNhyC.js.map

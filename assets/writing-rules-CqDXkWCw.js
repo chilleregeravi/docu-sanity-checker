@@ -1,7 +1,5 @@
-const e=`
----
+const e=`---
 date: 2023-08-05
-order: 1
 icon: edit
 title: "Writing Rules"
 order: 3
@@ -82,4 +80,4 @@ When referring to code elements:
 - [Microsoft Style Guide](https://docs.microsoft.com/style-guide/)
 - [The Chicago Manual of Style](https://www.chicagomanualofstyle.org/)
 `;export{e as default};
-//# sourceMappingURL=writing-rules-zBVgAnRs.js.map
+//# sourceMappingURL=writing-rules-CqDXkWCw.js.map

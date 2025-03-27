@@ -1,5 +1,4 @@
-const n=`
----
+const n=`---
 date: 2023-08-10
 icon: zap
 description: "Automatically detect and report broken links in your documentation"
@@ -94,4 +93,4 @@ You can also integrate link validation into your CI/CD pipeline using [GitHub Ac
 
 Visit [Setting Up Checks](/docs/link-validation/setup) for more detailed configuration information.
 `;export{n as default};
-//# sourceMappingURL=link-validation-DfnUjA1J.js.map
+//# sourceMappingURL=link-validation-DQSUisPz.js.map

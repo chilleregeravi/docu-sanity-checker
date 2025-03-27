@@ -1,5 +1,4 @@
-const n=`
----
+const n=`---
 date: 2023-09-05
 icon: github
 description: "Seamlessly integrate validation into your CI/CD workflow"
@@ -161,4 +160,4 @@ To generate and upload detailed reports, add the following steps to your workflo
     path: validation-report.json
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=index-CaMgTDp-.js.map
+//# sourceMappingURL=index-CWirto0Z.js.map

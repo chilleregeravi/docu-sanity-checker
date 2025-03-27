@@ -1,5 +1,4 @@
-const n=`
----
+const n=`---
 date: 2023-08-15
 order: 3
 icon: settings
@@ -166,4 +165,4 @@ module.exports = {
 };
 \`\`\`
 `;export{n as default};
-//# sourceMappingURL=configuration-DyAxcJUU.js.map
+//# sourceMappingURL=configuration-BidDoDCP.js.map
