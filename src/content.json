@@ -77,7 +77,7 @@
     "primaryButtonText": "Get Started",
     "primaryButtonUrl": "/docs",
     "secondaryButtonText": "View on GitHub",
-    "secondaryButtonUrl": "https://github.com/chilleregeravi/FrameD"
+    "secondaryButtonUrl": "https://github.com/chilleregeravi/FrameD/blob/main/src/docs/"
   },
   "docsIndex": {
     "title": "Introduction",
