@@ -23,7 +23,7 @@ const StyleChecker: React.FC = () => {
     if (!text.trim()) return;
 
     // Run Microsoft style check
-    const styleResult = checkMicrosoftStyle(text, 'input.md');
+    const styleResult = checkMicrosoftStyle(text);
     
     // Run term bank check
     const termResult = validateTerms(text);
@@ -92,11 +92,11 @@ const StyleChecker: React.FC = () => {
                   <ul className="list-disc list-inside space-y-2">
                     {results.styleViolations.map((violation, index) => (
                       <li key={index} className="text-sm">
-                        <span className="font-medium">{violation.rule}</span>
+                        <span className="font-medium">{violation.pattern}</span>
                         <div className="ml-6 mt-1">
-                          <span className="text-red-500">Found: "{violation.text}"</span>
+                          <span className="text-red-500">Found in: "{violation.context}"</span>
                           <br />
-                          <span className="text-green-500">Suggestion: "{violation.replacement}"</span>
+                          <span className="text-green-500">Suggestion: "{violation.suggestion}"</span>
                         </div>
                       </li>
                     ))}

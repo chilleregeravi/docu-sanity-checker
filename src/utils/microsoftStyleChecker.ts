@@ -10,7 +10,12 @@ export interface StyleViolation {
   context: string;
 }
 
-export const checkMicrosoftStyle = (text: string): StyleViolation[] => {
+interface StyleCheckResult {
+  violations: StyleViolation[];
+  score: number;
+}
+
+export const checkMicrosoftStyle = (text: string, fileName?: string): StyleCheckResult => {
   const violations: StyleViolation[] = [];
   const lines = text.split('\n');
   
@@ -30,13 +35,13 @@ export const checkMicrosoftStyle = (text: string): StyleViolation[] => {
   });
   
   // Check for word pair replacements (e.g., "utilize" -> "use")
-  wordPairs.forEach(({ avoid, use }) => {
+  wordPairs.forEach(({ avoid, use, type }) => {
     const regex = new RegExp(`\\b${avoid}\\b`, 'gi');
     
     lines.forEach((line, lineNumber) => {
       if (regex.test(line)) {
         violations.push({
-          type: 'grammar' as const,
+          type: type,
           pattern: avoid,
           suggestion: `Use "${use}" instead of "${avoid}"`,
           line: lineNumber + 1,
@@ -53,7 +58,7 @@ export const checkMicrosoftStyle = (text: string): StyleViolation[] => {
     lines.forEach((line, lineNumber) => {
       if (regex.test(line)) {
         violations.push({
-          type: type as 'voice' | 'grammar' | 'verb' | 'other',
+          type: type,
           pattern: phrase,
           suggestion: suggestion,
           line: lineNumber + 1,
@@ -63,16 +68,14 @@ export const checkMicrosoftStyle = (text: string): StyleViolation[] => {
     });
   });
   
-  return violations;
+  // Calculate score
+  const score = Math.max(0, 100 - (violations.length * 5));
+  
+  return { violations, score };
 };
 
 // Calculate overall Microsoft style score
 export const calculateStyleScore = (text: string): number => {
-  const violations = checkMicrosoftStyle(text);
-  
-  // Basic algorithm: Start with 100 and subtract based on violations
-  // More sophisticated scoring can be implemented based on violation types
-  const score = Math.max(0, 100 - (violations.length * 5));
-  
-  return score;
+  const result = checkMicrosoftStyle(text);
+  return result.score;
 };

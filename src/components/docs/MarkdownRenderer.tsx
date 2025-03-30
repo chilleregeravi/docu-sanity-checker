@@ -95,26 +95,26 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           },
           // Render tables within react-markdown with shadcn/ui Table components
           table: ({ children }) => (
-            <div className="my-6 w-full overflow-x-auto">
-              <Table className="w-full border-collapse border border-border">
+            <div className="my-6 w-full overflow-y-auto">
+              <Table>
                 {children}
               </Table>
             </div>
           ),
           thead: ({ children }) => (
-            <TableHeader className="bg-muted/50">{children}</TableHeader>
+            <TableHeader>{children}</TableHeader>
           ),
           tbody: ({ children }) => (
             <TableBody>{children}</TableBody>
           ),
           tr: ({ children }) => (
-            <TableRow className="border-b border-border hover:bg-muted/20">{children}</TableRow>
+            <TableRow>{children}</TableRow>
           ),
           th: ({ children }) => (
-            <TableHead className="px-4 py-2 text-left font-medium">{children}</TableHead>
+            <TableHead>{children}</TableHead>
           ),
           td: ({ children }) => (
-            <TableCell className="px-4 py-2 border-r border-border last:border-r-0">{children}</TableCell>
+            <TableCell>{children}</TableCell>
           ),
         }}
       >
