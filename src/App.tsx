@@ -1,43 +1,56 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import DocsLayout from "./pages/DocsLayout";
-import DocPage from "./pages/docs/DocPage";
+import { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css';
+import DocsLayout from '@/pages/DocsLayout';
+import { SidebarProvider } from '@/contexts/SidebarContext';
+import Index from '@/pages/Index';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+import NotFound from '@/pages/NotFound';
 
-const queryClient = new QueryClient();
+// Lazy-loaded components
+const DocPage = lazy(() => import('@/pages/docs/DocPage'));
+const MicrosoftStyleGenerator = lazy(() => import('@/pages/MicrosoftStyleGenerator'));
 
-// Get the base path from environment or default to /
-const basePath = import.meta.env.BASE_URL || '/';
+// Define the base URL for GitHub Pages
+const baseUrl = import.meta.env.BASE_URL || '/';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter basename={basePath}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          {/* Documentation Routes with dynamic catch-all pattern */}
-          <Route path="/docs" element={<DocsLayout />}>
-            {/* Root docs path */}
-            <Route index element={<DocPage />} />
+function App() {
+  return (
+    <BrowserRouter basename={baseUrl}>
+      <LanguageProvider>
+        <SidebarProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
             
-            {/* Use catch-all route for all documentation paths */}
-            <Route path="*" element={<DocPage />} />
-          </Route>
-          
-          {/* Catch-all for non-matching routes */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+            {/* Documentation Routes */}
+            <Route path="/docs" element={<DocsLayout />}>
+              <Route index element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DocPage />
+                </Suspense>
+              } />
+              <Route path=":path/*" element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DocPage />
+                </Suspense>
+              } />
+            </Route>
+            
+            {/* Microsoft Style Guide Generator */}
+            <Route path="/microsoft-style" element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <MicrosoftStyleGenerator />
+              </Suspense>
+            } />
+            
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </SidebarProvider>
+      </LanguageProvider>
+    </BrowserRouter>
+  );
+}
 
 export default App;

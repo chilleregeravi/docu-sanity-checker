@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Github, Twitter, Slack, Heart } from 'lucide-react';
-import content from '@/content.json';
+import content from '../content.json';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Github,
@@ -13,7 +13,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 };
 
 const Footer = () => {
-  const { footer } = content;
+  const footer = content.footer;
   const currentYear = new Date().getFullYear();
   const copyrightText = footer.copyright.replace('{year}', currentYear.toString());
 
@@ -24,15 +24,15 @@ const Footer = () => {
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                {footer.logo.logoLetter}
+                {content.footer.logo.logoLetter}
               </div>
-              <span className="text-xl font-medium">{footer.logo.text}</span>
+              <span className="text-xl font-medium">{content.footer.logo.text}</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              {footer.description}
+              {content.footer.description}
             </p>
             <div className="flex space-x-4">
-              {footer.socialLinks.map((social, index) => {
+              {content.footer.socialLinks.map((social, index) => {
                 const Icon = iconMap[social.icon];
                 return (
                   <a 
@@ -64,7 +64,7 @@ const Footer = () => {
         <div className="mt-12 pt-6 border-t text-sm text-muted-foreground flex flex-col md:flex-row justify-between items-center">
           <p>{copyrightText}</p>
           <p className="mt-2 md:mt-0 flex items-center">
-            {footer.madeWith}
+            {content.footer.madeWith}
           </p>
         </div>
       </div>

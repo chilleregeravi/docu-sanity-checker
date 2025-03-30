@@ -9,3 +9,4 @@ export * from './frontmatter';
 export * from './paths';
 export * from './sidebar';
 export { getGitHubPath } from './paths';
+export { loadLocalizedMarkdownFile } from './localization';

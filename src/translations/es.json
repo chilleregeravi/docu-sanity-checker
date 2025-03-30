@@ -1,0 +1,109 @@
+
+{
+  "header": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "navigation": [
+      { "path": "/", "label": "Inicio", "icon": "Home" },
+      { "path": "/docs", "label": "Documentación", "icon": "FileText" },
+      { "path": "/guides", "label": "Guías", "icon": "Book" },
+      { "path": "/api", "label": "API", "icon": "Code" },
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+    ],
+    "actions": {
+      "search": {
+        "label": "Buscar",
+        "icon": "Search"
+      },
+      "getStarted": {
+        "label": "Comenzar",
+        "path": "/docs"
+      },
+      "language": {
+        "label": "Idioma"
+      }
+    }
+  },
+  "footer": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "description": "Documentación hermosa hecha simple. Con validación incorporada, aplicación de guía de estilo e integración perfecta con GitHub.",
+    "socialLinks": [
+      { "icon": "Github", "url": "https://github.com" },
+      { "icon": "Twitter", "url": "https://twitter.com" },
+      { "icon": "Slack", "url": "https://slack.com" }
+    ],
+    "columns": [
+      {
+        "title": "Documentación",
+        "links": [
+          { "label": "Introducción", "href": "/docs" },
+          { "label": "Instalación", "href": "/docs/installation" },
+          { "label": "Configuración", "href": "/docs/configuration" },
+          { "label": "Acciones de GitHub", "href": "/docs/github-actions" },
+          { "label": "Preguntas Frecuentes", "href": "/docs/faq" }
+        ]
+      },
+      {
+        "title": "Recursos",
+        "links": [
+          { "label": "Guías", "href": "/guides" },
+          { "label": "Referencia API", "href": "/api" },
+          { "label": "Blog", "href": "/blog" },
+          { "label": "Comunidad", "href": "/community" },
+          { "label": "Exhibición", "href": "/showcase" }
+        ]
+      },
+      {
+        "title": "Empresa",
+        "links": [
+          { "label": "Acerca de", "href": "/about" },
+          { "label": "Contacto", "href": "/contact" },
+          { "label": "Privacidad", "href": "/privacy" },
+          { "label": "Términos", "href": "/terms" },
+          { "label": "Carreras", "href": "/careers" }
+        ]
+      }
+    ],
+    "copyright": "© {year} DocuSanity. Todos los derechos reservados.",
+    "madeWith": "Hecho con ❤️ por el equipo de DocuSanity"
+  },
+  "hero": {
+    "tagline": "Documentación Hecha Hermosa",
+    "title": "Crea Documentación Hermosa con Validación Automatizada",
+    "description": "Construye sitios web de documentación impresionantes con acciones de GitHub incorporadas que verifican enlaces rotos, validan contra diccionarios personalizados y aplican tu guía de estilo.",
+    "primaryButtonText": "Comenzar",
+    "primaryButtonUrl": "/docs",
+    "secondaryButtonText": "Ver en GitHub",
+    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
+  },
+  "docsIndex": {
+    "title": "Introducción",
+    "description": "Bienvenido a la documentación de DocuSanity. Comienza con la instalación, aprende los fundamentos y explora temas avanzados.",
+    "validationFeatures": {
+      "title": "Características de Validación",
+      "description": "DocuSanity viene con potentes herramientas de validación para asegurar que tu documentación sea precisa, consistente y siga las mejores prácticas."
+    },
+    "githubActions": {
+      "title": "Integración con GitHub Actions",
+      "description": "DocuSanity se integra perfectamente con GitHub Actions para automatizar las verificaciones de validación como parte de tu pipeline CI/CD.",
+      "buttonText": "Configuración de GitHub Actions"
+    },
+    "helpSection": {
+      "title": "¿Necesitas ayuda?",
+      "nextStepsTitle": "Próximos pasos",
+      "communityLinkFallback": "Únete a nuestra comunidad"
+    }
+  },
+  "community": {
+    "title": "Únete a nuestra comunidad",
+    "url": "https://github.com/docusanity/documentation/discussions"
+  },
+  "language": {
+    "selectLanguage": "Seleccionar Idioma"
+  }
+}

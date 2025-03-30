@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { loadMarkdownFile, getNavigationLinks } from '@/utils/docs';
@@ -7,6 +6,7 @@ import MarkdownRenderer from '@/components/docs/MarkdownRenderer';
 import DocNavigation from '@/components/docs/DocNavigation';
 import DocMetadata from '@/components/DocMetadata';
 import DocBreadcrumb from '@/components/docs/DocBreadcrumb';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const DocPage = () => {
   const location = useLocation();
@@ -14,21 +14,26 @@ const DocPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const { sidebar } = useSidebarStructure();
+  const { getLocalizedPath } = useLanguage();
 
-  // Determine the path from the URL
   const path = location.pathname.replace(/^\/docs\//, '');
   
-  // Extract navigation links
   const { prev, next } = getNavigationLinks(location.pathname, sidebar);
   
   useEffect(() => {
     const fetchContent = async () => {
       try {
         setIsLoading(true);
-        // Load markdown content from the appropriate file
-        const markdownContent = await loadMarkdownFile(path);
-        setContent(markdownContent);
-        setError(null);
+        const localizedPath = getLocalizedPath(path);
+        try {
+          const markdownContent = await loadMarkdownFile(localizedPath);
+          setContent(markdownContent);
+          setError(null);
+        } catch (localizedErr) {
+          const markdownContent = await loadMarkdownFile(path);
+          setContent(markdownContent);
+          setError(null);
+        }
       } catch (err: any) {
         console.error("Failed to load doc content:", err);
         setError(err);
@@ -39,14 +44,12 @@ const DocPage = () => {
     };
     
     fetchContent();
-  }, [path]);
+  }, [path, getLocalizedPath]);
   
   return (
     <div className="pb-16">
-      {/* Breadcrumb navigation at the top */}
       <DocBreadcrumb path={location.pathname} />
       
-      {/* Content area */}
       <div className="mt-6">
         {isLoading ? (
           <div className="animate-pulse space-y-4">
@@ -62,13 +65,14 @@ const DocPage = () => {
           </div>
         ) : (
           <>
-            <DocMetadata markdown={content} githubPath={path} />
             <MarkdownRenderer content={content} />
+            <div className="mt-8">
+              <DocMetadata markdown={content} githubPath={path} />
+            </div>
           </>
         )}
       </div>
       
-      {/* Next/Previous navigation */}
       <DocNavigation prev={prev} next={next} />
     </div>
   );

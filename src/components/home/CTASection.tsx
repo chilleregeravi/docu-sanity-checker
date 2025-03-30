@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Github } from 'lucide-react';
+import content from '@/content.json';
 
 interface CommunityLink {
   title: string;
@@ -14,6 +15,14 @@ interface CTASectionProps {
 }
 
 const CTASection: React.FC<CTASectionProps> = ({ community }) => {
+  // Use community from props first, fallback to content.json
+  const communityInfo = community || {
+    title: content.community?.title || "Join our community",
+    url: content.community?.url || "https://github.com"
+  };
+  
+  console.log("CTA section rendering with community:", communityInfo);
+  
   return (
     <section className="py-24 md:py-32 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -34,14 +43,12 @@ const CTASection: React.FC<CTASectionProps> = ({ community }) => {
                 View Documentation
               </Button>
             </Link>
-            {community && (
-              <a href={community.url} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
-                  <Github className="mr-2 h-5 w-5" />
-                  GitHub
-                </Button>
-              </a>
-            )}
+            <a href={communityInfo.url} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="bg-transparent border-white hover:bg-white/10 text-white hover:text-white rounded-md px-8">
+                <Github className="mr-2 h-5 w-5" />
+                {communityInfo.title}
+              </Button>
+            </a>
           </div>
         </div>
       </div>

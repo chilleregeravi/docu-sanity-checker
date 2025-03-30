@@ -69,10 +69,203 @@ jobs:
           tar -xvzf vale_2.15.4_Linux_64-bit.tar.gz -C bin
           echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
       
+      - name: Create Vale configuration
+        run: |
+          mkdir -p .github/vale/styles/Microsoft
+          echo "StylesPath = .github/vale/styles" > .vale.ini
+          echo "MinAlertLevel = suggestion" >> .vale.ini
+          echo "[*.md]" >> .vale.ini
+          echo "BasedOnStyles = Microsoft" >> .vale.ini
+          
+          # Download Microsoft style rules
+          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Passive.yml > .github/vale/styles/Microsoft/Passive.yml
+          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Contractions.yml > .github/vale/styles/Microsoft/Contractions.yml
+          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Acronyms.yml > .github/vale/styles/Microsoft/Acronyms.yml
+          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/ComplexWords.yml > .github/vale/styles/Microsoft/ComplexWords.yml
+          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Headings.yml > .github/vale/styles/Microsoft/Headings.yml
+          
+          # Create custom rule for term bank validation
+          echo "extends: substitution" > .github/vale/styles/Microsoft/TermBank.yml
+          echo "message: 'Use \"%s\" instead of \"%s\"'" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "ignorecase: true" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "level: warning" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "swap:" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  click: select" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  tap: select" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  config: configuration" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  setup: configuration" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  docs: documentation" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  check: validate" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  verify: validate" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  MS style: Microsoft style" >> .github/vale/styles/Microsoft/TermBank.yml
+          echo "  GH Actions: GitHub Actions" >> .github/vale/styles/Microsoft/TermBank.yml
+      
       - name: Check documentation style
         run: |
-          vale --minAlertLevel error .
+          vale --output=JSON --minAlertLevel suggestion src/docs > style-report.json
+          echo "## Style Check Results" > style-report.md
+          echo "The following files have style issues:" >> style-report.md
+          jq -r '.[][].Check + ": " + .[][].Message' style-report.json | sort | uniq -c | sort -nr >> style-report.md
         continue-on-error: true
+      
+      - name: Upload style report
+        uses: actions/upload-artifact@v4
+        with:
+          name: style-reports
+          path: |
+            style-report.json
+            style-report.md
+
+  check-microsoft-style:
+    name: Microsoft Style Guide compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Microsoft style checks
+        run: |
+          # Create a script to run the Microsoft style checks
+          cat > microsoft-style-check.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const { checkMicrosoftStyle } = require('./dist/utils/microsoftStyleChecker');
+          const { validateTerms, checkAcronyms } = require('./dist/utils/termBankUtils');
+
+          const docsDir = './src/docs';
+          const results = [];
+          
+          // Function to recursively find all md files
+          function findMarkdownFiles(dir, fileList = []) {
+            const files = fs.readdirSync(dir);
+            
+            files.forEach(file => {
+              const filePath = path.join(dir, file);
+              const stat = fs.statSync(filePath);
+              
+              if (stat.isDirectory()) {
+                findMarkdownFiles(filePath, fileList);
+              } else if (file.endsWith('.md')) {
+                fileList.push(filePath);
+              }
+            });
+            
+            return fileList;
+          }
+          
+          // Check all markdown files
+          const mdFiles = findMarkdownFiles(docsDir);
+          
+          mdFiles.forEach(filePath => {
+            const content = fs.readFileSync(filePath, 'utf8');
+            
+            // Microsoft style check
+            const styleResult = checkMicrosoftStyle(content, filePath);
+            
+            // Term bank validation
+            const termResult = validateTerms(content);
+            
+            // Acronym check
+            const acronymResult = checkAcronyms(content);
+            
+            results.push({
+              filePath,
+              styleViolations: styleResult.violations,
+              termViolations: termResult.violations,
+              acronymViolations: acronymResult.violations,
+              styleScore: styleResult.score,
+              termScore: termResult.score
+            });
+          });
+          
+          // Write results to a JSON file
+          fs.writeFileSync('microsoft-style-results.json', JSON.stringify(results, null, 2));
+          
+          // Create a markdown report
+          let report = '# Microsoft Style Guide Compliance Report\n\n';
+          
+          results.forEach(result => {
+            const totalViolations = 
+              result.styleViolations.length + 
+              result.termViolations.length + 
+              result.acronymViolations.length;
+            
+            report += `## ${result.filePath}\n\n`;
+            report += `- Style Score: ${result.styleScore}/100\n`;
+            report += `- Term Bank Score: ${result.termScore}/100\n`;
+            report += `- Total Violations: ${totalViolations}\n\n`;
+            
+            if (result.styleViolations.length > 0) {
+              report += '### Style Violations\n\n';
+              result.styleViolations.forEach(violation => {
+                report += `- Line ${violation.line}: ${violation.rule}\n`;
+                report += `  - Found: "${violation.text}"\n`;
+                report += `  - Suggestion: "${violation.replacement}"\n\n`;
+              });
+            }
+            
+            if (result.termViolations.length > 0) {
+              report += '### Term Bank Violations\n\n';
+              result.termViolations.forEach(violation => {
+                report += `- ${violation}\n`;
+              });
+              report += '\n';
+            }
+            
+            if (result.acronymViolations.length > 0) {
+              report += '### Acronym Violations\n\n';
+              result.acronymViolations.forEach(violation => {
+                report += `- ${violation}\n`;
+              });
+              report += '\n';
+            }
+            
+            report += '---\n\n';
+          });
+          
+          fs.writeFileSync('microsoft-style-report.md', report);
+          
+          // Print summary
+          console.log('Microsoft Style check completed.');
+          console.log(`Checked ${mdFiles.length} files.`);
+          
+          const totalStyleViolations = results.reduce((sum, result) => sum + result.styleViolations.length, 0);
+          const totalTermViolations = results.reduce((sum, result) => sum + result.termViolations.length, 0);
+          const totalAcronymViolations = results.reduce((sum, result) => sum + result.acronymViolations.length, 0);
+          
+          console.log(`Total style violations: ${totalStyleViolations}`);
+          console.log(`Total term bank violations: ${totalTermViolations}`);
+          console.log(`Total acronym violations: ${totalAcronymViolations}`);
+          
+          // Calculate overall score
+          const avgStyleScore = results.reduce((sum, result) => sum + result.styleScore, 0) / results.length;
+          const avgTermScore = results.reduce((sum, result) => sum + result.termScore, 0) / results.length;
+          
+          console.log(`Average Style Score: ${avgStyleScore.toFixed(2)}/100`);
+          console.log(`Average Term Bank Score: ${avgTermScore.toFixed(2)}/100`);
+          EOF
+          
+          # Build the project to make the TypeScript utilities available
+          npm run build
+          
+          # Run the check script
+          node microsoft-style-check.js
+        continue-on-error: true
+      
+      - name: Upload Microsoft style reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: microsoft-style-reports
+          path: |
+            microsoft-style-results.json
+            microsoft-style-report.md
 
   build:
     name: Build project
@@ -131,3 +324,4 @@ jobs:
           branch: gh-pages
           clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
+

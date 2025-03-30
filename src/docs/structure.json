@@ -1,23 +1,5 @@
 
 {
-  "docsIndex": {
-    "title": "Introduction",
-    "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
-    "validationFeatures": {
-      "title": "Validation Features",
-      "description": "DocuSanity comes with powerful validation tools to ensure your documentation is accurate, consistent, and follows best practices."
-    },
-    "githubActions": {
-      "title": "GitHub Actions Integration",
-      "description": "DocuSanity seamlessly integrates with GitHub Actions to automate validation checks as part of your CI/CD pipeline.",
-      "buttonText": "GitHub Actions Setup"
-    },
-    "helpSection": {
-      "title": "Need help?",
-      "nextStepsTitle": "Next steps",
-      "communityLinkFallback": "Join our community"
-    }
-  },
   "sections": [
     {
       "title": "Getting Started",
@@ -69,9 +51,5 @@
       "icon": "file",
       "showOnMainPage": false
     }
-  ],
-  "community": {
-    "title": "Join our community",
-    "url": "https://github.com/docusanity/documentation/discussions"
-  }
+  ]
 }

@@ -13,7 +13,10 @@ import {
   SheetClose 
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import content from '@/content.json';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { ThemeToggle } from './ThemeToggle';
+import { LanguageSelector } from './LanguageSelector';
+import content from '../content.json';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Home,
@@ -30,7 +33,18 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isMobile = useIsMobile();
-  const { header } = content;
+  const { t } = useLanguage();
+  const header = t('header');
+
+  // Add Microsoft Style link to navigation items
+  const navItems = [
+    ...header.navigation,
+    {
+      path: "/microsoft-style",
+      label: "Microsoft Style",
+      icon: "FileText"
+    }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,27 +64,29 @@ const Header = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out px-6 md:px-10 py-4',
         isScrolled
-          ? 'bg-white/70 backdrop-blur-lg shadow-subtle dark:bg-black/70'
+          ? 'bg-white/70 dark:bg-black/70 backdrop-blur-lg shadow-subtle'
           : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-            {header.logo.logoLetter}
+            {content.header.logo.logoLetter}
           </div>
-          <span className="text-xl font-medium">{header.logo.text}</span>
+          <span className="text-xl font-medium">{content.header.logo.text}</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLinks isActive={isActive} navItems={header.navigation} />
+          <NavLinks isActive={isActive} navItems={navItems} />
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
+          <LanguageSelector />
+          <ThemeToggle />
           <Button variant="outline" size="sm" className="rounded-full">
-            {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
-            <span>{header.actions.search.label}</span>
+            {iconMap[content.header.actions.search.icon] && React.createElement(iconMap[content.header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
+            <span>{content.header.actions.search.label}</span>
           </Button>
           <Button size="sm" className="rounded-full">{header.actions.getStarted.label}</Button>
         </div>
@@ -92,18 +108,26 @@ const Header = () => {
               <SheetTitle>
                 <Link to="/" className="flex items-center space-x-2">
                   <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                    {header.logo.logoLetter}
+                    {content.header.logo.logoLetter}
                   </div>
-                  <span className="text-xl font-medium">{header.logo.text}</span>
+                  <span className="text-xl font-medium">{content.header.logo.text}</span>
                 </Link>
               </SheetTitle>
             </SheetHeader>
             
             <nav className="flex flex-col mt-6 space-y-5">
-              <MobileNavLinks isActive={isActive} navItems={header.navigation} />
+              <MobileNavLinks isActive={isActive} navItems={navItems} />
             </nav>
             
             <div className="mt-10 space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium">{t('language.selectLanguage')}</span>
+                <LanguageSelector />
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium">Theme</span>
+                <ThemeToggle />
+              </div>
               <Button variant="outline" className="w-full justify-start">
                 {iconMap[header.actions.search.icon] && React.createElement(iconMap[header.actions.search.icon], { className: "h-4 w-4 mr-2" })}
                 <span>{header.actions.search.label}</span>

@@ -3,10 +3,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Github } from 'lucide-react';
-import content from '@/content.json';
+import content from '../../content.json';
 
 const Hero: React.FC = () => {
-  const { hero } = content;
+  const hero = content.hero;
+  
+  console.log("Hero rendering with content:", hero);
+
+  if (!hero) {
+    return null;
+  }
 
   return (
     <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-6 md:px-10 relative overflow-hidden">
@@ -19,8 +25,7 @@ const Hero: React.FC = () => {
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slideUpAndFade leading-tight">
-          {hero.title.split(' with ')[0]} <br className="hidden md:block" />
-          <span className="text-gradient">with {hero.title.split(' with ')[1]}</span>
+          {hero.title}
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 animate-slideUpAndFade" style={{ animationDelay: '100ms' }}>
@@ -28,15 +33,15 @@ const Hero: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slideUpAndFade" style={{ animationDelay: '200ms' }}>
-          <Link to={hero.primaryButtonUrl}>
+          <Link to={hero.primaryButtonUrl || "/docs"}>
             <Button size="lg" className="rounded-md px-8 w-full sm:w-auto shadow-sm hover:shadow-md transition-all">
-              {hero.primaryButtonText}
+              {hero.primaryButtonText || "Get Started"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-          <a href={hero.secondaryButtonUrl} target="_blank" rel="noopener noreferrer">
+          <a href={hero.secondaryButtonUrl || "https://github.com"} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="lg" className="rounded-md px-8 w-full sm:w-auto">
-              {hero.secondaryButtonText}
+              {hero.secondaryButtonText || "View on GitHub"}
               <Github className="ml-2 h-4 w-4" />
             </Button>
           </a>

@@ -8,6 +8,7 @@ interface DocSection {
   path: string;
   description: string;
   showOnMainPage?: boolean;
+  icon?: string;
 }
 
 interface DocumentationSectionProps {
@@ -15,7 +16,15 @@ interface DocumentationSectionProps {
 }
 
 const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections }) => {
-  const filteredSections = sections.filter(section => section.showOnMainPage);
+  console.log("Documentation section rendering with sections:", sections);
+  
+  // Filter sections that have showOnMainPage set to true
+  const displaySections = sections.filter(section => section.showOnMainPage === true);
+  
+  if (displaySections.length === 0) {
+    console.warn("No sections with showOnMainPage=true found");
+    return null;
+  }
   
   return (
     <section className="py-16 md:py-24 px-6 md:px-10">
@@ -23,12 +32,12 @@ const DocumentationSection: React.FC<DocumentationSectionProps> = ({ sections })
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Documentation</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore our comprehensive guides and learn how to get the most out of DocuSanity.
+            Explore our comprehensive documentation to get started with FrameD.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredSections.map((section, index) => (
+          {displaySections.map((section, index) => (
             <Link 
               to={section.path} 
               key={index} 

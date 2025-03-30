@@ -1,0 +1,109 @@
+
+{
+  "header": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "navigation": [
+      { "path": "/", "label": "Accueil", "icon": "Home" },
+      { "path": "/docs", "label": "Documentation", "icon": "FileText" },
+      { "path": "/guides", "label": "Guides", "icon": "Book" },
+      { "path": "/api", "label": "API", "icon": "Code" },
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+    ],
+    "actions": {
+      "search": {
+        "label": "Rechercher",
+        "icon": "Search"
+      },
+      "getStarted": {
+        "label": "Commencer",
+        "path": "/docs"
+      },
+      "language": {
+        "label": "Langue"
+      }
+    }
+  },
+  "footer": {
+    "logo": {
+      "text": "DocuSanity",
+      "logoLetter": "D"
+    },
+    "description": "Une belle documentation simplifiée. Avec validation intégrée, application des règles de style et intégration transparente avec GitHub.",
+    "socialLinks": [
+      { "icon": "Github", "url": "https://github.com" },
+      { "icon": "Twitter", "url": "https://twitter.com" },
+      { "icon": "Slack", "url": "https://slack.com" }
+    ],
+    "columns": [
+      {
+        "title": "Documentation",
+        "links": [
+          { "label": "Introduction", "href": "/docs" },
+          { "label": "Installation", "href": "/docs/installation" },
+          { "label": "Configuration", "href": "/docs/configuration" },
+          { "label": "Actions GitHub", "href": "/docs/github-actions" },
+          { "label": "FAQ", "href": "/docs/faq" }
+        ]
+      },
+      {
+        "title": "Ressources",
+        "links": [
+          { "label": "Guides", "href": "/guides" },
+          { "label": "Référence API", "href": "/api" },
+          { "label": "Blog", "href": "/blog" },
+          { "label": "Communauté", "href": "/community" },
+          { "label": "Vitrine", "href": "/showcase" }
+        ]
+      },
+      {
+        "title": "Entreprise",
+        "links": [
+          { "label": "À propos", "href": "/about" },
+          { "label": "Contact", "href": "/contact" },
+          { "label": "Confidentialité", "href": "/privacy" },
+          { "label": "Conditions", "href": "/terms" },
+          { "label": "Carrières", "href": "/careers" }
+        ]
+      }
+    ],
+    "copyright": "© {year} DocuSanity. Tous droits réservés.",
+    "madeWith": "Fait avec ❤️ par l'équipe DocuSanity"
+  },
+  "hero": {
+    "tagline": "Documentation Rendue Belle",
+    "title": "Créez une Belle Documentation avec Validation Automatisée",
+    "description": "Construisez des sites web de documentation impressionnants avec des actions GitHub intégrées qui vérifient les liens brisés, valident avec des dictionnaires personnalisés, et appliquent votre guide de style.",
+    "primaryButtonText": "Commencer",
+    "primaryButtonUrl": "/docs",
+    "secondaryButtonText": "Voir sur GitHub",
+    "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
+  },
+  "docsIndex": {
+    "title": "Introduction",
+    "description": "Bienvenue dans la documentation de DocuSanity. Commencez par l'installation, apprenez les principes fondamentaux et explorez des sujets avancés.",
+    "validationFeatures": {
+      "title": "Fonctionnalités de Validation",
+      "description": "DocuSanity est livré avec des outils de validation puissants pour garantir que votre documentation est précise, cohérente et suit les meilleures pratiques."
+    },
+    "githubActions": {
+      "title": "Intégration avec GitHub Actions",
+      "description": "DocuSanity s'intègre parfaitement avec GitHub Actions pour automatiser les vérifications de validation dans le cadre de votre pipeline CI/CD.",
+      "buttonText": "Configuration des GitHub Actions"
+    },
+    "helpSection": {
+      "title": "Besoin d'aide?",
+      "nextStepsTitle": "Prochaines étapes",
+      "communityLinkFallback": "Rejoignez notre communauté"
+    }
+  },
+  "community": {
+    "title": "Rejoignez notre communauté",
+    "url": "https://github.com/docusanity/documentation/discussions"
+  },
+  "language": {
+    "selectLanguage": "Sélectionner la Langue"
+  }
+}
