@@ -3,7 +3,7 @@ import React from 'react';
 import Markdown from 'react-markdown';
 import CodeBlock from './CodeBlock';
 import DocsAlert from './DocsAlert';
-import { Separator } from "@/components/ui/separator";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 interface MarkdownRendererProps {
   content: string;
@@ -93,94 +93,35 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Completely revamped table rendering
-          table: () => {
-            // We'll extract and render the table manually via a custom function
-            // This bypasses react-markdown's table rendering completely
-            return null; 
-          },
+          // Render tables within react-markdown
+          table: ({ children }) => (
+            <div className="my-6 w-full overflow-x-auto">
+              <Table className="w-full border-collapse border border-border">
+                {children}
+              </Table>
+            </div>
+          ),
+          thead: ({ children }) => (
+            <TableHeader className="bg-muted/50">{children}</TableHeader>
+          ),
+          tbody: ({ children }) => (
+            <TableBody>{children}</TableBody>
+          ),
+          tr: ({ children }) => (
+            <TableRow className="border-b border-border hover:bg-muted/20">{children}</TableRow>
+          ),
+          th: ({ children }) => (
+            <TableHead className="px-4 py-2 text-left font-medium">{children}</TableHead>
+          ),
+          td: ({ children }) => (
+            <TableCell className="px-4 py-2 border-r border-border last:border-r-0">{children}</TableCell>
+          ),
         }}
       >
         {contentWithoutFrontmatter}
       </Markdown>
-      
-      {/* Render tables separately outside of react-markdown */}
-      <div className="markdown-tables">
-        {extractAndRenderTables(contentWithoutFrontmatter)}
-      </div>
     </div>
   );
-};
-
-// Function to extract and render tables from markdown content
-const extractAndRenderTables = (content: string) => {
-  // Regular expression to match markdown tables
-  const tableRegex = /\n(\|[^\n]+\|\n)((?:\|[^\n]+\|\n)+)/g;
-  
-  // Find all tables in the content
-  const tables: JSX.Element[] = [];
-  let match;
-  let index = 0;
-  
-  while ((match = tableRegex.exec(content)) !== null) {
-    // Extract the header and body of the table
-    const headerRow = match[1];
-    const bodyRows = match[2];
-    
-    // Parse the header
-    const headers = headerRow
-      .trim()
-      .split('|')
-      .filter(cell => cell.trim() !== '')
-      .map(cell => cell.trim());
-    
-    // Skip the separator row (contains dashes)
-    const rowsWithoutSeparator = bodyRows
-      .trim()
-      .split('\n')
-      .filter(row => !row.includes('---'));
-    
-    // Parse the body rows
-    const rows = rowsWithoutSeparator.map(row => 
-      row
-        .trim()
-        .split('|')
-        .filter(cell => cell !== '')
-        .map(cell => cell.trim())
-    );
-    
-    // Create a table element
-    tables.push(
-      <div key={`table-${index}`} className="my-6 w-full overflow-x-auto">
-        <table className="w-full border-collapse border border-border">
-          <thead className="bg-muted/50">
-            <tr>
-              {headers.map((header, i) => (
-                <th key={`header-${i}`} className="px-4 py-2 text-left font-medium">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIndex) => (
-              <tr key={`row-${rowIndex}`} className="border-b border-border hover:bg-muted/20">
-                {row.map((cell, cellIndex) => (
-                  <td key={`cell-${rowIndex}-${cellIndex}`} className="px-4 py-2 border-r border-border last:border-r-0">
-                    {cell}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-    
-    index++;
-  }
-  
-  return tables;
 };
 
 export default MarkdownRenderer;
