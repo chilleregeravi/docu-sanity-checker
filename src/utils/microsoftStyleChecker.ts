@@ -1,123 +1,64 @@
 
-import { styleRules, transformToMicrosoftStyle } from './microsoftStyleRules';
+import { passiveVoicePatterns, wordPairs, formalPhrases } from './microsoftStyleRules';
 
+// Define types for style checking
 export interface StyleViolation {
-  line: number;
-  column: number;
-  text: string;
-  replacement: string;
-  rule: string;
   type: 'voice' | 'grammar' | 'verb' | 'other';
+  pattern: string;
+  suggestion: string;
+  line: number;
+  context: string;
 }
 
-export interface StyleCheckResult {
-  filePath: string;
-  violations: StyleViolation[];
-  score: number; // 0-100 compliance score
-}
-
-/**
- * Checks a document for Microsoft style guide violations
- */
-export const checkMicrosoftStyle = (content: string, filePath: string): StyleCheckResult => {
-  const lines = content.split('\n');
+export const checkMicrosoftStyle = (text: string): StyleViolation[] => {
   const violations: StyleViolation[] = [];
+  const lines = text.split('\n');
   
-  // Process each line
-  lines.forEach((line, lineIndex) => {
-    // Skip frontmatter and code blocks
-    if (line.trim() === '---' || line.trim().startsWith('```')) {
-      return;
-    }
-    
-    // Check against each style rule
-    styleRules.forEach(rule => {
-      const regex = new RegExp(`\\b${rule.original}\\b`, 'gi');
-      let match;
-      
-      while ((match = regex.exec(line)) !== null) {
+  // Check for passive voice patterns
+  passiveVoicePatterns.forEach(pattern => {
+    lines.forEach((line, lineNumber) => {
+      if (line.toLowerCase().includes(pattern.toLowerCase())) {
         violations.push({
-          line: lineIndex + 1,
-          column: match.index + 1,
-          text: match[0],
-          replacement: rule.replacement,
-          rule: `Use "${rule.replacement}" instead of "${rule.original}"`,
-          type: rule.type
-        });
-      }
-    });
-    
-    // Check for passive voice patterns
-    const passivePatterns = [
-      { pattern: /is being ([a-z]+ed)/gi, replacement: 'we are $1ing', type: 'voice' as const },
-      { pattern: /was ([a-z]+ed)/gi, replacement: 'you $1', type: 'voice' as const },
-      { pattern: /will be ([a-z]+ed)/gi, replacement: 'will $1', type: 'voice' as const },
-      { pattern: /has been ([a-z]+ed)/gi, replacement: 'has $1', type: 'voice' as const },
-      { pattern: /have been ([a-z]+ed)/gi, replacement: 'have $1', type: 'voice' as const }
-    ];
-    
-    passivePatterns.forEach(pattern => {
-      let match;
-      while ((match = pattern.pattern.exec(line)) !== null) {
-        violations.push({
-          line: lineIndex + 1,
-          column: match.index + 1,
-          text: match[0],
-          replacement: pattern.replacement.replace('$1', match[1]),
-          rule: 'Use active voice instead of passive voice',
-          type: pattern.type
-        });
-      }
-    });
-    
-    // Check for overly formal language
-    const formalPatterns = [
-      { pattern: /\b(utilize)\b/gi, replacement: 'use', type: 'grammar' as const },
-      { pattern: /\b(implementation)\b/gi, replacement: 'set up', type: 'grammar' as const },
-      { pattern: /\b(functionality)\b/gi, replacement: 'features', type: 'grammar' as const },
-      { pattern: /\b(leverage)\b/gi, replacement: 'use', type: 'grammar' as const },
-      { pattern: /\b(in order to)\b/gi, replacement: 'to', type: 'grammar' as const }
-    ];
-    
-    formalPatterns.forEach(pattern => {
-      let match;
-      while ((match = pattern.pattern.exec(line)) !== null) {
-        violations.push({
-          line: lineIndex + 1,
-          column: match.index + 1,
-          text: match[0],
-          replacement: pattern.replacement,
-          rule: 'Use simple language rather than formal language',
-          type: pattern.type
+          type: 'voice',
+          pattern: pattern,
+          suggestion: "Use active voice instead of passive voice",
+          line: lineNumber + 1,
+          context: line
         });
       }
     });
   });
   
-  // Calculate compliance score (0-100)
-  const score = violations.length === 0 ? 100 : Math.max(0, 100 - violations.length * 2);
-  
-  return {
-    filePath,
-    violations,
-    score
-  };
-};
-
-/**
- * Checks a term against the approved term bank
- */
-export const checkTerms = (content: string, approvedTerms: Record<string, string>): string[] => {
-  const violations: string[] = [];
-  
-  // Check each term
-  Object.entries(approvedTerms).forEach(([preferred, avoid]) => {
-    const avoidTerms = avoid.split(',').map(term => term.trim());
+  // Check for word pair replacements (e.g., "utilize" -> "use")
+  wordPairs.forEach(({ avoid, use }) => {
+    const regex = new RegExp(`\\b${avoid}\\b`, 'gi');
     
-    avoidTerms.forEach(term => {
-      const regex = new RegExp(`\\b${term}\\b`, 'gi');
-      if (regex.test(content)) {
-        violations.push(`Use "${preferred}" instead of "${term}"`);
+    lines.forEach((line, lineNumber) => {
+      if (regex.test(line)) {
+        violations.push({
+          type: 'grammar' as const,
+          pattern: avoid,
+          suggestion: `Use "${use}" instead of "${avoid}"`,
+          line: lineNumber + 1,
+          context: line
+        });
+      }
+    });
+  });
+  
+  // Check for overly formal phrases
+  formalPhrases.forEach(({ phrase, suggestion, type }) => {
+    const regex = new RegExp(`\\b${phrase}\\b`, 'gi');
+    
+    lines.forEach((line, lineNumber) => {
+      if (regex.test(line)) {
+        violations.push({
+          type: type as 'voice' | 'grammar' | 'verb' | 'other',
+          pattern: phrase,
+          suggestion: suggestion,
+          line: lineNumber + 1,
+          context: line
+        });
       }
     });
   });
@@ -125,10 +66,13 @@ export const checkTerms = (content: string, approvedTerms: Record<string, string
   return violations;
 };
 
-/**
- * Returns suggested improvements based on Microsoft style guidelines
- */
-export const getSuggestions = (content: string): string => {
-  const improvedContent = transformToMicrosoftStyle(content);
-  return improvedContent;
+// Calculate overall Microsoft style score
+export const calculateStyleScore = (text: string): number => {
+  const violations = checkMicrosoftStyle(text);
+  
+  // Basic algorithm: Start with 100 and subtract based on violations
+  // More sophisticated scoring can be implemented based on violation types
+  const score = Math.max(0, 100 - (violations.length * 5));
+  
+  return score;
 };

@@ -93,7 +93,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Render tables within react-markdown
+          // Render tables within react-markdown with shadcn/ui Table components
           table: ({ children }) => (
             <div className="my-6 w-full overflow-x-auto">
               <Table className="w-full border-collapse border border-border">
