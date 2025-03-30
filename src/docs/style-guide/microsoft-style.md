@@ -1,3 +1,4 @@
+
 ---
 date: 2023-09-15
 order: 4
@@ -79,6 +80,39 @@ This guide provides documentation standards based on the Microsoft Manual of Sty
 **Too vague:** "Now deal with the account settings."  
 **Microsoft style:** "Update your account password and security questions."
 
+## Automated Validation
+
+Your documentation can be automatically validated against Microsoft style guidelines using our GitHub Actions workflow. The workflow checks for:
+
+1. Passive voice usage
+2. Overly complex words and phrases
+3. Inconsistent terminology
+4. Undefined acronyms
+5. Proper heading capitalization
+
+### Setting Up Microsoft Style Validation
+
+To enable Microsoft style validation in your project:
+
+1. Add the provided GitHub Actions workflow file to your repository
+2. Configure the term bank with your project-specific terminology
+3. Run the workflow to generate a detailed style report
+
+## Common Style Violations to Avoid
+
+| Common Violation | Microsoft Style Alternative |
+|------------------|----------------------------|
+| "Users should click on..." | "Select..." |
+| "It is recommended that..." | "We recommend that you..." |
+| "The data will be processed" | "The system processes the data" |
+| "In order to achieve this..." | "To achieve this..." |
+| "Please enter your password" | "Enter your password" |
+| "Utilize the search function" | "Use the search function" |
+
+## Term Bank
+
+DocuSanity maintains a [term bank](/docs/glossary/term-bank) with approved terminology for consistent documentation. Always reference this term bank when writing documentation to ensure consistency across all content.
+
 ## Content Generator
 
 To create documentation that follows the Microsoft Manual of Style, use our content generator tool. It helps ensure your content adheres to these guidelines by:
@@ -93,3 +127,6 @@ To create documentation that follows the Microsoft Manual of Style, use our cont
 
 - [Microsoft Style Guide (Official)](https://learn.microsoft.com/en-us/style-guide/welcome/)
 - [Microsoft Writing Style Guide PDF](https://microsoft.github.io/MicrosoftStyle/)
+- [DocuSanity Glossary](/docs/glossary/)
+- [Term Bank](/docs/glossary/term-bank)
+

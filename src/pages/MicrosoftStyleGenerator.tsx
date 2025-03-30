@@ -1,70 +1,76 @@
 
-import React, { useState } from 'react';
-import { useToast } from "@/hooks/use-toast";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import InputCard from "@/components/microsoft-style/InputCard";
-import OutputCard from "@/components/microsoft-style/OutputCard";
-import StyleTipsCard from "@/components/microsoft-style/StyleTipsCard";
-import { transformToMicrosoftStyle } from "@/utils/microsoftStyleRules";
+import React from 'react';
+import PageTransition from '@/components/PageTransition';
+import { Separator } from '@/components/ui/separator';
+import InputCard from '@/components/microsoft-style/InputCard';
+import OutputCard from '@/components/microsoft-style/OutputCard';
+import StyleChecker from '@/components/microsoft-style/StyleChecker';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const MicrosoftStyleGenerator = () => {
-  const [input, setInput] = useState('');
-  const [generatedContent, setGeneratedContent] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const { toast } = useToast();
-
-  // Generate content in Microsoft style
-  const generateContent = () => {
-    if (!input.trim()) {
-      toast({
-        title: "Empty input",
-        description: "Please enter some content to convert to Microsoft style.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsGenerating(true);
-    
-    // Simulate processing time (in a real app, this might be an API call)
-    setTimeout(() => {
-      const processedText = transformToMicrosoftStyle(input);
-      setGeneratedContent(processedText);
-      setIsGenerating(false);
-      
-      toast({
-        title: "Content generated",
-        description: "Your content has been converted to Microsoft style."
-      });
-    }, 1500);
-  };
-
+const MicrosoftStyleGenerator: React.FC = () => {
   return (
-    <>
-      <Header />
-      <div className="container py-8 pt-24 min-h-screen">
-        <h1 className="text-3xl font-bold mb-6">Microsoft Style Guide Content Generator</h1>
-        <p className="text-muted-foreground mb-8">
-          Convert your documentation to follow the Microsoft Manual of Style guidelines.
-          This tool applies Microsoft's recommended voice, tone, and formatting to your content.
+    <PageTransition>
+      <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
+        <h1 className="text-4xl font-bold tracking-tight mb-4">Microsoft Style Generator</h1>
+        <p className="text-lg text-muted-foreground mb-8">
+          Convert your documentation to Microsoft style or check your content against style guidelines
         </p>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <InputCard 
-            input={input}
-            setInput={setInput}
-            isGenerating={isGenerating}
-            onGenerate={generateContent}
-          />
+        <Tabs defaultValue="generator" className="w-full">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="generator">Generator</TabsTrigger>
+            <TabsTrigger value="checker">Style Checker</TabsTrigger>
+          </TabsList>
           
-          <OutputCard generatedContent={generatedContent} />
-        </div>
+          <TabsContent value="generator" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <InputCard />
+              <OutputCard />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="checker" className="mt-6">
+            <StyleChecker />
+          </TabsContent>
+        </Tabs>
         
-        <StyleTipsCard />
+        <Separator className="my-10" />
+        
+        <div className="prose prose-blue dark:prose-invert max-w-none">
+          <h2>About Microsoft Style</h2>
+          <p>
+            The Microsoft Style Guide provides guidelines for content creation that's clear, 
+            concise, and consistent. Our Microsoft Style Generator helps you transform your 
+            documentation to follow these guidelines automatically.
+          </p>
+          
+          <h3>Key Microsoft Style Principles</h3>
+          <ul>
+            <li>
+              <strong>Use active voice:</strong> Active voice makes your writing clearer and more direct.
+            </li>
+            <li>
+              <strong>Address the reader directly:</strong> Use "you" instead of "users" or "they."
+            </li>
+            <li>
+              <strong>Be concise:</strong> Use simple words and phrases instead of complex ones.
+            </li>
+            <li>
+              <strong>Use sentence-style capitalization:</strong> Only capitalize the first word and proper nouns in headings.
+            </li>
+            <li>
+              <strong>Avoid jargon:</strong> Use plain language that's easy to understand.
+            </li>
+          </ul>
+          
+          <p>
+            For more information, visit our <a href="/docs/style-guide/microsoft-style">Microsoft Style Guide</a> or 
+            consult the <a href="https://learn.microsoft.com/style-guide/" target="_blank" rel="noopener noreferrer">
+            official Microsoft Style Guide</a>.
+          </p>
+        </div>
       </div>
-      <Footer />
-    </>
+    </PageTransition>
   );
 };
 
