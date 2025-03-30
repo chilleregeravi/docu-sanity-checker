@@ -68,4 +68,4 @@ If you need help with DocuSanity, you can reach out to the community through:
 
 We welcome contributions to DocuSanity! Check out our [Contributing Guide](/docs/contributing) for more information.
 `;export{n as default};
-//# sourceMappingURL=introduction-GZZI_Fex.js.map
+//# sourceMappingURL=index-GZZI_Fex.js.map
