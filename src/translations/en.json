@@ -7,10 +7,11 @@
     },
     "navigation": [
       { "path": "/", "label": "Home", "icon": "Home" },
-      { "path": "/docs", "label": "Docs", "icon": "FileText" },
+      { "path": "/docs/getting-started/", "label": "Docs", "icon": "FileText" },
       { "path": "/guides", "label": "Guides", "icon": "Book" },
       { "path": "/api", "label": "API", "icon": "Code" },
-      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" },
+      { "path": "/tools/microsoft-style", "label": "Microsoft Style", "icon": "FileText" }
     ],
     "actions": {
       "search": {
@@ -19,7 +20,7 @@
       },
       "getStarted": {
         "label": "Get Started",
-        "path": "/docs"
+        "path": "/docs/getting-started/"
       },
       "language": {
         "label": "Language"
@@ -41,11 +42,12 @@
       {
         "title": "Documentation",
         "links": [
-          { "label": "Introduction", "href": "/docs" },
-          { "label": "Installation", "href": "/docs/installation" },
-          { "label": "Configuration", "href": "/docs/configuration" },
-          { "label": "GitHub Actions", "href": "/docs/github-actions" },
-          { "label": "FAQ", "href": "/docs/faq" }
+          { "label": "Introduction", "href": "/docs/getting-started/" },
+          { "label": "Installation", "href": "/docs/getting-started/installation" },
+          { "label": "Configuration", "href": "/docs/getting-started/configuration" },
+          { "label": "GitHub Actions", "href": "/docs/github-actions/introduction" },
+          { "label": "FAQ", "href": "/docs/getting-started/faq" },
+          { "href": "/tools/microsoft-style", "label": "Microsoft Style" }
         ]
       },
       {
@@ -77,7 +79,7 @@
     "title": "Create Beautiful Docs with Automated Validation",
     "description": "Build stunning documentation websites with built-in GitHub actions that check for broken links, validate against custom dictionaries, and enforce your style guide.",
     "primaryButtonText": "Get Started",
-    "primaryButtonUrl": "/docs",
+    "primaryButtonUrl": "/docs/getting-started/",
     "secondaryButtonText": "View on GitHub",
     "secondaryButtonUrl": "https://github.com/docusanity/docusanity"
   },
