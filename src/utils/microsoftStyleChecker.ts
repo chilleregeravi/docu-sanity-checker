@@ -49,11 +49,11 @@ export const checkMicrosoftStyle = (content: string, filePath: string): StyleChe
     
     // Check for passive voice patterns
     const passivePatterns = [
-      { pattern: /is being ([a-z]+ed)/gi, replacement: 'we are $1ing' },
-      { pattern: /was ([a-z]+ed)/gi, replacement: 'you $1' },
-      { pattern: /will be ([a-z]+ed)/gi, replacement: 'will $1' },
-      { pattern: /has been ([a-z]+ed)/gi, replacement: 'has $1' },
-      { pattern: /have been ([a-z]+ed)/gi, replacement: 'have $1' }
+      { pattern: /is being ([a-z]+ed)/gi, replacement: 'we are $1ing', type: 'voice' as const },
+      { pattern: /was ([a-z]+ed)/gi, replacement: 'you $1', type: 'voice' as const },
+      { pattern: /will be ([a-z]+ed)/gi, replacement: 'will $1', type: 'voice' as const },
+      { pattern: /has been ([a-z]+ed)/gi, replacement: 'has $1', type: 'voice' as const },
+      { pattern: /have been ([a-z]+ed)/gi, replacement: 'have $1', type: 'voice' as const }
     ];
     
     passivePatterns.forEach(pattern => {
@@ -65,18 +65,18 @@ export const checkMicrosoftStyle = (content: string, filePath: string): StyleChe
           text: match[0],
           replacement: pattern.replacement.replace('$1', match[1]),
           rule: 'Use active voice instead of passive voice',
-          type: 'voice'
+          type: pattern.type
         });
       }
     });
     
     // Check for overly formal language
     const formalPatterns = [
-      { pattern: /\b(utilize)\b/gi, replacement: 'use' },
-      { pattern: /\b(implementation)\b/gi, replacement: 'set up' },
-      { pattern: /\b(functionality)\b/gi, replacement: 'features' },
-      { pattern: /\b(leverage)\b/gi, replacement: 'use' },
-      { pattern: /\b(in order to)\b/gi, replacement: 'to' }
+      { pattern: /\b(utilize)\b/gi, replacement: 'use', type: 'grammar' as const },
+      { pattern: /\b(implementation)\b/gi, replacement: 'set up', type: 'grammar' as const },
+      { pattern: /\b(functionality)\b/gi, replacement: 'features', type: 'grammar' as const },
+      { pattern: /\b(leverage)\b/gi, replacement: 'use', type: 'grammar' as const },
+      { pattern: /\b(in order to)\b/gi, replacement: 'to', type: 'grammar' as const }
     ];
     
     formalPatterns.forEach(pattern => {
@@ -88,7 +88,7 @@ export const checkMicrosoftStyle = (content: string, filePath: string): StyleChe
           text: match[0],
           replacement: pattern.replacement,
           rule: 'Use simple language rather than formal language',
-          type: 'grammar'
+          type: pattern.type
         });
       }
     });
@@ -132,4 +132,3 @@ export const getSuggestions = (content: string): string => {
   const improvedContent = transformToMicrosoftStyle(content);
   return improvedContent;
 };
-

@@ -1,13 +1,32 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import PageTransition from '@/components/PageTransition';
 import { Separator } from '@/components/ui/separator';
 import InputCard from '@/components/microsoft-style/InputCard';
 import OutputCard from '@/components/microsoft-style/OutputCard';
 import StyleChecker from '@/components/microsoft-style/StyleChecker';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { transformToMicrosoftStyle } from '@/utils/microsoftStyleRules';
 
 const MicrosoftStyleGenerator: React.FC = () => {
+  const [input, setInput] = useState('');
+  const [generatedContent, setGeneratedContent] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerate = () => {
+    setIsGenerating(true);
+    
+    // Use the transformToMicrosoftStyle function to convert the input
+    try {
+      const transformed = transformToMicrosoftStyle(input);
+      setGeneratedContent(transformed);
+    } catch (error) {
+      console.error("Error transforming text:", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <PageTransition>
       <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
@@ -24,8 +43,13 @@ const MicrosoftStyleGenerator: React.FC = () => {
           
           <TabsContent value="generator" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <InputCard />
-              <OutputCard />
+              <InputCard 
+                input={input}
+                setInput={setInput}
+                isGenerating={isGenerating}
+                onGenerate={handleGenerate}
+              />
+              <OutputCard generatedContent={generatedContent} />
             </div>
           </TabsContent>
           

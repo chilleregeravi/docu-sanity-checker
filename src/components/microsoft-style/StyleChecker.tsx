@@ -76,10 +76,10 @@ const StyleChecker: React.FC = () => {
               <CardTitle className="flex items-center justify-between">
                 Results
                 <div className="flex gap-2">
-                  <Badge variant={results.styleScore >= 90 ? "success" : results.styleScore >= 70 ? "warning" : "destructive"}>
+                  <Badge variant={results.styleScore >= 90 ? "default" : results.styleScore >= 70 ? "secondary" : "destructive"}>
                     Style: {results.styleScore}/100
                   </Badge>
-                  <Badge variant={results.termScore >= 90 ? "success" : results.termScore >= 70 ? "warning" : "destructive"}>
+                  <Badge variant={results.termScore >= 90 ? "default" : results.termScore >= 70 ? "secondary" : "destructive"}>
                     Terminology: {results.termScore}/100
                   </Badge>
                 </div>
@@ -166,4 +166,3 @@ const StyleChecker: React.FC = () => {
 };
 
 export default StyleChecker;
-
