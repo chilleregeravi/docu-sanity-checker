@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import PageTransition from '@/components/PageTransition';
 import { Separator } from '@/components/ui/separator';
-import InputCard from '@/components/microsoft-style/InputCard';
-import OutputCard from '@/components/microsoft-style/OutputCard';
-import StyleChecker from '@/components/microsoft-style/StyleChecker';
+import InputCard from '@/tools/microsoft-style/InputCard';
+import OutputCard from '@/tools/microsoft-style/OutputCard';
+import StyleChecker from '@/tools/microsoft-style/StyleChecker';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { transformToMicrosoftStyle } from '@/utils/microsoftStyleRules';
 

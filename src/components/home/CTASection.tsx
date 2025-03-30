@@ -21,7 +21,7 @@ const CTASection: React.FC<CTASectionProps> = ({ community }) => {
     url: content.community?.url || "https://github.com"
   };
   
-  console.log("CTA section rendering with community:", communityInfo);
+  //console.log("CTA section rendering with community:", communityInfo);
   
   return (
     <section className="py-24 md:py-32 px-6 md:px-10">

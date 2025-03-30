@@ -37,14 +37,7 @@ const Header = () => {
   const header = t('header');
 
   // Add Microsoft Style link to navigation items
-  const navItems = [
-    ...header.navigation,
-    {
-      path: "/microsoft-style",
-      label: "Microsoft Style",
-      icon: "FileText"
-    }
-  ];
+  const navItems = header.navigation 
 
   useEffect(() => {
     const handleScroll = () => {

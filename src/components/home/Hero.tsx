@@ -8,7 +8,7 @@ import content from '../../content.json';
 const Hero: React.FC = () => {
   const hero = content.hero;
   
-  console.log("Hero rendering with content:", hero);
+  //console.log("Hero rendering with content:", hero);
 
   if (!hero) {
     return null;
