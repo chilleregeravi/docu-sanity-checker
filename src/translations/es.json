@@ -7,10 +7,11 @@
     },
     "navigation": [
       { "path": "/", "label": "Inicio", "icon": "Home" },
-      { "path": "/docs", "label": "Documentación", "icon": "FileText" },
+      { "path": "/docs/getting-started/", "label": "Documentación", "icon": "FileText" },
       { "path": "/guides", "label": "Guías", "icon": "Book" },
       { "path": "/api", "label": "API", "icon": "Code" },
-      { "path": "/blog", "label": "Blog", "icon": "BookOpen" }
+      { "path": "/blog", "label": "Blog", "icon": "BookOpen" },
+      { "path": "/tools/microsoft-style", "label": "Estilo Microsoft", "icon": "FileText" }
     ],
     "actions": {
       "search": {
@@ -19,7 +20,7 @@
       },
       "getStarted": {
         "label": "Comenzar",
-        "path": "/docs"
+        "path": "/docs/getting-started/"
       },
       "language": {
         "label": "Idioma"
@@ -41,11 +42,11 @@
       {
         "title": "Documentación",
         "links": [
-          { "label": "Introducción", "href": "/docs" },
-          { "label": "Instalación", "href": "/docs/installation" },
-          { "label": "Configuración", "href": "/docs/configuration" },
-          { "label": "Acciones de GitHub", "href": "/docs/github-actions" },
-          { "label": "Preguntas Frecuentes", "href": "/docs/faq" }
+          { "label": "Introducción", "href": "/docs/getting-started/" },
+          { "label": "Instalación", "href": "/docs/getting-started/installation" },
+          { "label": "Configuración", "href": "/docs/getting-started/configuration" },
+          { "label": "Acciones de GitHub", "href": "/docs/github-actions/introduction" },
+          { "label": "Preguntas Frecuentes", "href": "/docs/getting-started/faq" }
         ]
       },
       {

@@ -71,7 +71,7 @@
     "title": "Create Beautiful Docs with Automated Validation",
     "description": "Build stunning documentation websites with built-in GitHub actions that check for broken links, validate against custom dictionaries, and enforce your style guide.",
     "primaryButtonText": "Get Started",
-    "primaryButtonUrl": "/docs",
+    "primaryButtonUrl": "/docs/getting-started/",
     "secondaryButtonText": "View on GitHub",
     "secondaryButtonUrl": "https://github.com/chilleregeravi/FrameD/blob/main/src/docs/"
   },
