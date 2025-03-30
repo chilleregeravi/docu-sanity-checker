@@ -93,29 +93,19 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
               </blockquote>
             );
           },
-          // Render tables within react-markdown with shadcn/ui Table components
-          table: ({ children }) => (
-            <div className="my-6 w-full overflow-y-auto">
-              <Table>
-                {children}
-              </Table>
-            </div>
-          ),
-          thead: ({ children }) => (
-            <TableHeader>{children}</TableHeader>
-          ),
-          tbody: ({ children }) => (
-            <TableBody>{children}</TableBody>
-          ),
-          tr: ({ children }) => (
-            <TableRow>{children}</TableRow>
-          ),
-          th: ({ children }) => (
-            <TableHead>{children}</TableHead>
-          ),
-          td: ({ children }) => (
-            <TableCell>{children}</TableCell>
-          ),
+          // Fixed table handling to properly map between markdown tables and shadcn/ui Table components
+          table: ({ children }) => {
+            return (
+              <div className="my-6 w-full overflow-y-auto">
+                <Table>{children}</Table>
+              </div>
+            );
+          },
+          thead: ({ children }) => <TableHeader>{children}</TableHeader>,
+          tbody: ({ children }) => <TableBody>{children}</TableBody>,
+          tr: ({ children }) => <TableRow>{children}</TableRow>,
+          th: ({ children }) => <TableHead>{children}</TableHead>,
+          td: ({ children }) => <TableCell>{children}</TableCell>,
         }}
       >
         {contentWithoutFrontmatter}
