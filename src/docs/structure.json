@@ -3,7 +3,7 @@
   "sections": [
     {
       "title": "Getting Started",
-      "path": "/docs/getting-started/introduction",
+      "path": "/docs/getting-started/",
       "description": "Welcome to the DocuSanity documentation. Get started with installation, learn the fundamentals, and explore advanced topics.",
       "icon": "folder",
       "isExpanded": true,
@@ -11,7 +11,7 @@
     },
     {
       "title": "Style Guide",
-      "path": "/docs/style-guide/overview",
+      "path": "/docs/style-guide/",
       "description": "Ensure consistent writing style across all documentation.",
       "icon": "folder",
       "showOnMainPage": true
@@ -32,7 +32,7 @@
     },
     {
       "title": "GitHub Actions",
-      "path": "/docs/github-actions/overview",
+      "path": "/docs/github-actions/",
       "description": "Seamlessly integrate validation into your CI/CD workflow.",
       "icon": "folder",
       "showOnMainPage": true

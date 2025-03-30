@@ -17,7 +17,6 @@ export const getGitHubPath = (path: string): string => {
   
   // Remove docs prefix if present
   normalizedPath = normalizedPath.replace(/^docs\//, '');
-  
   // For empty path, return index
   if (normalizedPath === '') {
     return 'index.md';
