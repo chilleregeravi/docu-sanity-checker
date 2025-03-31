@@ -14,7 +14,7 @@ Setting up DocuSanity is simple and only takes a few minutes. Follow the steps b
 
 ## Prerequisites
 
-Before installing DocuSanity, make sure you have the following:
+Before installing FrameD, make sure you have the following:
 
 - Node.js 14.0 or higher
 - npm 6.0 or higher (or yarn)
@@ -112,4 +112,4 @@ Now that you have DocuSanity installed, you can:
 - Learn about [link validation](/docs/link-validation)
 - Set up [GitHub Actions](/docs/github-actions) for continuous validation
 `;export{n as default};
-//# sourceMappingURL=installation-DNxPTGwK.js.map
+//# sourceMappingURL=installation-mdUs_pXA.js.map
