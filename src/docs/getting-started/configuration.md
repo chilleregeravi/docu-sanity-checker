@@ -12,7 +12,7 @@ DocuSanity provides flexible configuration options to customize your documentati
 
 ## Configuration File
 
-The main configuration file is `docusanity.config.js` located in the root of your project. This file defines global settings for your documentation site.
+The main configuration file is `docusanity.config.js` located in the root of your project. This file defines global settings for your documentation web site.
 
 ### Basic Configuration
 

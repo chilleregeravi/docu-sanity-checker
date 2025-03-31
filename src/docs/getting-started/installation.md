@@ -14,7 +14,7 @@ Setting up DocuSanity is simple and only takes a few minutes. Follow the steps b
 
 ## Prerequisites
 
-Before installing DocuSanity, make sure you have the following:
+Before installing FrameD, make sure you have the following:
 
 - Node.js 14.0 or higher
 - npm 6.0 or higher (or yarn)
