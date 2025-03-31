@@ -57,6 +57,7 @@ jobs:
         with:
           files: src/docs
           reporter: github-pr-review
+          filter-mode: nofilter
 
   build:
     name: Build project
