@@ -81,7 +81,6 @@ jobs:
           curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Passive.yml > .github/vale/styles/Microsoft/Passive.yml
           curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Contractions.yml > .github/vale/styles/Microsoft/Contractions.yml
           curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Acronyms.yml > .github/vale/styles/Microsoft/Acronyms.yml
-          curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/ComplexWords.yml > .github/vale/styles/Microsoft/ComplexWords.yml
           curl -s https://raw.githubusercontent.com/errata-ai/Microsoft/master/Microsoft/Headings.yml > .github/vale/styles/Microsoft/Headings.yml
           
           # Create custom rule for term bank validation
