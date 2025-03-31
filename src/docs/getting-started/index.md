@@ -12,7 +12,7 @@ Welcome to DocuSanity, a powerful documentation validation tool that helps you c
 
 ## What is DocuSanity?
 
-DocuSanity is a comprehensive documentation validation tool designed to help teams create, maintain, and improve their documentation. It provides automated checks for common documentation issues, including:
+DocuSanity is a comprehensive documentation validation tool designed to help teams create, maintain, and improve their documentation. It provides automated checks for common documentation issues, like:
 
 - Broken links
 - Spelling and grammar errors
