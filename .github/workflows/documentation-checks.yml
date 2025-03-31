@@ -56,7 +56,7 @@ jobs:
       - uses: errata-ai/vale-action@v2.1.1
         with:
           files: src/docs
-          reporter: github-pr-review
+          reporter: github-pr-annotations
           filter_mode: file
 
   build:
