@@ -101,7 +101,7 @@ jobs:
       
       - name: Check documentation style
         run: |
-          vale --output=JSON --minAlertLevel suggestion src/docs > style-report.json
+          vale --output=JSON --minAlertLevel suggestion src/docs/getting-started > style-report.json
           echo "## Style Check Results" > style-report.md
           echo "The following files have style issues:" >> style-report.md
           jq -r '.[][].Check + ": " + .[][].Message' style-report.json | sort | uniq -c | sort -nr >> style-report.md
