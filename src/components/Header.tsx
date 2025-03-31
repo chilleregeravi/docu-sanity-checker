@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -63,9 +62,7 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-            {content.header.logo.logoLetter}
-          </div>
+          <img src="/framed_icon.ico" alt="FrameD Logo" className="w-8 h-8" />
           <span className="text-xl font-medium">{content.header.logo.text}</span>
         </Link>
 
@@ -100,9 +97,7 @@ const Header = () => {
             <SheetHeader className="mb-6">
               <SheetTitle>
                 <Link to="/" className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center text-white font-bold text-xl">
-                    {content.header.logo.logoLetter}
-                  </div>
+                  <img src="/framed_icon.ico" alt="FrameD Logo" className="w-8 h-8" />
                   <span className="text-xl font-medium">{content.header.logo.text}</span>
                 </Link>
               </SheetTitle>
