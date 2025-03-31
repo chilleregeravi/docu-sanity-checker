@@ -18,6 +18,9 @@ import { ThemeToggle } from './ThemeToggle';
 import { LanguageSelector } from './LanguageSelector';
 import content from '../content.json';
 
+// Get the base URL for assets
+const baseUrl = import.meta.env.BASE_URL || '/';
+
 const iconMap: Record<string, React.ComponentType<any>> = {
   Home,
   FileText,
@@ -52,6 +55,9 @@ const Header = () => {
     return location.pathname === path;
   };
 
+  // Construct the full path to the icon
+  const iconPath = `${baseUrl}framed_icon.ico`;
+
   return (
     <header
       className={cn(
@@ -63,7 +69,7 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <img src="/framed_icon.ico" alt="FrameD Logo" className="w-8 h-8 rounded-full" />
+          <img src={iconPath} alt="FrameD Logo" className="w-8 h-8 rounded-full" />
           <span className="text-xl font-medium">{content.header.logo.text}</span>
         </Link>
 
@@ -98,7 +104,7 @@ const Header = () => {
             <SheetHeader className="mb-6">
               <SheetTitle>
                 <Link to="/" className="flex items-center space-x-2">
-                  <img src="/framed_icon.ico" alt="FrameD Logo" className="w-8 h-8 rounded-full" />
+                  <img src={iconPath} alt="FrameD Logo" className="w-8 h-8 rounded-full" />
                   <span className="text-xl font-medium">{content.header.logo.text}</span>
                 </Link>
               </SheetTitle>
